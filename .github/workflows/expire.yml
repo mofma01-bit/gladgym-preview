@@ -1,0 +1,17 @@
+name: expire
+on:
+  schedule:
+    - cron: '5 15 27 11 *'   # 2026-11-28 00:05 KST — 열람 기한(11/27 금) 지나면 파일을 지움
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  expire:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          git rm -r --quiet img sample.json 시안.html || true
+          printf '%s' '<!doctype html><meta charset="utf-8"><meta name="robots" content="noindex"><title>열람 기간이 끝났어요</title><body style="font-family:sans-serif;padding:40px;text-align:center">열람 기간이 끝났어요</body>' > index.html
+          git config user.name "expire-bot"; git config user.email "expire-bot@users.noreply.github.com"
+          git add -A; git commit -m "열람 기한 끝 — 시안 파일 지움" || true; git push
