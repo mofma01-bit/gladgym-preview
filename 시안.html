@@ -19714,8 +19714,12 @@ window.addEventListener('click', e => { if(g33통과) return; const b = e.target
   e.preventDefault(); e.stopImmediatePropagation(); window.__g33끝 = b;
   const 시 = (document.getElementById('czt') || {}).textContent || '', 이름 = ((document.querySelector('.g9run .g9top b') || {}).textContent || '유산소').trim();
   openSheet(() => `<div class="g31out g33"><div class="h2">${esc(이름)} 끝낼까요?</div><p><b class="g33t">${esc(시)}</b></p>
-    <button class="btn main g33ok" data-act="g33:save">끝내고 저장</button><button class="btn sub" data-act="g33:spd">속도 · 경사 넣고 저장</button><button class="g31del" style="color:#5d5249" data-act="g33:no">계속 운동</button></div>`); }, true);
-function g33끝(갈){ closeSheet(); const b = window.__g33끝; window.__g33끝 = null; if(갈 === 'no' || !b) return;
+    <button class="btn main g33ok" data-act="g33:save">끝내고 저장</button><button class="btn sub" data-act="g33:spd">속도 · 경사 넣고 저장</button><button class="g31del" data-act="g33:del">기록 삭제</button></div>`); }, true);      /* 11/25 23:21 대표 「유산소에는 기록 삭제 · 삭제하고 나가기가 없네 · 계속 운동은 위 빈 곳 누르면 창이 닫히잖아」 — 「계속 운동」 빼고 「기록 삭제」 */
+function g33끝(갈){ closeSheet(); const b = window.__g33끝; window.__g33끝 = null;
+  if(갈 === 'del'){ const w = live(); if(!w) return;      /* 이 유산소만 있는 기록 = 기록 전체 삭제(확인 창) · 다른 종목도 있으면 = 이 유산소 종목만 삭제(확인 창) */
+    const 딴것 = (w.items || []).some((it, i) => i !== w.cur && (it.sets || []).some(x => x.done));
+    setTimeout(() => { const x = document.createElement('button'); x.setAttribute('data-act', 딴것 ? 'wdel:' + w.cur : 'askcancel'); x.style.display = 'none'; document.body.appendChild(x); x.click(); x.remove(); }, 220); return; }
+  if(갈 === 'no' || !b) return;
   setTimeout(() => { g33통과 = true; try{ b.click(); }finally{ g33통과 = false; }
     setTimeout(() => { if(갈 === 'spd'){ if(typeof g30입력창 === 'function' && g30입력창()) S.g30입력 = true; return; }
       const s = document.createElement('button'); s.setAttribute('data-act', 'czsavefin'); s.setAttribute('data-g30ok', '1'); s.style.display = 'none'; document.body.appendChild(s); s.click(); s.remove(); }, 450); }, 220); }
