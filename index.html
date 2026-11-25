@@ -27,8 +27,8 @@ main{height:calc(100% - 52px);display:flex;align-items:center;justify-content:ce
 </main>
 <script>
 /* 화면 크기에 맞춰 두 폰을 줄임 — 높이 · 너비 둘 다 맞춤(노트북 · 태블릿 · 큰 모니터) */
-function 맞춤(){ const h = innerHeight - 52 - 20 - 26, 둘 = innerWidth > 700, w = innerWidth - 32 - (둘 ? 28 : 0), s = Math.min(1, h / 844, w / (둘 ? 780 : 390));
-  document.documentElement.style.setProperty('--s', Math.max(.45, s).toFixed(3)); document.documentElement.style.setProperty('--gap', Math.round(28 * Math.max(.5, s)) + 'px'); }
+function 맞춤(){ const 사이 = 80, h = innerHeight - 52 - 20 - 26, 둘 = innerWidth > 700, w = innerWidth - 32 - (둘 ? 사이 : 0), s = Math.min(1, h / 844, w / (둘 ? 780 : 390));      /* 두 폰 사이 80px (19:21 「간격을 좀 더 띄워 · 너무 딱 붙었어」) */
+  document.documentElement.style.setProperty('--s', Math.max(.45, s).toFixed(3)); document.documentElement.style.setProperty('--gap', 사이 + 'px'); }
 addEventListener('resize', 맞춤); 맞춤();
 function 다시(){ try{ Object.keys(localStorage).filter(k => /^g3\d|^gg_/.test(k)).forEach(k => localStorage.removeItem(k)); sessionStorage.clear(); }catch(e){} ['m', 't'].forEach(i => { const f = document.getElementById(i); f.src = f.src.replace(/v=[^&]*/, 'v=' + Date.now()); }); }
 setInterval(() => { if(Date.now() > window.__끝) location.reload(); }, 60000);      /* 열어 둔 채 기한이 지나도 닫힘 */
