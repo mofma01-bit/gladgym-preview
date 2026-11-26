@@ -4931,6 +4931,62 @@ html body #sheetbox .g97row>*{flex:1;margin:0!important}
 html body #sheetbox .g98close{display:block;width:100%;margin:6px 0 0;padding:12px 0 4px;border:0;background:none;font:inherit;font-size:15px;font-weight:700;color:#837666;cursor:pointer}
 html body #sheetbox .g98del{display:block;width:100%;min-height:46px;margin:12px 0 0;border:1.5px solid #e3d6c6;border-radius:14px;background:#fff;font:inherit;font-size:15px;font-weight:700;color:#6f4a2f;cursor:pointer}
 html body .btn.addmore{background:#fff!important;color:#6f4a2f!important;border:1.5px solid #cdb79e!important}
+
+/* g99 회원 종목 창 A안 · 지난 기록 창 · 피드백 창 (11/26 21:29 대표 「넣어」 · 시안 웹앱\지난기록창_삭제3안.html)
+   글 세 단계 : 1단 #1f1813 굵게 / 2단 #5d5249 / 3단 #837666 13px */
+html body #sheetbox .g99top{position:relative;display:flex;justify-content:center;padding:18px 0 6px}
+html body #sheetbox .g99top img{width:150px;max-width:46%;height:auto;cursor:zoom-in}
+html body #sheetbox .g99noimg{display:grid;place-items:center;width:120px;height:96px;border-radius:16px;background:#f6f1ea;color:#837666;font-size:14px;font-weight:700}
+html body #sheetbox .g99del{position:absolute;right:0;top:4px;display:flex;align-items:center;gap:3px;height:28px;padding:0 10px;border-radius:999px;border:1px solid #e6ddd2;background:#fff;font:inherit;font-size:13px;font-weight:600;color:#837666;cursor:pointer}
+html body #sheetbox .g99tr{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+html body #sheetbox .g99nm{text-align:center;font-size:20px;font-weight:900;color:#1f1813;letter-spacing:-.3px;margin-top:8px}
+html body #sheetbox .g99card{background:#fff;border:1px solid #e6ddd2;border-radius:20px;box-shadow:0 1px 2px rgba(70,45,25,.04),0 6px 18px -10px rgba(70,45,25,.14);overflow:hidden}
+html body #sheetbox .g99goal{margin-top:22px}
+html body #sheetbox .g99gi{padding:16px}
+html body #sheetbox .g99k{font-size:13px;font-weight:600;color:#837666}
+html body #sheetbox .g99v{font-size:22px;font-weight:900;color:#1f1813;letter-spacing:-.4px;margin-top:2px;font-variant-numeric:tabular-nums}
+html body #sheetbox .g99vs{font-size:13px;font-weight:600;color:#837666;margin-top:2px}
+html body #sheetbox .g99row{display:flex;align-items:center;width:100%;border:0;border-top:1px solid #eee6dc;background:#fff;padding:13px 16px;font:inherit;text-align:left;cursor:pointer}
+html body #sheetbox .g99row.solo{border-top:0}
+html body #sheetbox .g99t{flex:0 1 auto;min-width:0;font-size:15px;font-weight:700;color:#5d5249}
+html body #sheetbox .g99t small{display:block;font-size:13px;font-weight:600;color:#837666;margin-top:2px}
+html body #sheetbox .g99a{font-size:16px;font-weight:800;color:#837666;margin-left:6px}  /* 21:31 대표 「지난 기록과 화살표가 너무 떨어져 있다」 → 글 바로 옆 */
+html body #sheetbox .g99fb{display:flex;align-items:center;gap:10px;width:100%;margin-top:12px;border:0;border-radius:20px;background:#f6f1ea;padding:10px 14px 10px 10px;font:inherit;text-align:left;cursor:pointer}
+html body #sheetbox .g99th{display:flex;gap:4px;flex:none}
+html body #sheetbox .g99th>span{width:44px;height:44px;border-radius:10px;background:#d9cfc3 center/cover;position:relative;display:block}
+html body #sheetbox .g99th>span.v::after{content:"";position:absolute;left:50%;top:50%;transform:translate(-40%,-50%);border-left:11px solid #fff;border-top:7px solid transparent;border-bottom:7px solid transparent;filter:drop-shadow(0 1px 2px rgba(0,0,0,.4))}
+html body #sheetbox .g99th>.g99ic{background:#fff;border:1px dashed #d9c8b3;display:grid;place-items:center}
+html body #sheetbox .g99ic svg{width:20px;height:20px;stroke:#b3a596;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+html body #sheetbox .g99ping{display:inline-block;width:8px;height:8px;border-radius:50%;background:#6f4a2f;margin-right:6px;vertical-align:2px;animation:g99깜 1.4s ease-in-out infinite}
+@keyframes g99깜{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.25;transform:scale(.8)}}
+@media (prefers-reduced-motion:reduce){html body #sheetbox .g99ping{animation:none}}
+html body #sheetbox .g99h{font-size:20px;font-weight:900;color:#1f1813}
+html body #sheetbox .g99h small{font-size:13px;font-weight:600;color:#837666;margin-left:6px}
+html body #sheetbox .g99list{padding:4px 16px}
+html body #sheetbox .g99it{display:flex;align-items:center;gap:12px;padding:12px 0}
+html body #sheetbox .g99it+.g99it{border-top:1px solid #eee6dc}
+html body #sheetbox .g99l{flex:1;min-width:0}
+html body #sheetbox .g99m{display:flex;align-items:center;gap:5px;font-size:13px;font-weight:500;color:#9a8d7e}
+html body #sheetbox .g99m b{font-size:13px;font-weight:600}
+html body #sheetbox .g99m b.su{color:#447382}html body #sheetbox .g99m b.pe{color:#6f4a2f}
+html body #sheetbox .g99dot{width:6px;height:6px;border-radius:50%;background:#6f4a2f;flex:none}
+html body #sheetbox .g99dot.su{background:#447382}
+html body #sheetbox .g99wl{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px}
+html body #sheetbox .g99w{font-size:17px;font-weight:900;color:#1f1813;font-variant-numeric:tabular-nums}
+html body #sheetbox .g99w small{font-size:15px;font-weight:900;color:#1f1813;margin-left:1px}
+html body #sheetbox .g99x{font-style:normal;font-weight:500;color:#9a8d7e}
+html body #sheetbox .g99r{font-size:15px;font-weight:600;color:#837666;font-variant-numeric:tabular-nums}
+html body #sheetbox .g99use{flex:none;height:32px;padding:0 12px;border-radius:999px;border:1.5px solid #6f4a2f;background:#fff;font:inherit;font-size:14px;font-weight:800;color:#6f4a2f;cursor:pointer}
+html body #sheetbox .g99empty{padding:18px 16px;font-size:14px;font-weight:600;color:#837666;text-align:center}
+html body #sheetbox .g99back{display:block;width:100%;height:50px;margin-top:16px;border-radius:999px;border:1.5px solid #cdb79e;background:#fff;font:inherit;font-size:15px;font-weight:700;color:#6f4a2f;cursor:pointer}
+html body #sheetbox .g99fl{display:flex;flex-direction:column;gap:12px;max-height:56vh;overflow:auto}
+html body #sheetbox .g99fi{background:#fff;border:1px solid #e6ddd2;border-radius:16px;padding:12px 14px}
+html body #sheetbox .g99fd{font-size:13px;font-weight:600;color:#837666}html body #sheetbox .g99fd b{color:#6f4a2f;font-weight:700}
+html body #sheetbox .g99fi p{margin:6px 0 0;font-size:15px;line-height:1.55;color:#1f1813}
+html body #sheetbox .g99md{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
+html body #sheetbox .g99md img,html body #sheetbox .g99md video{width:96px;height:96px;object-fit:cover;border-radius:12px;background:#d9cfc3}
+html body #sheetbox .g99ask{margin-top:16px}
+html body #sheetbox .g99th>.g99ic.has{border:1px solid #e6ddd2}html body #sheetbox .g99ic.has svg{stroke:#837666}  /* 피드백은 있는데 사진 · 영상이 없을 때 — 점선(없음)과 다르게 */
 </style></head>
 <body>
 <div class="pwabar" id="pwabar"></div>
@@ -21288,26 +21344,87 @@ new MutationObserver(() => { const r = document.querySelector('#sheetbox .g96row
 </script>
 
 <script>
-/* 58 11/26 20:12 대표 「종목 눌러 피드백 남길 때 지난 기록 누르면 팝업이 확 낮아지면서 닫기밖에 없고 뒤로가기가 없어 다시 종목을 눌러야 돼」
-   종목 창(피드백 · exd:) 안에서 「직전 기록 ›」 → 직전 기록 창 : 위에 「‹ 피드백」 · 아래 [‹ 뒤로][닫기] · 창 높이는 앞 창 그대로(확 낮아지지 않게)
-   뒤로 = 그 종목 창을 다시 연다(같은 data-act) */
+/* 58 11/26 20:12 → 21:3x — 트레이너 종목 창(피드백 · exd: / plnm:)에서 「직전 기록 ›」 을 누르면 지난 기록 창(g99)이 열리고 ‹ 뒤로 = 그 종목 창.
+   여기서는 「어느 종목 창에서 왔는지」만 기억해 g99 에 알려 준다 (11/26 21:29 지난 기록 창은 g99 하나로) */
 (() => {
-  let 앞act = null, 앞높이 = 0;
-  const 상자 = () => document.getElementById('sheetbox');
-  const 꾸미기 = () => { const sb = 상자(); if(!sb || !앞act) return; if(sb.querySelector('.g97row')) return;
-    const h2 = sb.querySelector('.h2'); if(!h2 || !/직전기록/.test(h2.textContent)) return;
-    const 닫 = [...sb.querySelectorAll('[data-act="close"]')].pop();
-    if(닫){ 닫.insertAdjacentHTML('beforebegin', '<div class="g97row"><button class="btn ghost sm g97b2" data-act="g97back">‹ 뒤로</button></div>'); 닫.parentElement.querySelector('.g97row').appendChild(닫); }
-    if(앞높이) sb.style.minHeight = 앞높이 + 'px'; };
+  let 앞act = null;
+  window.g97앞 = () => 앞act;
   window.addEventListener('click', e => { const b = e.target.closest && e.target.closest('[data-act]'); if(!b) return; const a = b.getAttribute('data-act');
-    if(a.startsWith('exd:') || a.startsWith('plnm:')){ 앞act = a; return; }
-    if(a === 'trio:prev' && b.closest('#sheetbox') && 앞act){ const sb = 상자(); 앞높이 = sb ? Math.round(sb.getBoundingClientRect().height) : 0; setTimeout(꾸미기, 30); setTimeout(꾸미기, 200); return; }
-    if(a === 'g97back'){ e.preventDefault(); e.stopImmediatePropagation(); const sb = 상자(); if(sb) sb.style.minHeight = '';
-      const t = document.createElement('button'); t.setAttribute('data-act', 앞act); t.style.display = 'none'; document.body.appendChild(t); t.click(); t.remove(); return; }
-    if(a === 'close' || a === 'cancel'){ const sb = 상자(); if(sb) sb.style.minHeight = ''; } }, true);
-  const 시작 = () => { const sb = 상자(); if(!sb){ setTimeout(시작, 300); return; }
-    new MutationObserver(() => { if(!sb.querySelector('.h2') || !/직전기록/.test((sb.querySelector('.h2') || {}).textContent || '')) sb.style.minHeight = ''; else 꾸미기(); }).observe(sb, { childList:true }); };
-  setTimeout(시작, 0);
+    if(a.startsWith('exd:') || a.startsWith('plnm:')) 앞act = a; }, true);
+})();
+</script>
+
+<script>
+/* 59 11/26 21:29 대표 「넣어」 — 시안 웹앱\지난기록창_삭제3안.html · 회원종목창3안.html 그대로
+   ① 회원 종목 창 : 큰 그림(테 없음) + 오른쪽 위 작은 「종목 삭제」 알약 · 이름 · [트레이너 추천 카드 + 지난 기록 ›] · [● 피드백 · 보기 · 요청 ›] · 아래 단추 없음(닫기 = 빈 곳 · 끌어내리기 · 폰 뒤로)
+   ② 지난 기록 창(회원 · 트레이너 같은 꼴) : 흰 카드 하나 · 날마다 한 줄 — 갈래 · 날짜(작게 옅게) / 42.5kg(진하게) × 횟수(옅게) · 「이 무게로」(브라운 테) · ‹ 뒤로 · 높이 그대로
+   ③ 피드백 창(회원) : 날짜별 트레이너 피드백(글 · 사진 · 영상) · 피드백 요청하기 · ‹ 뒤로
+   글 세 단계 : 1단 #1f1813 굵게(이름 · 추천 숫자 · 무게) / 2단 #5d5249(줄 이름) / 3단 #837666 13px(이름표 · 날짜 · 횟수 · 보기 · 요청) */
+(() => {
+  const 휴 = '<svg class="g99tr" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v6M14 11v6"/></svg>';
+  const 말 = '<svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/></svg>';
+  const 날 = d => { const t = new Date(String(d).slice(0, 10) + 'T00:00:00'); return isNaN(t) ? '' : (t.getMonth() + 1) + '월 ' + t.getDate() + '일'; };
+  const 갈래 = k => /수업/.test(k || '') ? ['su', '수업'] : ['pe', k || '개인운동'];
+  let 앞 = null, 앞높이 = 0;      /* 지난 기록 · 피드백 창에서 ‹ 뒤로 = 앞 창 */
+  const 높이고정 = () => { const sb = document.getElementById('sheetbox'); if(sb && 앞높이) sb.style.minHeight = 앞높이 + 'px'; };
+  const 높이풀기 = () => { const sb = document.getElementById('sheetbox'); if(sb) sb.style.minHeight = ''; };
+  const 높이재기 = () => { const sb = document.getElementById('sheetbox'); 앞높이 = sb ? Math.round(sb.getBoundingClientRect().height) : 0; };
+
+  /* ② 지난 기록 — 회원 · 트레이너 같은 꼴 */
+  window.g99지난 = function(ex, va, mid, 돌아갈){
+    const w = live(), e = exOf(ex) || {}, runs = lastRuns(ex, va, mid, 3), 유 = !!e.cardio;
+    const 열림 = w && w.items.findIndex(x => x.ex === ex && x.va === va);
+    if(w && 열림 >= 0) w.cur = 열림;      /* 「이 무게로」 는 이 종목에 */
+    const 남음 = w && 열림 >= 0 && w.items[열림].sets.some(x => !x.done);
+    높이재기(); 앞 = 돌아갈 || null;
+    openSheet(() => `<div class="h2 g99h">지난 기록<small>${esc(e.n || exName(ex, va))}</small></div>
+      ${runs.length ? `<div class="g99card g99list">${runs.map(r => { const [c, k] = 갈래(r.kind), 무 = 유 ? Math.max(...r.sets.map(x => +x.reps || 0)) : Math.max(...r.sets.map(x => +x.kg || 0));
+        const rp = r.sets.find(x => (유 ? +x.reps : +x.kg) === 무) || r.sets[0];
+        const 줄 = 유 ? `<b class="g99w">${kgfmt(무)}<small>분</small></b>` : `<b class="g99w">${kgfmt(무)}<small>kg</small></b> <i class="g99x">×</i> <span class="g99r">${r.sets.map(x => x.reps).join('·')}</span>`;
+        return `<div class="g99it"><div class="g99l"><div class="g99m"><i class="g99dot ${c}"></i><b class="${c}">${esc(k)}</b> · ${날(r.date)}</div><div class="g99wl">${줄}</div></div>${남음 ? `<button class="g99use" data-act="usekg:${유 ? 0 : kgfmt(무)}:${rp.reps || 0}">이 무게로</button>` : ''}</div>`; }).join('')}</div>`
+        : '<div class="g99card g99empty">처음 하는 종목이에요</div>'}
+      ${앞 ? '<button class="g99back" data-act="g99back">‹ 뒤로</button>' : ''}`);
+    setTimeout(높이고정, 0); };
+
+  /* ③ 피드백 창 — 회원 */
+  const 피드백창 = i => { const w = live(), it = w && w.items[i]; if(!it) return; const wmid = w.mid || S.mid, e = exOf(it.ex) || {};
+    높이재기(); 앞 = 'mx:' + i;
+    openSheet(() => { const cms = cmOf(wmid, it.ex, it.va).slice().sort((a, b) => String(b.ts || '') < String(a.ts || '') ? -1 : 1);
+      return `<div class="h2 g99h">트레이너 피드백<small>${esc(e.n || exName(it.ex, it.va))}</small></div>
+        ${cms.length ? `<div class="g99fl">${cms.map(c => `<div class="g99fi"><div class="g99fd"><b>${날(c.ts)}</b>${c.tr ? ' · ' + esc(c.tr) + ' 트레이너' : ''}</div>${c.tx ? `<p>${esc(c.tx)}</p>` : ''}${(c.media || []).length ? `<div class="g99md">${c.media.map(m => m.kind === 'video' ? `<video src="${esc(phURL(m.path))}" controls playsinline preload="metadata"></video>` : `<img src="${esc(phURL(m.path))}" alt="" loading="lazy" data-zoom="${esc(phURL(m.path))}">`).join('')}</div>` : ''}</div>`).join('')}</div>`
+          : '<div class="g99card g99empty">아직 받은 피드백이 없어요</div>'}
+        ${요청켬(S.mid) ? `<button class="btn main g99ask" data-act="exd:${it.ex}:${it.va}">피드백 요청하기</button>` : ''}
+        <button class="g99back" data-act="g99back">‹ 뒤로</button>`; });
+    setTimeout(높이고정, 0);
+    const 안읽음 = cmOf(wmid, it.ex, it.va).filter(c => !c.read);      /* 열어 보면 읽음 (원래 피드백 창과 같게) */
+    if(안읽음.length){ 안읽음.forEach(c => c.read = true); sv(spatch('comments', 'id=in.(' + 안읽음.map(c => c.id).join(',') + ')', { read_at: new Date().toISOString() }), '읽음 표시'); save(); } };
+
+  /* ① 회원 종목 창 */
+  회원종목창 = function(i){ const w0 = live(), it0 = w0 && w0.items[i]; if(!it0) return; 앞 = null; 높이풀기();
+    openSheet(() => { const w = live(), it = w && w.items[i]; if(!it) return '<div class="g99empty">종목이 없어요</div>';
+      const wmid = w.mid || S.mid, e = exOf(it.ex) || {}, 그림 = 종목그림주소(e);
+      const r = rOf(w.rid), ri = r && (r.items || []).find(x => x.ex === it.ex && x.va === it.va), 추 = ri ? 루틴줄(ri, e) : '';
+      const 추있 = 추 && !/정합니다/.test(추), [큰, ...작] = 추있 ? 추.split(' · ') : [];
+      const cms = cmOf(wmid, it.ex, it.va).slice().sort((a, b) => String(b.ts || '') < String(a.ts || '') ? -1 : 1);
+      const 자료 = cms.flatMap(c => c.media || []).slice(0, 2);
+      return `<div class="g99top">${그림 ? `<img src="${esc(그림)}" alt="" data-zoom="${esc(그림)}">` : `<span class="g99noimg">${esc(e.p || '')}</span>`}<button class="g99del" data-act="wdel:${i}">${휴}종목 삭제</button></div>
+        <div class="g99nm">${esc(e.n || exName(it.ex, it.va))}</div>
+        <div class="g99card g99goal">${추있 ? `<div class="g99gi"><div class="g99k">트레이너 추천</div><div class="g99v">${esc(큰)}</div>${작.length ? `<div class="g99vs">${esc(작.join(' · '))}</div>` : ''}</div>` : ''}
+          <button class="g99row${추있 ? '' : ' solo'}" data-act="g99past:${i}"><span class="g99t">지난 기록</span><span class="g99a">›</span></button></div>
+        <button class="g99fb${cms.length ? '' : ' no'}" data-act="g99fb:${i}"><span class="g99th">${cms.length && 자료.length ? 자료.map(m => `<span class="${m.kind === 'video' ? 'v' : ''}" style="background-image:url('${esc(phURL(m.kind === 'video' ? (m.poster || m.path.replace(/\.mp4$/, '.jpg')) : m.path))}')"></span>`).join('') : `<span class="g99ic${cms.length ? ' has' : ''}">${말}</span>`}</span>
+          <span class="g99t">${cms.length ? '<i class="g99ping"></i>' : ''}피드백<small>${cms.length ? '보기 · 요청' : '아직 없어요 · 요청하기'}</small></span><span class="g99a">›</span></button>`; }); };
+
+  window.addEventListener('click', e => { const b = e.target.closest && e.target.closest('[data-act]'); if(!b) return; const a = b.getAttribute('data-act');
+    if(a.startsWith('g99past:')){ e.preventDefault(); e.stopImmediatePropagation(); const i = +a.slice(8), w = live(), it = w && w.items[i]; if(it) g99지난(it.ex, it.va, w.mid || S.mid, 'mx:' + i); return; }
+    if(a.startsWith('g99fb:')){ e.preventDefault(); e.stopImmediatePropagation(); 피드백창(+a.slice(6)); return; }
+    if(a === 'g99back'){ e.preventDefault(); e.stopImmediatePropagation(); 높이풀기(); const 갈 = 앞; 앞 = null;
+      if(갈 && 갈.startsWith('mx:')) 회원종목창(+갈.slice(3));
+      else if(갈){ const t = document.createElement('button'); t.setAttribute('data-act', 갈); t.style.display = 'none'; document.body.appendChild(t); t.click(); t.remove(); }
+      return; }
+    if(a === 'close' || a.startsWith('usekg:')) 높이풀기(); }, true);
+
+  /* 트레이너 「직전 기록 ›」(종목 창 trio:prev) = 같은 지난 기록 창 · ‹ 뒤로 = 그 종목 창(g97 이 기억한 act) */
+  sheetPrev = function(){ const z = 지금종목(); if(!z) return; g99지난(z.cur.ex, z.cur.va, z.mid, window.g97앞 ? window.g97앞() : null); };
 })();
 </script>
 
