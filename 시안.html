@@ -5030,6 +5030,25 @@ html body #sheetbox>.g99top,html body #sheetbox>.g99delw,html body #sheetbox>.g9
 html body #sheetbox .g99delw{justify-content:flex-end!important;margin:0!important}
 html body #sheetbox .g99top{padding:6px 0 0!important}
 html body #sheetbox .g99nm{margin-top:2px!important}
+@media (max-height:680px){html body #sheetbox .g99top{padding:0!important}html body #sheetbox .g99goal{margin-top:8px!important;padding:10px!important}html body #sheetbox .g99two{margin-top:8px!important}html body #sheetbox .g99top img{width:clamp(84px,15vh,120px)!important}}
+
+/* 11/26 22:35 대표(피드백 접기) ① 피드백 = 최신 하나 펼침 · 나머지 한 줄 · 칸 안 사진/영상 나눔 뺌 · 「소리 켜기」 겹침 뺌 */
+html body #sheetbox .g99md .cs-kind,html body #sheetbox .g99md .vmute{display:none!important}
+html body #sheetbox .g99fc{display:flex;align-items:center;gap:8px;width:100%;padding:12px 14px;border:0;border-radius:14px;background:#f6f1ea;font:inherit;text-align:left;cursor:pointer;flex-shrink:0}
+html body #sheetbox .g99fc b{flex:none;font-size:13px;font-weight:700;color:#6f4a2f}
+html body #sheetbox .g99fc span{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:14px;font-weight:600;color:#5d5249}
+html body #sheetbox .g99fc i{flex:none;font-style:normal;font-size:13px;color:#837666}
+html body #sheetbox .g99fc em{flex:none;font-style:normal;font-size:15px;font-weight:800;color:#837666}
+html body #sheetbox .g99fl{gap:8px}
+/* ② 너무 하얀 것 — 흰 창 위 카드는 옅은 판(테 · 그림자 없이) */
+html body #sheetbox .g99goal,html body #sheetbox .g99tile{background:#f6f1ea!important;border:0!important;box-shadow:none!important}
+html body #sheetbox .g99tile .g99ic.has{background:#fff}
+html body #sheetbox .g99fi{background:#fff;border:1px solid #e6ddd2}
+/* ③ 폰 높이에 맞춤 — 종목 창이 스크롤 없이 한 화면 (그림 · 간격을 높이에 따라 줄임) */
+html body #sheetbox .g99top img{width:clamp(96px,17vh,150px)!important}
+@media (max-height:760px){html body #sheetbox .g99goal{margin-top:12px!important;padding:12px!important}html body #sheetbox .g99two{margin-top:10px!important}html body #sheetbox .g99tile{padding:10px 8px!important}html body #sheetbox .g99tile .g99th>span{width:34px!important;height:34px!important}html body #sheetbox .g99v{font-size:20px!important}}
+@media (max-height:680px){html body #sheetbox .g99tile .g99th{display:none!important}html body #sheetbox .g99nm{font-size:18px!important}}
+@media (max-height:680px){html body #sheetbox .g99top{padding:0!important}html body #sheetbox .g99goal{margin-top:8px!important;padding:10px!important}html body #sheetbox .g99two{margin-top:8px!important}html body #sheetbox .g99top img{width:clamp(84px,15vh,120px)!important}}
 </style></head>
 <body>
 <div class="pwabar" id="pwabar"></div>
@@ -21438,10 +21457,12 @@ new MutationObserver(() => { const r = document.querySelector('#sheetbox .g96row
 
   /* ③ 피드백 창 — 회원 */
   const 피드백창 = i => { const w = live(), it = w && w.items[i]; if(!it) return; const wmid = w.mid || S.mid, e = exOf(it.ex) || {};
-    높이재기(); 앞 = 'mx:' + i; 지금fb = i;
+    높이재기(); 앞 = 'mx:' + i; 지금fb = i; S.g99열 = null;
     openSheet(() => { const cms = cmOf(wmid, it.ex, it.va).slice().sort((a, b) => String(b.ts || '') < String(a.ts || '') ? -1 : 1);
       return `<div class="h2 g99h">트레이너 피드백<small>${esc(e.n || exName(it.ex, it.va))}</small></div>
-        ${cms.length ? `<div class="g99fl">${cms.map(c => `<div class="g99fi"><div class="g99fd"><b>${날(c.ts)}</b>${c.tr ? ' · ' + esc(c.tr) + ' 트레이너' : ''}</div>${c.tx ? `<p>${esc(c.tx)}</p>` : ''}${(() => { const m = 자료of(c); return m.length ? `<div class="g99md">${넘겨보기(m, c.id).replace(/<video src="([^"]+)"/g, (a, u) => /fb_lpd\.mp4/.test(u) ? `<video poster="${u.replace(/\.mp4$/, '.jpg')}" src="${u}"` : /#t=/.test(u) ? a : `<video src="${u}#t=0.1"`)}</div>` : '';      /* 영상 첫 장면 — 그릴 때 바로 넣음(다시 그려도 남게) */ })()}</div>`).join('')}</div>`
+        ${cms.length ? `<div class="g99fl">${cms.map((c, n) => { const 열 = S.g99열 && cms.some(x => x.id === S.g99열) ? S.g99열 === c.id : n === 0, m = 자료of(c);
+          if(!열) return `<button class="g99fc" data-act="g99fx:${esc(String(c.id))}"><b>${날(c.ts)}</b><span>${esc(String(c.tx || '사진 · 영상').slice(0, 40))}</span>${m.length ? `<i>${m.some(x => x.kind === 'video') ? '▶' : '📷'}</i>` : ''}<em>›</em></button>`;
+          return `<div class="g99fi"><div class="g99fd"><b>${날(c.ts)}</b>${c.tr ? ' · ' + esc(c.tr) + ' 트레이너' : ''}</div>${c.tx ? `<p>${esc(c.tx)}</p>` : ''}${m.length ? `<div class="g99md">${넘겨보기(m, '').replace(/<video src="([^"]+)"/g, (a, u) => /fb_lpd\.mp4/.test(u) ? `<video poster="${u.replace(/\.mp4$/, '.jpg')}" src="${u}"` : /#t=/.test(u) ? a : `<video src="${u}#t=0.1"`)}</div>` : ''}</div>`; }).join('')}</div>`
           : '<div class="g99card g99empty">아직 받은 피드백이 없어요</div>'}
         ${요청켬(S.mid) ? `<button class="btn main g99ask" data-act="g99req:${i}">피드백 요청하기</button>` : ''}
         <button class="g99back" data-act="g99back">‹ 뒤로</button>`; });
@@ -21486,6 +21507,7 @@ new MutationObserver(() => { const r = document.querySelector('#sheetbox .g96row
   window.addEventListener('click', e => { const b = e.target.closest && e.target.closest('[data-act]'); if(!b) return; const a = b.getAttribute('data-act');
     if(a.startsWith('g99past:')){ e.preventDefault(); e.stopImmediatePropagation(); const i = +a.slice(8), w = live(), it = w && w.items[i]; if(it) g99지난(it.ex, it.va, w.mid || S.mid, 'mx:' + i); return; }
     if(a.startsWith('g99fb:')){ e.preventDefault(); e.stopImmediatePropagation(); 피드백창(+a.slice(6)); return; }
+    if(a.startsWith('g99fx:')){ e.preventDefault(); e.stopImmediatePropagation(); S.g99열 = isNaN(+a.slice(6)) ? a.slice(6) : +a.slice(6); drawSheet(); return; }
     if(a.startsWith('g99req:')){ e.preventDefault(); e.stopImmediatePropagation(); 요청창(+a.slice(7)); return; }
     if(a.startsWith('ask:')){ const ta = document.querySelector('#sheetbox textarea[data-k^="ask:"]'); if(ta && !ta.value.trim()){ e.preventDefault(); e.stopImmediatePropagation(); toast('궁금한 점을 입력해 주세요'); return; } }
     if(a === 'g99back'){ e.preventDefault(); e.stopImmediatePropagation(); 높이풀기(); const 갈 = 앞; 앞 = null; 요청앞 = null; { const sb = document.getElementById('sheetbox'); if(sb) sb.classList.remove('g99req'); }
