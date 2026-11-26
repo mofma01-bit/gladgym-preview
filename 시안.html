@@ -4993,6 +4993,9 @@ html body #sheetbox .g99md{display:block;margin-top:10px}html body #sheetbox .g9
 html body #sheetbox .g99md .cs-track{background:#f6f1ea}
 html body #sheetbox .g99md .cs-item{height:auto;aspect-ratio:4/3}
 html body #sheetbox .g99md .cs-item img,html body #sheetbox .g99md .cs-item video{width:100%;height:100%;max-height:none;object-fit:contain;border-radius:0;background:transparent}
+/* g99 피드백 창 → 피드백 요청 창 : 목록 · 닫기 숨김 (22:0x) */
+html body #sheetbox.g99req>span.lbl:first-of-type,html body #sheetbox.g99req>.cmnav,html body #sheetbox.g99req>.cm,html body #sheetbox.g99req>.hr,html body #sheetbox.g99req>[data-act="close"]{display:none!important}
+html body #sheetbox.g99req>*{flex:0 0 auto!important}html body #sheetbox.g99req>.g99back{margin-top:auto!important}html body #sheetbox.g99req{display:flex;flex-direction:column}
 </style></head>
 <body>
 <div class="pwabar" id="pwabar"></div>
@@ -21377,7 +21380,7 @@ new MutationObserver(() => { const r = document.querySelector('#sheetbox .g96row
     if(!최근 || 최근.id !== c.id) return [];
     return c.ex === 'lpd' ? [{ kind:'video', path:'demo/fb_lpd.mp4' }, { kind:'photo', path:'demo/fb_lpd.jpg' }] : [{ kind:'photo', path:'demo/fb_sq.jpg' }, { kind:'video', path:'demo/fb_lpd.mp4' }]; };
   const 썸 = m => m.kind === 'video' ? (m.poster || String(m.path).replace(/\.mp4$/, '.jpg')) : m.path;
-  let 앞 = null, 앞높이 = 0;      /* 지난 기록 · 피드백 창에서 ‹ 뒤로 = 앞 창 */
+  let 앞 = null, 앞높이 = 0, 지금fb = null, 요청앞 = null;      /* 요청앞 = 피드백 요청 창에서 ‹ 뒤로 = 그 피드백 창 (22:00 대표 「피드백 요청 누르고 뒤로가기가 또 없어」) */      /* 지난 기록 · 피드백 창에서 ‹ 뒤로 = 앞 창 */
   const 높이고정 = () => { const sb = document.getElementById('sheetbox'); if(sb && 앞높이) sb.style.minHeight = 앞높이 + 'px'; };
   const 높이풀기 = () => { const sb = document.getElementById('sheetbox'); if(sb) sb.style.minHeight = ''; };
   const 높이재기 = () => { const sb = document.getElementById('sheetbox'); 앞높이 = sb ? Math.round(sb.getBoundingClientRect().height) : 0; };
@@ -21400,7 +21403,7 @@ new MutationObserver(() => { const r = document.querySelector('#sheetbox .g96row
 
   /* ③ 피드백 창 — 회원 */
   const 피드백창 = i => { const w = live(), it = w && w.items[i]; if(!it) return; const wmid = w.mid || S.mid, e = exOf(it.ex) || {};
-    높이재기(); 앞 = 'mx:' + i;
+    높이재기(); 앞 = 'mx:' + i; 지금fb = i;
     openSheet(() => { const cms = cmOf(wmid, it.ex, it.va).slice().sort((a, b) => String(b.ts || '') < String(a.ts || '') ? -1 : 1);
       return `<div class="h2 g99h">트레이너 피드백<small>${esc(e.n || exName(it.ex, it.va))}</small></div>
         ${cms.length ? `<div class="g99fl">${cms.map(c => `<div class="g99fi"><div class="g99fd"><b>${날(c.ts)}</b>${c.tr ? ' · ' + esc(c.tr) + ' 트레이너' : ''}</div>${c.tx ? `<p>${esc(c.tx)}</p>` : ''}${(() => { const m = 자료of(c); return m.length ? `<div class="g99md">${넘겨보기(m, c.id).replace(/<video src="([^"]+)"/g, (a, u) => /fb_lpd\.mp4/.test(u) ? `<video poster="${u.replace(/\.mp4$/, '.jpg')}" src="${u}"` : /#t=/.test(u) ? a : `<video src="${u}#t=0.1"`)}</div>` : '';      /* 영상 첫 장면 — 그릴 때 바로 넣음(다시 그려도 남게) */ })()}</div>`).join('')}</div>`
@@ -21429,11 +21432,18 @@ new MutationObserver(() => { const r = document.querySelector('#sheetbox .g96row
   window.addEventListener('click', e => { const b = e.target.closest && e.target.closest('[data-act]'); if(!b) return; const a = b.getAttribute('data-act');
     if(a.startsWith('g99past:')){ e.preventDefault(); e.stopImmediatePropagation(); const i = +a.slice(8), w = live(), it = w && w.items[i]; if(it) g99지난(it.ex, it.va, w.mid || S.mid, 'mx:' + i); return; }
     if(a.startsWith('g99fb:')){ e.preventDefault(); e.stopImmediatePropagation(); 피드백창(+a.slice(6)); return; }
-    if(a === 'g99back'){ e.preventDefault(); e.stopImmediatePropagation(); 높이풀기(); const 갈 = 앞; 앞 = null;
+    if(a === 'g99back'){ e.preventDefault(); e.stopImmediatePropagation(); 높이풀기(); const 갈 = 앞; 앞 = null; 요청앞 = null; { const sb = document.getElementById('sheetbox'); if(sb) sb.classList.remove('g99req'); }
       if(갈 && 갈.startsWith('mx:')) 회원종목창(+갈.slice(3));
       else if(갈){ const t = document.createElement('button'); t.setAttribute('data-act', 갈); t.style.display = 'none'; document.body.appendChild(t); t.click(); t.remove(); }
       return; }
-    if(a === 'close' || a.startsWith('usekg:')) 높이풀기(); }, true);
+    if(a.startsWith('exd:') && b.classList.contains('g99ask') && 지금fb != null){ 요청앞 = 'g99fb:' + 지금fb; 높이재기(); [30, 200].forEach(t => setTimeout(요청뒤로, t)); return; }
+    if(a === 'close' || a.startsWith('usekg:')){ 높이풀기(); 요청앞 = null; } }, true);
+  /* 피드백 요청 창(원래 exd 창)에 ‹ 뒤로 — 다시 그려져도 붙게 */
+  const 요청뒤로 = () => { const sb = document.getElementById('sheetbox'); if(!sb || !요청앞) return; const 열 = document.getElementById('sheet'); if(sb.querySelector('.g99h') || (열 && !열.classList.contains('open'))){ 요청앞 = null; sb.classList.remove('g99req'); return; }      /* 창이 닫혔거나 다른 g99 창이면 끝 — 엉뚱한 창에 붙지 않게 */
+    sb.classList.add('g99req');      /* 피드백 창에서 온 요청 창 = 피드백 목록 · 닫기는 숨김(방금 본 것 되풀이 X) */
+    if(sb.querySelector('.g99back')) return; sb.insertAdjacentHTML('beforeend', '<button class="g99back" data-act="g99back">‹ 뒤로</button>'); 앞 = 요청앞; 높이고정(); };
+  const 지켜보기 = () => { const sb = document.getElementById('sheetbox'); if(!sb){ setTimeout(지켜보기, 300); return; } new MutationObserver(() => { if(요청앞) 요청뒤로(); else sb.classList.remove('g99req'); }).observe(sb, { childList:true }); };
+  setTimeout(지켜보기, 0);
 
   /* 트레이너 「직전 기록 ›」(종목 창 trio:prev) = 같은 지난 기록 창 · ‹ 뒤로 = 그 종목 창(g97 이 기억한 act) */
   sheetPrev = function(){ const z = 지금종목(); if(!z) return; g99지난(z.cur.ex, z.cur.va, z.mid, window.g97앞 ? window.g97앞() : null); };
