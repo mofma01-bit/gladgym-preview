@@ -5024,6 +5024,12 @@ html body #sheetbox.g99fix{display:flex;flex-direction:column}
 html body #sheetbox.g99fix>*{flex:0 0 auto!important}
 html body #sheetbox.g99fix>.g99back{margin-top:auto!important}
 html body #sheetbox .btn[data-act^="ask:"]:disabled{background:#f6f1ea!important;border:1.5px solid #e6ddd2!important;color:#9a8d7e!important}
+/* g99 창 덩어리가 눌려 잘리던 것 (22:24 대표 「갑자기 뭔데」 — 화면보다 긴 창에서 트레이너 추천 카드가 반쯤 잘림) · 납작해지지 않게 */
+html body #sheetbox>.g99top,html body #sheetbox>.g99delw,html body #sheetbox>.g99nm,html body #sheetbox>.g99goal,html body #sheetbox>.g99two,html body #sheetbox>.g99card,html body #sheetbox>.g99fl,html body #sheetbox>.g99back,html body #sheetbox>.g99ta,html body #sheetbox>.g99send,html body #sheetbox>.g99h,html body #sheetbox>.g99ask{flex-shrink:0!important}
+/* 22:25 대표 「종목 삭제는 오른쪽 위 · 종목 이름과 사진을 가깝게」 — 삭제는 맨 위 한 줄 오른쪽(그림과 떨어짐) · 이름은 그림 바로 아래 */
+html body #sheetbox .g99delw{justify-content:flex-end!important;margin:0!important}
+html body #sheetbox .g99top{padding:6px 0 0!important}
+html body #sheetbox .g99nm{margin-top:2px!important}
 </style></head>
 <body>
 <div class="pwabar" id="pwabar"></div>
@@ -21469,8 +21475,8 @@ new MutationObserver(() => { const r = document.querySelector('#sheetbox .g96row
       const 자료 = cms.flatMap(c => 자료of(c)).slice(0, 2);
       /* 22:12 대표 「한쪽으로 쏠림 · 정렬이 별로 · 그림과 종목 삭제가 붙어 확대가 불편 · 종목 이름 바로 위」 → 전부 가운데 한 줄기 · 삭제는 이름 위 · 지난 기록 | 피드백 = 같은 두 칸 */
       const 표지 = cms.length && 자료.length ? 자료.map(m => `<span class="${m.kind === 'video' ? 'v' : ''}" style="background-image:url('${esc(phURL(썸(m)))}')"></span>`).join('') : `<span class="g99ic${cms.length ? ' has' : ''}">${말}</span>`;
-      return `<div class="g99top">${그림 ? `<img src="${esc(그림)}" alt="" data-zoom="${esc(그림)}">` : `<span class="g99noimg">${esc(e.p || '')}</span>`}</div>
-        <div class="g99delw"><button class="g99del" data-act="wdel:${i}">${휴}종목 삭제</button></div>
+      return `<div class="g99delw"><button class="g99del" data-act="wdel:${i}">${휴}종목 삭제</button></div>
+        <div class="g99top">${그림 ? `<img src="${esc(그림)}" alt="" data-zoom="${esc(그림)}">` : `<span class="g99noimg">${esc(e.p || '')}</span>`}</div>
         <div class="g99nm">${esc(e.n || exName(it.ex, it.va))}</div>
         ${추있 ? `<div class="g99card g99goal"><div class="g99k">트레이너 추천</div><div class="g99v">${esc(큰)}</div>${작.length ? `<div class="g99vs">${esc(작.join(' · '))}</div>` : ''}</div>` : ''}
         <div class="g99two">
