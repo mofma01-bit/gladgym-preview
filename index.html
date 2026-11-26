@@ -20,17 +20,17 @@ main{height:calc(100% - 52px);display:flex;align-items:center;justify-content:ce
 .ph iframe{position:absolute;left:0;top:0;width:390px;height:844px;border:0;border-radius:34px;background:#efe8df;transform:scale(var(--s,1));transform-origin:0 0;box-shadow:0 20px 50px -20px #000}
 @media (max-width:700px){ .col.t{display:none} }
 </style></head><body>
-<header><b>글래드짐 앱 시안</b><small>회원 · 트레이너를 나란히 눌러 보세요 · 샘플 자료(실제 회원 아님) · 11월 27일(금)까지</small><span class="sp"></span><button onclick="다시()">처음 상태로</button></header>
+<header><b>글래드짐 앱 시안</b><small>회원 · 트레이너를 나란히 눌러 보세요 · 샘플 자료(실제 회원 아님) · 11월 27일(금)까지</small><span class="sp"></span><button onclick="다시()">처음 상태로 (쌓인 시험 기록 지움)</button></header>
 <main>
-  <div class="col"><b>회원<small>윤서아(샘플)</small></b><div class="ph"><iframe id="m" src="시안.html?sample=1&v=p1126b" title="회원 화면"></iframe></div></div>
-  <div class="col t"><b>트레이너<small>샘플 트레이너</small></b><div class="ph"><iframe id="t" src="시안.html?sample=1&who=tr&v=p1126b" title="트레이너 화면"></iframe></div></div>
+  <div class="col"><b>회원<small>윤서아(샘플)</small></b><div class="ph"><iframe id="m" src="시안.html?sample=1&v=p1126c" title="회원 화면"></iframe></div></div>
+  <div class="col t"><b>트레이너<small>샘플 트레이너</small></b><div class="ph"><iframe id="t" src="시안.html?sample=1&who=tr&v=p1126c" title="트레이너 화면"></iframe></div></div>
 </main>
 <script>
 /* 화면 크기에 맞춰 두 폰을 줄임 — 높이 · 너비 둘 다 맞춤(노트북 · 태블릿 · 큰 모니터) */
 function 맞춤(){ const 사이 = 80, h = innerHeight - 52 - 20 - 26, 둘 = innerWidth > 700, w = innerWidth - 32 - (둘 ? 사이 : 0), s = Math.min(1, h / 844, w / (둘 ? 780 : 390));      /* 두 폰 사이 80px (19:21 「간격을 좀 더 띄워 · 너무 딱 붙었어」) */
   document.documentElement.style.setProperty('--s', Math.max(.45, s).toFixed(3)); document.documentElement.style.setProperty('--gap', 사이 + 'px'); }
 addEventListener('resize', 맞춤); 맞춤();
-function 다시(){ try{ Object.keys(localStorage).filter(k => /^g3\d|^gg_/.test(k)).forEach(k => localStorage.removeItem(k)); sessionStorage.clear(); }catch(e){} ['m', 't'].forEach(i => { const f = document.getElementById(i); f.src = f.src.replace(/v=[^&]*/, 'v=' + Date.now()); }); }
+function 다시(){ try{ localStorage.clear(); sessionStorage.clear();      /* 11/26 19:45 쌓인 시험 기록까지 전부 지움 */ }catch(e){} ['m', 't'].forEach(i => { const f = document.getElementById(i); f.src = f.src.replace(/v=[^&]*/, 'v=' + Date.now()); }); }
 setInterval(() => { if(Date.now() > window.__끝) location.reload(); }, 60000);      /* 열어 둔 채 기한이 지나도 닫힘 */
 </script>
 </body></html>

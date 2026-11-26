@@ -4893,6 +4893,15 @@ html body #sheetbox .g96row .chip{flex:none;scroll-snap-align:start}
 html body #sheetbox .g96sc::after{content:"";position:absolute;right:0;top:0;bottom:0;width:56px;pointer-events:none;background:linear-gradient(90deg,rgba(255,255,255,0),#fff 70%)}
 html body #sheetbox .g96ar{position:absolute;right:2px;top:50%;transform:translateY(-50%);z-index:2;width:26px;height:26px;border-radius:50%;background:#fff;border:1.5px solid #c9dde1;color:#447382;display:grid;place-items:center;font-style:normal;font-size:16px;font-weight:800;pointer-events:none;transition:opacity .2s}
 html body #sheetbox .g96sc.end::after,html body #sheetbox .g96sc.end .g96ar{opacity:0}
+/* 보기 아이콘 = 늘 오른쪽에 고정 · 왼쪽 단추만 옆으로 밀림 (11/26 19:40 대표 「바둑판 / 자세히 없다고 몇 번 말해」 — 좁은 폰에서 밖으로 밀려 안 보였음) */
+html body #main .g95tools{overflow:visible!important}
+html body #main .g95l{flex:1;min-width:0;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;mask-image:linear-gradient(90deg,#000 85%,transparent);-webkit-mask-image:linear-gradient(90deg,#000 85%,transparent)}
+html body #main .g95l::-webkit-scrollbar{display:none}
+html body #main .g95v{flex:none;margin-left:2px}
+/* 갈래 딱지(기구 · 맨몸 · 유산소) 뺌 (11/26 19:41 대표 「의미 없는 것 같아 · 그림을 보고 판단하니까」) */
+html body #main .megrp.pkg .g94tg{display:none!important}
+/* 부위 칩 줄 → 「부위 ▾」 선택창 (11/26 19:45 대표 「가슴 등 어깨밖에 안 돼 · 선택창이 낫지 않겠어」) */
+html body #main .pkparts{display:none!important}
 </style></head>
 <body>
 <div class="pwabar" id="pwabar"></div>
@@ -21220,20 +21229,23 @@ if(/[?&]g90=1/.test(location.search)){
   const 아 = { g3:'<svg viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7"/><rect x="13" y="4" width="7" height="7"/><rect x="4" y="13" width="7" height="7"/><rect x="13" y="13" width="7" height="7"/></svg>',
     big:'<svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/></svg>', list:'<svg viewBox="0 0 24 24"><path d="M5 7h14M5 12h14M5 17h14"/></svg>' };
   const 줄 = () => { const v = document.documentElement.dataset.pkv || 'list', 기 = S.pickEq || '전체';
-    return `<div class="g95tools"><button class="g95b" data-act="g95sort">${순서이름[지금순서()] || '순서'} ▾</button><button class="g95b${기 !== '전체' ? ' on' : ''}" data-act="g95eq">${기 === '전체' ? '기구 전체' : esc(기)} ▾</button>
-      <button class="g95b" data-act="rmaddpick">1RM</button><button class="g95b" data-act="pknew">＋ 새 종목</button><span class="g95sp"></span>
+    const 부 = S.pickPart || '전체';
+    return `<div class="g95tools"><span class="g95l"><button class="g95b${부 !== '전체' ? ' on' : ''}" data-act="g95part">${esc(부)} ▾</button><button class="g95b" data-act="g95sort">${순서이름[지금순서()] || '순서'} ▾</button><button class="g95b${기 !== '전체' ? ' on' : ''}" data-act="g95eq">${기 === '전체' ? '기구 전체' : esc(기)} ▾</button>
+      <button class="g95b" data-act="rmaddpick">1RM</button><button class="g95b" data-act="pknew">＋ 새 종목</button></span>
       <span class="g95v">${['g3', 'big', 'list'].map(k => `<button class="${v === k ? 'on' : ''}" data-act="pkview:${k}" aria-label="${k === 'g3' ? '바둑판' : k === 'big' ? '크게' : '목록'}">${아[k]}</button>`).join('')}</span></div>`; };
   const 고치기 = () => { if(S.screen !== 'pick') return; const m = document.getElementById('main'); const p = m && m.querySelector('.pkparts'); if(!p) return;
-    const 키 = [지금순서(), S.pickEq || '전체', document.documentElement.dataset.pkv || 'list'].join('|'), 옛 = m.querySelector('.g95tools');      /* 상태 열쇠가 같으면 안 건드림(끝없이 다시 그리지 않게) */
+    const 키 = [S.pickPart || '전체', 지금순서(), S.pickEq || '전체', document.documentElement.dataset.pkv || 'list'].join('|'), 옛 = m.querySelector('.g95tools');      /* 상태 열쇠가 같으면 안 건드림(끝없이 다시 그리지 않게) */
     if(옛 && 옛.dataset.k === 키) return; const 새 = 줄().replace('<div class="g95tools"', '<div class="g95tools" data-k="' + 키 + '"'); if(옛) 옛.outerHTML = 새; else p.insertAdjacentHTML('afterend', 새); };
   window.addEventListener('click', e => { const b = e.target.closest && e.target.closest('[data-act]'); if(!b) return; const a = b.getAttribute('data-act');
     if(a === 'g95sort'){ e.preventDefault(); e.stopImmediatePropagation(); const 지 = 지금순서();
       openSheet(() => `<div class="h2">순서</div><div class="g95ops">${Object.entries(순서이름).map(([k, n]) => `<button class="g95op${k === 지 ? ' on' : ''}" data-act="pksort:${k}">${n}</button>`).join('')}</div><button class="btn ghost" data-act="close">닫기</button>`); return; }
+    if(a === 'g95part'){ e.preventDefault(); e.stopImmediatePropagation(); const 지 = S.pickPart || '전체', 다 = [...document.querySelectorAll('#main .pkparts [data-act^="part:"]')].map(x => x.getAttribute('data-act').slice(5));
+      openSheet(() => `<div class="h2">부위</div><div class="g95ops g95wrap">${다.map(x => `<button class="g95op${x === 지 ? ' on' : ''}" data-act="part:${esc(x)}">${esc(x)}</button>`).join('')}</div><button class="btn ghost" data-act="close">닫기</button>`); return; }
     if(a === 'g95eq'){ e.preventDefault(); e.stopImmediatePropagation(); const 지 = S.pickEq || '전체', 자주 = ['전체', '맨몸', '바벨', '덤벨', '케이블', '머신', '스미스', '밴드', '케틀벨', '유산소'];
       const 다 = [...new Set(EX.map(x => x.e || x.eq || x.equip).filter(Boolean))], 밖 = 다.filter(x => !자주.includes(x));
       const 칩 = x => `<button class="g95op${x === 지 ? ' on' : ''}" data-act="peq:${esc(x)}">${esc(x)}</button>`;
       openSheet(() => `<div class="h2">기구</div><div class="g95lb">자주 쓰는 것</div><div class="g95ops g95wrap">${자주.map(칩).join('')}</div>${밖.length ? `<div class="g95lb">그 밖</div><div class="g95ops g95wrap">${밖.map(칩).join('')}</div>` : ''}<button class="btn ghost" data-act="close">닫기</button>`); return; }
-    if((a.startsWith('pksort:') || a.startsWith('peq:')) && b.closest('#sheetbox')) setTimeout(() => { closeSheet(); 고치기(); }, 30);
+    if((a.startsWith('pksort:') || a.startsWith('peq:') || a.startsWith('part:')) && b.closest('#sheetbox')) setTimeout(() => { closeSheet(); 고치기(); }, 30);
     if(a.startsWith('pkview:')) setTimeout(고치기, 30); }, true);
   const 시작 = () => { const m = document.getElementById('main'); if(!m){ setTimeout(시작, 300); return; } new MutationObserver(고치기).observe(m, { childList:true }); 고치기(); };
   setTimeout(시작, 0);
