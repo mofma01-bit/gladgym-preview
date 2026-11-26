@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="ko">
-<head><meta name="robots" content="noindex,nofollow"><script>if(Date.now() > Date.parse('2026-11-27T23:59:59+09:00')){ document.write('<body style="font-family:sans-serif;padding:40px;text-align:center">열람 기간이 끝났어요</body>'); document.close(); throw new Error('끝남'); }</script>
+<head>
 <meta charset="utf-8">
 <script>/* 테스트 앱(/gladgym-test/) — 그림 · 자료는 회원 앱 저장소에서(base) · 늘 샘플(?sample=1) · 설치 파일은 테스트 것 (2026-11-06) */
 if(/^\/gladgym-test(\/|$)/.test(location.pathname)){ document.write('<base href="/gladgym-app/">'); if(!/[?&]sample=1(&|$)/.test(location.search)) history.replaceState(null, '', '/gladgym-test/?sample=1' + location.hash); window.__테스트앱 = true; }</script>
@@ -4494,7 +4494,8 @@ body.g48on #sheetbox{padding-bottom:400px!important}
 #sheetbox .btn[data-act^="ask:"]::after,
 #main .btn.mx-ask::after,
 #main .btn[data-act^="ask:"]::after,
-#main .card.rowc.g25.g66jj::after{
+#main .card.rowc.g25.g66jj::after,
+#sheetbox .g93upl::after{
   content:""!important;position:absolute!important;inset:0!important;border-radius:inherit!important;pointer-events:none!important;z-index:3!important;
   background-color:transparent!important;background-image:var(--G광택)!important;background-position:118% 0;background-size:260% 100%!important;background-repeat:no-repeat!important;
   mix-blend-mode:normal!important;opacity:1!important;animation:G광택 2.4s cubic-bezier(.45,.05,.55,.95) infinite!important}
@@ -4544,6 +4545,354 @@ html body #main button.t>small{font-size:13px!important}
 /* 11/25 22:23 빈 기록 안내 아래 창 */
 #sheetbox .g71 p{font-size:14px;color:#5d5249;line-height:1.55;margin:6px 2px 16px}
 #sheetbox .g71 .btn{width:100%;margin-top:8px}
+/* 11/26 g75 트레이너 지난 기록 날짜 머리 · 나머지 딱지 — 머리 글은 메인색(오늘이어도 빨강 아님) · 딱지는 글 길이만큼 */
+#main .g75h b,#main .g75h b *{color:#1f1813!important}#main .g75h b u{color:#5d5249!important}
+#main .g75tag{flex:none!important;width:auto!important;max-width:max-content!important;display:inline-block!important}
+/* 11/26 점검 DB 효과 규칙이 잡음 — 트레이너 오늘 수업 줄(.mrow2 · 기록할 수업)에 옛 v1숨 이 남아 있었다(날짜가 바뀌어 오늘 수업이 「기록할 것」이 되며 드러남) → 숨 끄고 G광택 하나 */
+#main .mrow2.ggpulse,#main .mrow2.g29now{animation:none!important;position:relative;overflow:hidden;isolation:isolate}
+#main .mrow2.ggpulse::after,#main .mrow2.g29now::after{content:""!important;position:absolute!important;inset:0!important;border-radius:inherit!important;pointer-events:none!important;z-index:3!important;
+  background-color:transparent!important;background-image:var(--G광택)!important;background-size:260% 100%!important;background-repeat:no-repeat!important;background-position:118% 0;
+  mix-blend-mode:normal!important;opacity:1!important;display:block!important;animation:G광택 2.4s cubic-bezier(.45,.05,.55,.95) infinite!important}
+/* 11/26 g75 개인운동 아래 창 — 딱지는 글 길이만큼 · 날짜는 창 제목에 있으니 카드 안 날짜 뺌 · 그림 없는 몸 칸(유산소만) 숨김 */
+#sheetbox .g75sh .g75tag{flex:none!important;width:auto!important;max-width:max-content!important;display:inline-block!important}
+#sheetbox .g75sh .tmrc .tlh > b{display:none!important}
+#sheetbox .g75sh .tmfig:not(:has(svg,img,canvas)){display:none!important}
+/* 11/26 09:25 트레이너 지난 기록 갈래 표시 = 점 + 글자(칩 아님 · 종목 칩과 안 헷갈리게) · 수업 = 청록 점 · 개인운동 = 브라운 점 (주황은 고정색 밖) · 아래 「추가 운동 n ›」 작은 단추
+   ⚠ g-블록 안 색은 밝은톤 변환을 거쳐 바뀐다(#6f4a2f 점 → #f7eee8) — 색 규칙은 여기(덧칠)에 */
+html body #main .tmrc .tlh .k,html body #sheetbox .tmrc .tlh .k{background:none!important;border:0!important;border-radius:0!important;padding:0!important;display:inline-flex!important;align-items:center;gap:5px;font-size:13px!important;font-weight:800!important;box-shadow:none!important}
+html body #main .tmrc .tlh .k::before,html body #sheetbox .tmrc .tlh .k::before{content:"";width:8px;height:8px;border-radius:50%;flex:none}
+html body #main .tmrc .tlh .k.su,html body #sheetbox .tmrc .tlh .k.su{color:#447382!important}html body #main .tmrc .tlh .k.su::before,html body #sheetbox .tmrc .tlh .k.su::before{background:#447382!important}
+html body #main .tmrc .tlh .k.pe,html body #sheetbox .tmrc .tlh .k.pe{color:#6f4a2f!important}html body #main .tmrc .tlh .k.pe::before,html body #sheetbox .tmrc .tlh .k.pe::before{background:#6f4a2f!important}
+html body #main .tmrc .g75pr{margin:12px 0 0 auto!important;display:block!important;width:auto!important;border:1px solid #d8c3a8!important;background:#fff!important;color:#6f4a2f!important;border-radius:999px!important;padding:7px 14px!important;font-weight:800!important;font-size:13px!important}
+html body #sheetbox .g75sh .g75tag{background:none!important;padding:0!important;color:#837666!important;font-weight:700!important}html body #sheetbox .g75sh .g75tag::before{content:"· "}
+html body #main .tmrc .tlh>.k.su,html body #sheetbox .tmrc .tlh>.k.su,html body #main .tmrc .tlh>.k.pe,html body #sheetbox .tmrc .tlh>.k.pe{background:none!important;border:0!important;border-radius:0!important;padding:0!important}
+/* 11/26 09:50 g76 트레이너 지난 기록 카드 — 종목 이름이 주인공 · 무게/횟수 옅게 · 몸 그림 원래 자리 */
+html body .tmrc.g76{display:flex;flex-direction:column;gap:10px}
+html body .tmrc.g76 .g76top{display:flex;justify-content:flex-end;margin-bottom:-6px;min-height:0}
+html body .tmrc.g76 .g76fix{border:1px solid #d8c3a8;background:#fff;color:#6f4a2f;border-radius:12px;padding:6px 14px;font-weight:800;font-size:13px}
+html body .tmrc.g76 .g76hd{display:flex;align-items:baseline;gap:10px}
+html body .tmrc.g76 .g76k{display:inline-flex;align-items:center;gap:6px;font-size:16px;font-weight:800}
+html body .tmrc.g76 .g76k::before{content:"";width:9px;height:9px;border-radius:50%;background:currentColor;align-self:center}
+html body .tmrc.g76 .g76k.su{color:#447382}html body .tmrc.g76 .g76k.pe{color:#6f4a2f}
+html body .tmrc.g76 .g76d{font-size:16px;font-weight:600;color:#837666}
+html body .tmrc.g76 .g76tb{border:1px solid #e6ddd2;border-radius:12px;overflow:hidden;background:#fff}
+html body .tmrc.g76 .g76rt{display:flex;align-items:center;gap:8px;padding:9px 12px;background:#f6f1ea;font-size:14px;font-weight:700;color:#1f1813}
+html body .tmrc.g76 .g76rt i{font-style:normal;background:#6f4a2f;color:#fff;border-radius:7px;padding:2px 8px;font-size:13px;font-weight:800}
+html body .tmrc.g76 .g76r{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:baseline;gap:10px;padding:10px 12px;border-top:1px solid #f0e9e0}
+html body .tmrc.g76 .g76rt + .g76r{border-top:0}
+html body .tmrc.g76 .g76r b{font-size:15px;font-weight:800;color:#1f1813;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+html body .tmrc.g76 .g76r span{font-size:13px;font-weight:500;color:#837666;font-variant-numeric:tabular-nums;text-align:right;white-space:normal}
+html body .tmrc.g76 .g76ft{display:flex;justify-content:flex-end;gap:8px}
+html body .tmrc.g76 .g76fb{border:1px solid #c9dde1;background:#fff;color:#2e4f59;border-radius:999px;padding:7px 13px;font-weight:800;font-size:13px}
+html body .tmrc.g76 .g75pr{margin:0 0 0 auto!important}
+html body .tmrc.g76:has(.g76ft) .g75pr{margin-top:-46px!important}
+html body .tmrc.g76 .g76ft .g75pr{margin:0!important}
+html body #sheetbox .g75sh .tmrc.g76 .g76d{display:none}
+html body #sheetbox .g75sh .g76hd .g75tag{font-size:13px;font-weight:700;color:#837666;background:none;padding:0}
+/* 11/26 09:57 대표 「루틴 1 하체 · 힙도 옅어도 될 것 같아 · 위 수업/개인운동과 진하기가 비슷해 겹쳐」 — 루틴 줄 전체를 한 단계 옅게(딱지 = 브라운 테 · 바탕 없음 · 이름 = 부가색) */
+html body .tmrc.g76 .g76rt{font-weight:600!important;color:#837666!important}
+html body .tmrc.g76 .g76rt i{background:none!important;color:#6f4a2f!important;border:1px solid #d8c3a8!important;font-weight:700!important}
+/* 11/26 09:59 g77 지난 기록 작은 카드 — 머리 한 줄 · 왼쪽 몸 그림 · 오른쪽 종목 이름만(진하게) · 숫자 없음 · 누르면 아래 창 */
+html body .tmrc.g77{display:flex;flex-direction:column;gap:8px;cursor:pointer}
+html body .tmrc.g77 .g77hd{display:flex;align-items:baseline;gap:10px}
+html body .tmrc.g77 .g76k{display:inline-flex;align-items:center;gap:6px;font-size:15px;font-weight:800}
+html body .tmrc.g77 .g76k::before{content:"";width:8px;height:8px;border-radius:50%;background:currentColor;align-self:center}
+html body .tmrc.g77 .g76k.su{color:#447382}html body .tmrc.g77 .g76k.pe{color:#6f4a2f}
+html body .tmrc.g77 .g77d{font-size:15px;font-weight:600;color:#837666}
+html body .tmrc.g77 .g77rt{font-size:13px;font-weight:700;color:#837666;border:1px solid #e6ddd2;border-radius:7px;padding:1px 7px}
+html body .tmrc.g77 .g77go{margin-left:auto;font-style:normal;font-size:18px;font-weight:800;color:#6f4a2f}
+html body .tmrc.g77 .g77bd{display:grid;grid-template-columns:118px minmax(0,1fr);gap:14px;align-items:center}
+html body .tmrc.g77 .g77fig{margin:0!important;padding:0!important;max-width:118px}
+html body .tmrc.g77 .g77fig *{max-width:100%}
+html body .tmrc.g77 .g77ex{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+html body .tmrc.g77 .g77ex li{font-size:15px;font-weight:800;color:#1f1813;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+html body .tmrc.g77 .g77ex li.more{font-size:13px;font-weight:600;color:#837666}
+html body .tmrc.g77 .g75pr{margin:2px 0 0 auto!important}
+html body #sheetbox .g77sh{margin-bottom:12px}
+html body #sheetbox .g77pick{display:flex;flex-direction:column;gap:10px;margin:8px 0 12px}
+html body .tmrc.g76 .tmfig:not(:has(svg,img,canvas)){display:none!important}      /* 몸 그림 없는 기록(유산소만)은 빈 칸 숨김 */
+/* 11/26 10:10 종목 한두 개면 휑함 — 기본 = 이름만(세트 글 숨김) · 비교 3안은 body 의 g77A/B/C 로 */
+html body .tmrc.g77 .g77ex li{display:flex;flex-direction:column;gap:2px}
+html body .tmrc.g77 .g77ex li b{font-size:15px;font-weight:800;color:#1f1813;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+html body .tmrc.g77 .g77ex li small{display:none;font-size:13px;font-weight:500;color:#837666}
+html body.g77A .tmrc.g77 .g77bd,html body.g77B .tmrc.g77 .g77bd{grid-template-columns:118px 1px minmax(0,1fr)}
+html body.g77A .tmrc.g77 .g77bd::before,html body.g77B .tmrc.g77 .g77bd::before{content:"";grid-column:2;grid-row:1;align-self:stretch;background:#e6ddd2;margin:6px 0}
+html body.g77A .tmrc.g77 .g77ex,html body.g77B .tmrc.g77 .g77ex{grid-column:3;grid-row:1}
+html body.g77A .tmrc.g77 .g77fig,html body.g77B .tmrc.g77 .g77fig{grid-column:1;grid-row:1}
+html body.g77B .tmrc.g77 .g77ex.few li small{display:block}
+html body.g77C .tmrc.g77 .g77ex{background:#f7f2ec;border-radius:12px;padding:12px 14px;align-self:stretch;justify-content:center}
+html body.g77C .tmrc.g77 .g77ex.few li small{display:block}
+/* 11/26 10:12 대표 고름 A — 몸 그림 | 옅은 세로선 | 종목 이름(이것이 기본) */
+html body .tmrc.g77 .g77bd{grid-template-columns:118px 1px minmax(0,1fr)}
+html body .tmrc.g77 .g77bd::before{content:"";grid-column:2;grid-row:1;align-self:stretch;background:#e6ddd2;margin:6px 0}
+html body .tmrc.g77 .g77ex{grid-column:3;grid-row:1}html body .tmrc.g77 .g77fig{grid-column:1;grid-row:1}
+html body #sheetbox .g77sh .tmrc{cursor:default}
+/* 11/26 10:19 g78 피드백 남기기 화면 — 지난 기록 카드와 같은 톤(흰 카드 · 이름 진하게 · 세트 옅게 · 브라운 테 단추 · 금색 · 그러데이션 없음) */
+html body #main .g78hd{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 10px;margin:2px 0 4px}
+html body #main .g78hd .g76k{display:inline-flex;align-items:center;gap:6px;font-size:16px;font-weight:800}
+html body #main .g78hd .g76k::before{content:"";width:9px;height:9px;border-radius:50%;background:currentColor;align-self:center}
+html body #main .g78hd .g76k.su{color:#447382}html body #main .g78hd .g76k.pe{color:#6f4a2f}
+html body #main .g78hd .g76d{font-size:16px;font-weight:600;color:#837666}
+html body #main .g78hd .g78t{flex-basis:100%;font-size:13px;font-weight:600;color:#837666}
+html body #main .card.rowc.g78{background:#fff!important;background-image:none!important;border:1px solid #e6ddd2!important;box-shadow:none!important;animation:none!important}
+html body #main .card.rowc.g78::before,html body #main .card.rowc.g78::after{display:none!important}
+html body #main .card.rowc.g78 .nm{font-size:15px!important;font-weight:800!important;color:#1f1813!important}
+html body #main .card.rowc.g78 .sm{font-size:13px!important;font-weight:500!important;color:#837666!important}
+html body #main .card.rowc.g78 > .pill{background:#fff!important;border:1px solid #d8c3a8!important;color:#6f4a2f!important;font-weight:800!important;font-size:13px!important;border-radius:999px!important;padding:6px 12px!important;box-shadow:none!important}
+html body #main .card.rowc.g78.done > .pill{border-color:#e6ddd2!important;color:#5d5249!important;font-weight:700!important}
+/* 11/26 10:24 g79 건반 효과 — 열 때 한 번 · 위에서 아래로 0.06초 간격 · 10px 아래서 올라와 2px 살짝 넘었다 제자리 */
+@keyframes g79건반{0%{opacity:0;transform:translateY(10px)}65%{opacity:1;transform:translateY(-2px)}100%{opacity:1;transform:none}}
+html body #main .card.rowc.g78.g79{opacity:0;animation:g79건반 .36s cubic-bezier(.2,.8,.2,1) forwards!important;animation-delay:calc(var(--i, 0) * 45ms)!important}
+@media (prefers-reduced-motion:reduce){html body #main .card.rowc.g78.g79{opacity:1;animation:none!important}}
+/* 11/26 10:33 지난 기록 작은 카드에도 건반 효과(같은 꼴 · 들어올 때마다) */
+html body .tmrc.g77.g79{opacity:0;animation:g79건반 .36s cubic-bezier(.2,.8,.2,1) forwards!important;animation-delay:calc(var(--i, 0) * 45ms)!important}
+@media (prefers-reduced-motion:reduce){html body .tmrc.g77.g79{opacity:1;animation:none!important}}
+
+/* ── 11/26 점검 화면 36개로 넓힌 뒤 나온 것 ── */
+/* 13px 아래 금지 — 운동 끝 요약(종목 · 세트 단위 · 부위 딱지 · 지난 운동 차이) · 지난 기록 고르기 창(갈래 단추 · 종목 설명) */
+html body #main .fnum>small,html body #main .fparts>i{font-size:13px!important}
+html body #main .fend>.fdiff{font-size:13px!important}
+html body #sheetbox .seg>button{font-size:13px!important}
+html body #sheetbox .mt>small,html body #sheetbox .mt>small>i.tpk-tag{font-size:13px!important}
+/* 꺼진 단추도 단추로 — 앞날 · 다음 화살표를 투명하게 지우지 않고 옅은 글색으로 (투명 .75 아래 금지) */
+html body #main .wkhd>button:disabled,html body #main .g19wk>button:disabled{opacity:1!important;color:#d3c7b9!important;cursor:default}
+html body #main .dwkd>button.fut,html body #main .wkd>button.fut,html body .cal2 .cday.fut{opacity:1!important}
+html body #main .dwkd>button.fut *,html body #main .wkd>button.fut *,html body .cal2 .cday.fut{color:#c9bcad!important}
+html body #main .dwkd>button.fut>*:not(.dn),html body #main .wkd>button.fut>*:not(.dn){border-color:#eee6dc!important;box-shadow:none!important}
+/* 금색은 「지금」 하나 (v1 1장) — 옛 톤 금 테 · 금 물빛 걷기 : 「n개 더 보기」 · 켜짐 토글 · 회원 머리 금빛 */
+html body #main .more5{background:#fff!important;border:1px solid #e6d9c8!important;color:#6f4a2f!important}
+html body #main .sw.on{border-color:#6f4a2f!important}
+html body #main .tmhead{background-image:none!important}
+html body #main .dwkd>button.fut svg text{fill:#c9bcad!important}html body #main .dwkd>button.fut svg circle{stroke:#eee6dc!important}
+
+/* g80 세트 단추 A안 (11/26 11:18 대표) — 세트 ＋(진한 테) · 세트 −(옅은 테) │ 종목 삭제(글자 단추) */
+html body .plmenu.g80{background:#fff!important;border:1px solid #d8c3a8!important;box-shadow:0 8px 22px rgba(80,50,20,.16)!important;align-items:center}
+html body .plmenu.g80 button{background:#fff!important;font-size:13.5px!important;font-weight:800!important}
+html body .plmenu.g80 .p{border:1px solid #6f4a2f!important;color:#6f4a2f!important}
+html body .plmenu.g80 .mi{border:1px solid #d8c3a8!important;color:#6f4a2f!important}
+html body .plmenu.g80 .bar{width:1px;height:22px;background:#e0d6ca;margin:0 2px;flex:none}
+html body .plmenu.g80 .del{border:0!important;color:#837666!important;font-weight:700!important;padding:7px 8px!important}
+/* 운동 중 화면(T11 새로 봄) 13px — 일시정지 · ⋯ 더 보기 · 종목 ▾ */
+html body #top button.tm>i,html body #main .pl-hd>button.wrchip,html body #main button.pln>i{font-size:13px!important}
+/* g83 기록 탭 줄 C안 (11/26 12:10 대표 「다 강조되어 보여」) — 진한 것은 이름 하나 · 날짜 · 갈래 · 종목수는 옅게 */
+html body .g11rw.g83rw>button{grid-template-columns:30px 54px 1fr 12px!important;gap:12px!important;padding:10px 12px!important}
+html body .g11rw.g83rw .g11dt b{font-size:16px!important;font-weight:600!important;color:#837666!important}
+html body .g11rw.g83rw .g11dt small{font-size:13px!important;font-weight:500!important;color:#a89a8a!important}
+html body .g83fig{width:54px;height:54px;border-radius:12px;background:#f6f1ea;display:flex;align-items:center;justify-content:center;overflow:hidden}
+html body .g83fig .b2w{display:flex;align-items:center;justify-content:center;width:100%;height:100%}
+html body .g83fig img{max-width:50px;max-height:50px;width:auto;height:auto;object-fit:contain}
+html body .g83mm{display:flex;flex-direction:column;gap:2px;min-width:0}
+html body .g83k{display:inline-flex;align-items:center;gap:5px;font-size:13px;font-weight:700}
+html body .g83k::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+html body .g83k.su{color:#447382}html body .g83k.pe{color:#8a6a4f}
+html body .g11rw.g83rw .g11mm b{font-size:15.5px!important;font-weight:700!important;color:#2b231c!important}
+html body .g11rw.g83rw .g11mm small{font-size:13px!important;font-weight:500!important;color:#9a8c7c!important}
+html body .g11rw.g83rw .g11cv{color:#c9bcad}
+html body #sheetbox .g82sh .g84ft{display:flex;justify-content:flex-end;margin-top:8px}
+/* g85 기록 탭 하루 카드 (11/26 14:31) — 트레이너 작은 카드 꼴 · 두 갈래 표시 A 점 · B 작은 머리 · C + 개인운동 n종목 */
+html body #main .tmrc.g77.g85{background:#fff;border:1px solid #e6ddd2;border-radius:18px;padding:14px;margin-bottom:10px;box-shadow:0 4px 14px -8px rgba(70,45,25,.10)}
+html body .tmrc.g77.g85 .g77hd{flex-wrap:wrap;row-gap:2px}
+html body .tmrc.g77.g85 .g85ex li.su b,html body .tmrc.g77.g85 .g85ex li.pe b{display:flex;align-items:center;gap:7px}
+html body .tmrc.g77.g85 .g85ex li.su b::before,html body .tmrc.g77.g85 .g85ex li.pe b::before{content:"";flex:none;width:6px;height:6px;border-radius:50%;background:#447382}
+html body .tmrc.g77.g85 .g85ex li.pe b::before{background:#a07a5a}
+html body .tmrc.g77.g85 .g85ex li.g85t{font-size:13px;font-weight:700;margin-top:2px}
+html body .tmrc.g77.g85 .g85ex li.g85t.su{color:#447382}html body .tmrc.g77.g85 .g85ex li.g85t.pe{color:#8a6a4f}
+html body .tmrc.g77.g85 .g85ex li.g85t:not(:first-child){margin-top:6px;padding-top:6px;border-top:1px solid #eee6dc}
+html body .tmrc.g77.g85 .g85ex li.g85plus{font-size:13px;font-weight:700;color:#8a6a4f}
+html body #sheetbox .g85sh{display:flex;flex-direction:column;gap:12px}
+html body #main .tmrc.g77.g85{position:relative}
+html body .tmrc.g77.g85 .g77hd{flex-wrap:nowrap;padding-right:18px;white-space:nowrap;overflow:hidden}
+html body .tmrc.g77.g85 .g77go{position:absolute;right:14px;top:14px}
+
+/* g86 A안 (11/26 15:27) — 하루 카드 머리 = 날짜 크게 + 점 갈래 · 두 묶음 · 창 두 칸 · 시작 고르기 */
+html body .tmrc.g77.g86 .g86hd{display:flex;align-items:center;gap:9px;padding-right:18px}
+html body .tmrc.g77.g86 .g86dt{font-size:18px;font-weight:800;color:#1f1813;line-height:1}html body .tmrc.g77.g86 .g86dt small{font-size:13px;font-weight:600;color:#837666;margin-left:3px}
+html body .tmrc.g77.g86 .g76k{font-size:13px;font-weight:700}
+html body .tmrc.g77.g86 .g86ex li.g86gh{font-size:13px;font-weight:700}
+html body .tmrc.g77.g86 .g86ex li.g86gh.su{color:#447382}html body .tmrc.g77.g86 .g86ex li.g86gh.pe{color:#8a6a4f}
+html body .tmrc.g77.g86 .g86ex li.g86ln{font-size:14.5px;font-weight:800;color:#1f1813;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
+html body .tmrc.g77.g86 .g86ex li.g86sep{height:1px;background:#eee6dc;margin:4px 0}
+html body #sheetbox .g86seg{display:flex;background:#f3ede5;border-radius:12px;padding:3px;gap:3px;margin:2px 0 10px}
+html body #sheetbox .g86seg button{flex:1;border:0;background:transparent;font:inherit;font-size:13px;font-weight:800;padding:8px 0;border-radius:9px;color:#837666;cursor:pointer}
+html body #sheetbox .g86seg button.on{background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.08)}html body #sheetbox .g86seg button.on.su{color:#447382}html body #sheetbox .g86seg button.on.pe{color:#8a6a4f}
+html body #sheetbox .g86ops{display:flex;flex-direction:column;gap:8px;margin:6px 0 12px}
+html body #sheetbox .g86op{display:flex;flex-direction:column;gap:2px;text-align:left;border:1px solid #e6ddd2;border-radius:14px;padding:11px 13px;background:#fff;font:inherit;cursor:pointer}
+html body #sheetbox .g86op b{font-size:14.5px;font-weight:800;color:#1f1813}html body #sheetbox .g86op small{font-size:13px;color:#837666}
+html body #sheetbox .g86op.on{border-color:#6f4a2f;box-shadow:0 0 0 1px #6f4a2f inset}
+html body #sheetbox .g86pick .tmrc.g86{background:#fff;border:1px solid #e6ddd2;border-radius:18px;padding:14px;position:relative}
+html body #sheetbox .g86pick .tmrc.g86 .g77go{position:absolute;right:14px;top:14px}
+
+/* g87 트레이너 지난 기록 창 B안 (11/26 15:45) — PT 표 아래 「수업 후 나머지」 작은 표 · 했는지 */
+html body #sheetbox .g87{display:flex;flex-direction:column;gap:6px;margin-top:10px}
+html body #sheetbox .g87hd{display:flex;align-items:center;gap:8px}
+html body #sheetbox .g87hd .g76k{font-size:14px}
+html body #sheetbox .g87hd em{margin-left:auto;font-style:normal;font-size:13px;font-weight:800;color:#837666}
+html body #sheetbox .g87hd em.ok{color:#447382}
+html body #sheetbox .g87tb{border:1px solid #e6ddd2;border-radius:12px;overflow:hidden}
+html body #sheetbox .g87r{display:flex;justify-content:space-between;gap:10px;padding:9px 12px;border-top:1px solid #f0e9e0;font-size:13px}
+html body #sheetbox .g87r:first-child{border-top:0}
+html body #sheetbox .g87r b{font-size:14.5px;font-weight:800;color:#1f1813;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+html body #sheetbox .g87r span{color:#a89a8a;font-weight:600;white-space:nowrap}
+html body #sheetbox .g87r.ok span{color:#447382;font-weight:700}
+
+/* g88 기록 카드 글 진하기 A안 (11/26 16:03) — 1단 수업 · 수업 후 나머지 · 루틴 줄 / 2단 종목(옅게) / 3단 무게 · 횟수(더 옅게) · 몸 그림 가운데 · 누르면 크게 */
+html body .tmrc.g76 .g76hd .g76k{font-size:20px!important;font-weight:900!important}
+html body .tmrc.g76 .g76hd .g76d{font-size:14px!important;font-weight:600!important;color:#8a7c6c!important}
+html body .tmrc.g76 .g76rt{font-size:18px!important;font-weight:900!important;color:#1f1813!important}
+html body .tmrc.g76 .g76rt i{background:#6f4a2f!important;color:#fff!important;border-color:#6f4a2f!important;font-size:14px!important}
+html body .tmrc.g76 .g76r b,html body #sheetbox .g87r b{font-size:15px!important;font-weight:600!important;color:#6b5f55!important}
+html body .tmrc.g76 .g76r span,html body #sheetbox .g87r span{font-size:13px!important;font-weight:400!important;color:#9a8c7c!important}
+html body #sheetbox .g87r.ok span{color:#5f8d99!important}
+html body #sheetbox .g87 .g87hd .g76k.pe{font-size:20px!important;font-weight:900!important}
+html body .tmrc.g76 .tmfig{margin-left:auto!important;margin-right:auto!important;cursor:zoom-in;position:relative}
+html body .tmrc.g76 .tmfig::after{content:"⤢";position:absolute;right:6px;bottom:4px;font-size:13px;font-weight:800;color:#a89a8a}
+html body .tmrc.g76>.tmfig,html body #sheetbox .tmrc.g76>.tmfig{align-self:center!important}
+/* 몸 그림 테두리 = A 판 없음 (11/26 16:11 대표) — 베이지 판 · 흰 네모 두 겹을 걷고 카드 흰 바탕에 그림만 */
+html body .tmrc.g76 .tmfig,html body #sheetbox .tmrc.g76 .tmfig{background:transparent!important;padding:0!important}html body .tmrc.g76 .tmfig img{border-radius:0!important}
+
+/* g89 수업 기록 아래 단추 A안 (11/26 16:43) — 추가 둘 나란히 · 수업 마무리 흰 목록 · 선 아이콘 · 유산소만 청록 */
+html body #main .g89add{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0 4px}
+html body #main .g89a{display:flex;align-items:center;justify-content:center;gap:6px;border:1.5px solid #6f4a2f;background:#fff;color:#6f4a2f;border-radius:14px;padding:12px;font:inherit;font-size:14.5px;font-weight:800;cursor:pointer}
+html body #main .g89a.cd{border-color:#447382;color:#447382}
+html body #main .g89add svg,html body #main .g89list svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+html body #main .g89lb{margin-top:14px}
+html body #main .g89list{background:#fff;border:1px solid #e6ddd2;border-radius:16px;overflow:hidden;margin:6px 0 10px}
+html body #main .g89r{display:grid;grid-template-columns:36px 1fr 12px;gap:10px;align-items:center;width:100%;padding:12px 14px;border:0;border-top:1px solid #f0e9e0;background:#fff;font:inherit;text-align:left;cursor:pointer}
+html body #main .g89r:first-child{border-top:0}
+html body #main .g89i{width:36px;height:36px;border-radius:10px;background:#f3e6d6;color:#6f4a2f;display:grid;place-items:center}
+html body #main .g89t b{display:block;font-size:15px;font-weight:800;color:#1f1813}html body #main .g89t small{display:block;font-size:13px;color:#837666;font-weight:500}
+html body #main .g89r i{font-style:normal;color:#b5a796;font-weight:800}
+html body #main .g89list,html body #main .g89add{flex-shrink:0}
+/* 트레이너 수업 기록 화면(T15 새로 봄) — › 대비 · 시간 재기 · 잠금 13px */
+html body #main .g89r i{color:#8a7c6c!important}
+html body #top span.tmwrap>button.chip{font-size:13px!important}
+html body #foot button.lockb>i{font-size:13px!important;font-style:normal}
+
+/* g91 유산소 추가 창 (11/26 17:01 대표 「정렬 · 개인운동 보내기 · 유산소 색감」) — 청록 하나 · 주 단추 두 줄 가운데 */
+html body #sheetbox .g91go{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:2px!important;background:#447382!important;border-color:#447382!important;color:#fff!important;padding:11px 14px!important;height:auto!important;min-height:58px}
+html body #sheetbox .g91go b{font-size:15.5px;font-weight:800;color:#fff}
+html body #sheetbox .g91go small{display:block!important;font-size:13px!important;font-weight:500!important;color:#e4eff1!important;margin:0!important;opacity:1!important}
+html body #sheetbox:has(.g91h) .chips .chip.on{background:#447382!important;border-color:#447382!important;color:#fff!important}
+html body #sheetbox:has(.g91h) .btn.ghost.go{border-color:#447382!important;color:#447382!important;background:#fff!important}
+html body #sheetbox:has(.g91h) .ctn b{color:#1f1813}
+html body #sheetbox:has(.g91h) .ctn button{color:#447382!important;border-color:#c9dde1!important}
+/* 11/26 18:38 대표 「삐뚤빼뚤」 — 작은 카드 머리(● 갈래 · 날짜 · 루틴 n · ›) 가운데 맞춤 */
+html body .tmrc.g77 .g77hd{align-items:center!important;min-height:28px}
+html body .tmrc.g77 .g77hd>*{line-height:1.2!important;display:inline-flex;align-items:center}
+html body .tmrc.g77 .g77hd .g77rt{line-height:20px!important;height:24px}
+html body .tmrc.g77 .g77hd .g77go{line-height:1!important;align-self:center!important}
+html body .tmrc.g77 .g77hd .g77go{transform:translateY(-2px)}
+
+/* g88 꼴(덧칠로 옮김 · 11/26 g-블록 안 색은 밝은 톤 변환에 바뀜) */
+#g88z{position:fixed;inset:0;z-index:9999;background:rgba(31,24,19,.55);display:flex;align-items:center;justify-content:center;padding:24px max(16px,env(safe-area-inset-left,0px));animation:g88in .18s ease-out}
+#g88z .g88b{background:#fff;border-radius:22px;padding:18px;width:min(92vw,420px);display:flex;justify-content:center;box-shadow:0 18px 40px rgba(0,0,0,.25)}
+#g88z .g88b img,#g88z .g88b svg{width:100%;height:auto;max-height:70vh;object-fit:contain}
+#g88z .g88b *{max-width:100%!important}
+#g88z .rp3mv{display:flex!important;flex-direction:column!important;align-items:center!important;gap:12px!important;width:100%}
+#g88z .rp3mv .b2w{width:100%!important;display:flex;justify-content:center}
+#g88z .rp3mv .b2w img{width:100%!important;max-width:340px!important;height:auto!important}
+#g88z .rp3mv .t{font-size:15px;font-weight:800;text-align:center}#g88z .rp3ch{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+#g88z .g88x{position:absolute;top:max(16px,env(safe-area-inset-top,0px));right:16px;width:40px;height:40px;border-radius:50%;border:0;background:#fff;color:#6f4a2f;font-size:18px;font-weight:800;cursor:pointer}
+@keyframes g88in{from{opacity:0}to{opacity:1}}
+
+/* g90 꼴(덧칠로 옮김 · 11/26 g-블록 안 색은 밝은 톤 변환에 바뀜) */
+html body #main .g44rec .tmrc.g90 .g76top{display:flex;justify-content:flex-end;margin-bottom:-6px}
+html body #main .g90fix{border:1px solid #6f4a2f;background:#6f4a2f;color:#fff;border-radius:999px;padding:6px 15px;font:inherit;font-size:13.5px;font-weight:800;cursor:pointer}
+html body #main .g90none{display:flex;flex-direction:column;gap:3px;padding:14px;border-radius:12px;background:#faf6f1;margin-top:6px}
+html body #main .g90none b{font-size:15px;font-weight:800;color:#5d5249}html body #main .g90none small{font-size:13px;color:#837666}
+
+/* g92 꼴(덧칠로 옮김 · 11/26 g-블록 안 색은 밝은 톤 변환에 바뀜) */
+@keyframes g92테{0%,100%{outline-color:rgba(160,122,90,0);outline-offset:0}50%{outline-color:rgba(160,122,90,.75);outline-offset:2px}}
+@keyframes g92까{0%,100%{transform:rotate(0)}40%{transform:rotate(-14deg)}60%{transform:rotate(8deg)}}
+html body .g92go{outline:2px solid rgba(160,122,90,0);animation:g92테 1.1s ease-in-out 2}
+html body .g92k{display:inline-block;animation:g92까 1.1s ease-in-out 2}
+@media (prefers-reduced-motion:reduce){html body .g92go,html body .g92k{animation:none}}
+
+/* g93 꼴(덧칠로 옮김 · 11/26 g-블록 안 색은 밝은 톤 변환에 바뀜) */
+html body #sheetbox .h2.g93h2{font-size:22px!important;font-weight:900!important;color:#1f1813!important}
+html body #sheetbox .g93hd{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:-2px 0 12px}
+html body #sheetbox .g93last{font-size:13px;font-weight:500;color:#837666;font-variant-numeric:tabular-nums}
+html body #sheetbox .g93prev{border:1.5px solid #cdb79e;background:#fff;color:#6f4a2f;border-radius:999px;padding:6px 12px;font:inherit;font-size:14px;font-weight:700;cursor:pointer;white-space:nowrap}
+html body #sheetbox .g93ok{display:flex;align-items:center;gap:6px;font-size:14px;font-weight:700;color:#447382;margin:0 0 10px}
+html body #sheetbox .g93ok svg,html body #sheetbox .g93bt svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+html body #sheetbox .g93th{display:flex;align-items:center;gap:6px;margin:0 0 12px;overflow-x:auto}
+html body #sheetbox .g93t{position:relative;flex:none;width:52px;height:52px;border-radius:10px;background:#e2d8cc;overflow:visible}
+html body #sheetbox .g93t img{width:52px;height:52px;object-fit:cover;border-radius:10px;display:block}
+html body #sheetbox .g93t.v::after{content:"▶";position:absolute;inset:0;display:grid;place-items:center;color:#fff;font-size:13px}
+html body #sheetbox .g93t em{position:absolute;right:-4px;top:-4px;width:18px;height:18px;border-radius:50%;background:#447382;color:#fff;font-style:normal;font-size:13px;display:grid;place-items:center;line-height:1}
+html body #sheetbox .g93th small{font-size:13px;color:#837666;white-space:nowrap;margin-left:4px}
+html body #sheetbox .g93box{border:1.5px solid #6f4a2f;border-radius:18px;background:#fff;box-shadow:0 0 0 4px rgba(111,74,47,.06);overflow:hidden;margin:0 0 10px}
+html body #sheetbox .g93box textarea{display:block;width:100%;min-height:96px;border:0!important;outline:0;background:#fff!important;padding:14px;font:inherit;font-size:15px;color:#1f1813;resize:vertical;border-radius:0!important;margin:0!important;box-shadow:none!important}
+html body #sheetbox .g93box.g93one textarea{min-height:60px}
+html body #sheetbox .g93bt{display:flex;align-items:center;gap:8px;padding:10px 12px;background:#f7f1ea;border-top:1px solid #ece3d8}
+html body #sheetbox .g93upl{display:flex;border-radius:999px;background:#6f4a2f;position:relative;overflow:hidden;isolation:isolate}
+html body #sheetbox .g93upl button{display:flex;align-items:center;gap:6px;border:0;background:transparent;color:#fff;padding:0 14px;height:40px;font:inherit;font-size:14px;font-weight:800;cursor:pointer;position:relative;z-index:2}
+html body #sheetbox .g93upl button+button{border-left:1px solid rgba(255,255,255,.28)}
+html body #sheetbox .g93go{margin-left:auto;flex:none;white-space:nowrap;border:1.5px solid #e3d8ca;background:#fff;color:#8a7c6c;border-radius:999px;height:40px;padding:0 18px;font:inherit;font-size:15px;font-weight:800;cursor:pointer}
+html body #sheetbox .g93box:has(textarea:not(:placeholder-shown)) .g93go{background:#6f4a2f;border-color:#6f4a2f;color:#fff}
+html body #sheetbox .g93q{display:block;border:0;background:none;padding:2px 2px 10px;font:inherit;font-size:13.5px;font-weight:700;color:#6f4a2f;cursor:pointer}
+html body #sheetbox .g93sent{display:flex;align-items:center;gap:10px;width:100%;border:1.5px solid #cdb79e;background:#fff;border-radius:16px;padding:0 16px;height:54px;margin:0 0 14px;font:inherit;font-size:15px;font-weight:800;color:#1f1813;cursor:pointer}
+html body #sheetbox .g93sent em{font-style:normal;font-size:13px;font-weight:800;background:#f4ece3;color:#6f4a2f;border-radius:999px;padding:1px 8px}
+html body #sheetbox .g93sent i{margin-left:auto;font-style:normal;font-size:14px;font-weight:700;color:#6f4a2f}
+html body #sheetbox .g93close{margin-top:0}
+html body #sheetbox .g93del{display:block;margin:10px auto 0;border:0;background:none;font:inherit;font-size:13.5px;font-weight:600;color:#837666;cursor:pointer}
+@media (prefers-reduced-motion:reduce){}
+html body #sheetbox .h2.g93h2 small{display:block;margin-top:4px;font-size:13px!important;font-weight:500!important;color:#837666!important}
+
+/* g94 종목 고르기 v3.2 (11/26 19:01) — 글 3단 · 금색 없음 · ＋ 흰 원 · 딱지는 그림 보기(바둑판 · 크게)에만 */
+html body #main .pkparts button,html body #main .pkview button,html body #main .pkmini button{border:1.5px solid #cdb79e!important;background:#fff!important;color:#6f4a2f!important;font-weight:700!important;box-shadow:none!important}
+html body #main .pkparts button.on,html body #main .pkview button.on{background:#6f4a2f!important;border-color:#6f4a2f!important;color:#fff!important;font-weight:800!important}
+html body #main .pkview{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
+html body #main .pkview span{font-size:13px;color:#837666;font-weight:600}
+html body #main .megrp.pkg>button.mrow2{position:relative}
+html body #main .megrp.pkg>button.mrow2 .pkim{position:relative}
+html body #main .megrp.pkg>button.mrow2 .mt b{font-size:15px!important;font-weight:800!important;color:#1f1813!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
+html body #main .megrp.pkg>button.mrow2 .mt small{font-size:13px!important;font-weight:500!important;color:#837666!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
+html body #main .megrp.pkg .g94tg{position:absolute;left:6px;bottom:6px;z-index:2;border-radius:6px;padding:0 6px;font-size:13px;font-weight:700;line-height:20px;white-space:nowrap;background:#f4ece3;color:#6f4a2f;box-shadow:0 1px 2px rgba(0,0,0,.08)}
+html body #main .megrp.pkg .g94tg.mm{background:#f1eeea;color:#5d5249}
+html body #main .megrp.pkg .g94tg.cd{background:#e4eff1;color:#447382}
+html[data-pkv="list"] body #main .megrp.pkg .g94tg{display:none}
+html body #main .megrp.pkg .pkstar{position:absolute!important;left:6px!important;top:6px!important;z-index:3;width:24px!important;height:24px!important;border-radius:50%!important;background:#fff!important;color:#c9bcad!important;display:grid!important;place-items:center!important;font-size:13px!important;box-shadow:0 1px 3px rgba(0,0,0,.12)!important;border:0!important}
+html body #main .megrp.pkg .pkstar.on{color:#6f4a2f!important}
+html body #main .megrp.pkg .pkadd{width:34px!important;height:34px!important;border-radius:50%!important;background:#fff!important;border:1.5px solid #cdb79e!important;color:#6f4a2f!important;display:grid!important;place-items:center!important;font-style:normal!important;font-size:18px!important;font-weight:600!important;box-shadow:none!important}
+html body #main .megrp.pkg>button.mrow2.g94cd .pkadd{border-color:#c9dde1!important;color:#447382!important}
+html[data-pkv="list"] body #main .megrp.pkg>button.mrow2{padding-left:48px!important}
+html[data-pkv="list"] body #main .megrp.pkg .pkstar{left:12px!important;top:50%!important;transform:translateY(-50%)!important}
+html body #main .megrp.pkg .pkstar{color:#a89a8a!important}html body #main .megrp.pkg .pkstar.on{color:#6f4a2f!important}
+html body #main .pkmini button{font-size:13px!important}
+html body #main .megrp.pkg .pkstar{color:#8a7c6c!important}html body #main .megrp.pkg .pkstar.on{color:#6f4a2f!important}
+
+/* g95 종목 고르기 위쪽 = v3 (11/26 19:16) — 도구 한 줄 · 보기 아이콘 늘 보임 · 순서 · 기구는 아래 창 */
+html body #main>*{flex-shrink:0}
+html body #main .pkmini,html body #main .pkview{display:none!important}
+html body #main .g95tools{display:flex;align-items:center;gap:6px;margin:8px 0 10px;overflow-x:auto;scrollbar-width:none}
+html body #main .g95tools::-webkit-scrollbar{display:none}
+html body #main .g95b{flex:none;border:1.5px solid #cdb79e;background:#fff;color:#6f4a2f;border-radius:999px;padding:6px 11px;font:inherit;font-size:13.5px;font-weight:700;white-space:nowrap;cursor:pointer}
+html body #main .g95b.on{background:#6f4a2f;border-color:#6f4a2f;color:#fff}
+html body #main .g95sp{flex:1;min-width:4px}
+html body #main .g95v{flex:none;display:flex;border:1.5px solid #cdb79e;border-radius:999px;overflow:hidden;background:#fff}
+html body #main .g95v button{width:36px;height:32px;display:grid;place-items:center;border:0;background:#fff;color:#837666;cursor:pointer}
+html body #main .g95v button+button{border-left:1px solid #eee6dc}
+html body #main .g95v button.on{background:#6f4a2f;color:#fff}
+html body #main .g95v svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+html body #sheetbox .g95lb{font-size:13px;font-weight:700;color:#837666;margin:4px 0 6px}
+html body #sheetbox .g95ops{display:flex;flex-direction:column;gap:8px;margin:0 0 12px}
+html body #sheetbox .g95ops.g95wrap{flex-direction:row;flex-wrap:wrap}
+html body #sheetbox .g95op{border:1.5px solid #cdb79e;background:#fff;color:#6f4a2f;border-radius:14px;padding:12px 14px;font:inherit;font-size:15px;font-weight:700;text-align:left;cursor:pointer}
+html body #sheetbox .g95wrap .g95op{border-radius:999px;padding:8px 14px;font-size:14px}
+html body #sheetbox .g95op.on{background:#6f4a2f;border-color:#6f4a2f;color:#fff;font-weight:800}
+/* 검색창 효과 I 가 안 보이던 것(11/26 19:20 대표 「어디에도 안 나와」) — 다른 꼴이 outline 을 꺼서 · 선 꼴을 강제로 켬 + 더 진하게 */
+html body input.g92go,html body #main input.g92go,html body #sheetbox input.g92go{outline-style:solid!important;outline-width:2.5px!important;animation:g92테 1.1s ease-in-out 2!important}
+@keyframes g92테{0%,100%{outline-color:rgba(111,74,47,0);outline-offset:0}50%{outline-color:rgba(111,74,47,.85);outline-offset:3px}}
+
+/* g96 유산소 종류 한 줄 옆으로 밀기 + 오른쪽 › (11/26 19:20) */
+html body #sheetbox .g96sc{position:relative;margin:0 0 8px}
+html body #sheetbox .g96row{display:flex!important;flex-wrap:nowrap!important;overflow-x:auto!important;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-right:40px;margin:0!important;touch-action:pan-x}
+html body #sheetbox .g96row::-webkit-scrollbar{display:none}
+html body #sheetbox .g96row .chip{flex:none;scroll-snap-align:start}
+html body #sheetbox .g96sc::after{content:"";position:absolute;right:0;top:0;bottom:0;width:56px;pointer-events:none;background:linear-gradient(90deg,rgba(255,255,255,0),#fff 70%)}
+html body #sheetbox .g96ar{position:absolute;right:2px;top:50%;transform:translateY(-50%);z-index:2;width:26px;height:26px;border-radius:50%;background:#fff;border:1.5px solid #c9dde1;color:#447382;display:grid;place-items:center;font-style:normal;font-size:16px;font-weight:800;pointer-events:none;transition:opacity .2s}
+html body #sheetbox .g96sc.end::after,html body #sheetbox .g96sc.end .g96ar{opacity:0}
 </style></head>
 <body>
 <div class="pwabar" id="pwabar"></div>
@@ -6456,7 +6805,7 @@ function weekStrip(mid){
     <div class="wkhd">
       <button data-act="dmove:-1">‹</button>
       <button class="d" data-act="dcal">${dowTxt(sel)} <span class="cvv">▾</span></button>
-      <button data-act="dmove:1" ${sel>=TODAY?'style="opacity:.3"':''}>›</button>
+      <button data-act="dmove:1" ${sel>=TODAY?'disabled':''}>›</button>
     </div>
     ${주간줄(wk, sel, 'dpick', d => ({ has: dayStat(mid,d).ws.some(세트있나) }))}
     ${(()=>{ const 한것 = st.ws.filter(세트있나), 수업 = 한것.filter(w=>w.kind==='수업').length, 개인 = 한것.length - 수업;
@@ -8030,7 +8379,9 @@ function vStart733(){ const ws = lastRealWorkouts();
   const 칸 = (k, act, tt, dd, c1, c2) => `<button class="hero2 half wide2 ${사진있나(k)}" data-act="${act}" style="${사진꾸밈(k, c1, c2)};min-height:122px"><span class="tt">${tt}</span><span class="dd">${dd}</span></button>`;
   return { notabs: true, top: bar('운동 시작', `<span class="sub">${dateTxt(TODAY)}</span>`, 'go:home'), body: `<div class="home2 st3">
     ${(x => 칸('routines', 'go:routines', '내 루틴표로 시작', x ? (x.지정 ? '트레이너 지정' : '오늘 추천') + ' · 루틴 ' + x.r.no + ' ' + esc(x.r.n) : '트레이너가 정한 루틴 · 지난번에 한 부위도 여기서', '#33304a', '#131217').replace('hero2 half wide2', 'hero2 half wide2' + (x ? ' ggpulse' : '')))(오늘추천(S.mid))}
-    ${칸('again', ws[0] ? 'myrecs' : 'noprev', '지난 기록으로 시작', ws[0] ? dateTxt(ws[0].date) + ' 그대로 다시' : '한 번 하고 나면 여기서', '#3a2a20', '#15110d')}
+    ${(() => { const 루없 = !오늘추천(S.mid) && !myRoutines(S.mid).length, 수 = ws.find(w => w.kind === '수업');
+      if(루없 && 수) return 칸('again', 'again:' + 수.id, '지난 수업 그대로 시작', dateTxt(수.date) + ' 수업' + (rOf(수.rid) ? ' · 루틴 ' + rOf(수.rid).no : '') + ' · 무게 그대로', '#3a2a20', '#15110d').replace('hero2 half wide2', 'hero2 half wide2 ggpulse');      /* 루틴표 없음 → 지난 수업 카드에 광택 · 누르면 그 수업 그대로 */
+      return 칸('again', ws[0] ? 'myrecs' : 'noprev', '지난 기록으로 시작', ws[0] ? dateTxt(ws[0].date) + ' 그대로 다시' : '한 번 하고 나면 여기서', '#3a2a20', '#15110d'); })()}
     ${칸('pickex', 'empty', '자유 선택', '원하는 종목을 골라서', '#4a3b1c', '#17130b')}
     ${칸('cardio', 'cardio', '유산소만 하기', '런닝머신 · 사이클 · 천국의계단 · 야외', '#20403a', '#0e1513')}</div>` }; }
 function 지난운동띠(mid){ const w = lastRealWorkouts()[0]; if(!w) return '';
@@ -9002,7 +9353,8 @@ function 몸판그리기(){ document.querySelectorAll('.bpad').forEach(b => { co
 const 붓줄다시 = () => document.querySelectorAll('.btools').forEach(e => { e.outerHTML = 붓줄(e.dataset.w); });
 /* ══ 유산소 넣어주기 ══ 2026-10-24 대표 시안 확정 — 트레이너가 수업 기록에 넣으면 회원 홈에 「유산소가 들어왔어요」(그날 밤까지) → 바로 시작 → 마치면 그 수업 기록에 「✓ 유산소 n분」
    강도: 런닝머신 · 마이마운틴 = 속도 + 경사(최대 20 · 50) / 사이클 · 천국의계단 = 속도(레벨) · 시간 · 강도는 − 숫자 + 카운터 */
-const 유넣기기구 = () => [...new Set(['tm', 'cyc', 'cd07'].map(exOf).concat([EX.find(x => x.cardio && /마이마운틴/.test(x.n))]).filter(e => e && e.cardio))];      /* 센터 기구 넷 — 런닝머신 · 사이클 · 천국의계단 · 마이마운틴 */
+const 유넣기기구 = () => [...new Set(['tm', 'cyc', 'cd07'].map(exOf).concat([EX.find(x => x.cardio && /마이마운틴/.test(x.n))]).concat(['cd30', 'cd31', 'cd11', 'cd20'].map(exOf)).filter(e => e && e.cardio))];      /* 11/26 19:20 + 기구 없이 하는 넷 */
+const 유맨몸 = id => ['cd30', 'cd31', 'cd11', 'cd20'].includes(id);      /* 센터 기구 넷 — 런닝머신 · 사이클 · 천국의계단 · 마이마운틴 */
 const 팁of = wid => (D.ctips || []).filter(t => t.workout_id === wid);
 const 계단인가 = id => id === 'cd07' || /천국/.test((exOf(id) || {}).n || '');      /* 천국의계단 = 목표 걸음 (2026-11-03) */
 const 팁강도 = t => { const e = exOf(t.ex_id) || {}, 속 = 경사최대(t.ex_id) || /천국/.test(e.n || '') ? '속도' : '레벨';
@@ -9013,8 +9365,8 @@ function 팁줄들(wid){ const ts = 팁of(wid); if(!ts.length) return '';
   return `<div class="ctips">${ts.map(t => `<div class="ctip"><span class="hl" style="background:#b9b1a2">추가한 유산소</span><span>${팁글(t)}</span>${팁결과(t)}${S.who === 'tr' && !t.done_at && t.on_date === TODAY ? `<button class="ctx" data-act="ctipdel:${t.id}" aria-label="삭제">✕</button>` : ''}</div>`).join('')}</div>`; }
 /* 수업 중 「종목 추가」로 유산소를 고르면 — 지금 수업에서 할지 · 개인운동으로 줄지 (2026-10-30 대표 「수업할 때 유산소는 개인운동으로 줄 수 있는데 선택하게 · 개인운동이면 회원 앱에 유산소 운동하기」) */
 function 유산소어디(ex, va){ const n = exName(ex, va);
-  openSheet(() => `<div class="h2">${esc(n)} <small>언제 할까요?</small></div>
-    <button class="btn blue go" data-act="ctgive:${ex}">개인운동 주기 <small>회원 앱에 오늘 23:59까지 떠요</small></button>
+  openSheet(() => `<div class="h2 g91h">${esc(n)} <small>언제 할까요?</small></div>
+    <button class="btn blue go g91go" data-act="ctgive:${ex}"><b>개인운동 보내기</b><small>회원 앱에 오늘 23:59까지 떠요</small></button>
     <button class="btn ghost go" data-act="add:${ex}:${va}:now">지금 하기</button>
     <button class="btn ghost sm" data-act="close">닫기</button>`); }
 function sheetCtip(){ const w0 = live(), 지정만 = S.ct && S.ct.mid && (!w0 || S.ct.noLive), w = 지정만 ? { mid:S.ct.mid, id:null } : w0; if(!w) return;      /* 지정만 = 개인운동 지정 화면에서 (수업 없이) */
@@ -9022,10 +9374,10 @@ function sheetCtip(){ const w0 = live(), 지정만 = S.ct && S.ct.mid && (!w0 ||
   openSheet(() => { const c = S.ct, e = exOf(c.ex) || {}, 경 = 경사최대(c.ex), 속이름 = 경 || /천국/.test(e.n || '') ? '속도' : '레벨';      /* 그릴 때마다 지금 기구로 다시 센다 */
     if(c.spd == null) c.spd = 경 ? 5.5 : 6;
     const 셈 = (k, 이름, 값, 단위) => `<div class="ctc"><span class="lb">${이름}</span><div class="ctn"><button data-act="ctd:${k}:-1" aria-label="${이름} 줄이기">−</button><b>${값}<small>${단위}</small></b><button data-act="ctd:${k}:1" aria-label="${이름} 늘리기">＋</button></div></div>`;
-    return `<div class="h2">유산소 추가 <small>언제 할까요?</small></div>
-    <span class="lbl">종류</span><div class="chips">${다.map(x => `<button class="chip ${x.id === c.ex ? 'on' : ''}" data-act="ctex:${x.id}">${esc(유이름(x))}</button>`).join('')}</div>
-    ${셈('min', '시간', c.min, '분')}${셈('spd', 속이름, kgfmt(c.spd), 경 ? 'km/h' : '')}${경 ? 셈('inc', '경사', kgfmt(c.inc), '') : ''}${계단인가(c.ex) ? 셈('stp', '목표 걸음', c.stp ? (+c.stp).toLocaleString() : '안 정함', c.stp ? '걸음' : '') : ''}
-    <button class="btn blue go" data-act="ctsave">개인운동 주기 <small>회원 앱에 오늘 23:59까지 떠요</small></button>
+    return `<div class="h2 g91h">유산소 추가 <small>언제 할까요?</small></div>
+    <span class="lbl">종류</span><div class="g96sc"><div class="chips g96row">${다.map(x => `<button class="chip ${x.id === c.ex ? 'on' : ''}" data-act="ctex:${x.id}">${esc(유이름(x))}</button>`).join('')}</div><i class="g96ar" aria-hidden="true">›</i></div>
+    ${셈('min', '시간', c.min, '분')}${유맨몸(c.ex) ? '' : 셈('spd', 속이름, kgfmt(c.spd), 경 ? 'km/h' : '')}${경 ? 셈('inc', '경사', kgfmt(c.inc), '') : ''}${계단인가(c.ex) ? 셈('stp', '목표 걸음', c.stp ? (+c.stp).toLocaleString() : '안 정함', c.stp ? '걸음' : '') : ''}
+    <button class="btn blue go g91go" data-act="ctsave"><b>개인운동 보내기</b><small>회원 앱에 오늘 23:59까지 떠요</small></button>
     ${지정만 ? '' : `<button class="btn ghost go" data-act="add:${c.ex}:${(vars(c.ex)[0] || {}).k || 'a'}:now">지금 하기</button>`}
     <button class="btn ghost sm" data-act="close">닫기</button>`; }); }      /* 「＋ 유산소 추가」도 개인운동 / 수업 중을 고른다 (2026-11-01 대표) */
 /* 수업에서 회원에게 넣은 것 — 유산소(초록) · 나머지 운동(금색) · ✕ 취소 · 새로 넣은 것은 애니메이션 (2026-11-03 대표 「추가됐다는 걸 인지할 수 있게」) */
@@ -9176,7 +9528,7 @@ function 플래너화면(w){
     if(o.it.rm || o.it.rmPlan) return 일알엠(o);
     if(isMemo(o.it.ex)) return `<div class="plr">${이름(o)}<button class="plm" data-act="${tr ? 'exd:memo:' + esc(o.it.va) + ':' + wmid : 'plfocus:' + o.i}">${tr ? '메모 · 눌러서 피드백으로 남기기 ›' : '메모 종목 ›'}${o.it.part ? ' <small>' + esc(o.it.part) + '</small>' : ''}</button></div>`;
     const n = 표n, 칸들 = [...Array(n)].map((_, j) => 칸(o, j, 'kg', false)).join('') + [...Array(n)].map((_, j) => 칸(o, j, 'reps', j === 0)).join('');
-    return `<div class="plr pl3">${이름(o)}<div class="plcs${n > 4 ? ' wide' : ''}"><div class="plg" style="--n:${n}">${칸들}</div></div><button class="pladd${S.plMenu === o.i ? ' on' : ''}" data-act="plmenu:${o.i}" aria-label="세트 추가 · 종목 삭제">⋯</button>${S.plMenu === o.i ? `<div class="plmenu"><button class="sub" data-act="pldel:${o.i}">종목 삭제</button><button data-act="pladd:${o.i}">세트 추가</button>${o.it.sets.length > 1 ? `<button class="sub" data-act="plsdel:${o.i}">추가 세트 삭제</button>` : ''}</div>` : ''}</div>`; };      /* 대표 15:46 · 15:47 — 줄 끝 ⋯ → 종목 삭제 · 세트 추가 · 추가 세트 삭제(맨 오른쪽) · 「제거」는 앱 낱말 규칙대로 「삭제」 */
+    return `<div class="plr pl3">${이름(o)}<div class="plcs${n > 4 ? ' wide' : ''}"><div class="plg" style="--n:${n}">${칸들}</div></div><button class="pladd${S.plMenu === o.i ? ' on' : ''}" data-act="plmenu:${o.i}" aria-label="세트 추가 · 종목 삭제">⋯</button>${S.plMenu === o.i ? `<div class="plmenu g80"><button class="p" data-act="pladd:${o.i}">세트 ＋</button>${o.it.sets.length > 1 ? `<button class="mi" data-act="plsdel:${o.i}">세트 −</button>` : ''}<i class="bar"></i><button class="del" data-act="pldel:${o.i}">종목 삭제</button></div>` : ''}</div>`; };      /* 대표 15:46 · 15:47 — 줄 끝 ⋯ → 종목 삭제 · 세트 추가 · 추가 세트 삭제(맨 오른쪽) · 「제거」는 앱 낱말 규칙대로 「삭제」 */
   const 경칸L = 유.some(o => 경사최대(o.it.ex));
   const 유행 = o => { const x = o.it.sets[0] || {}; return `<button class="plr plca${경칸L ? ' g3' : ''}" data-act="plfocus:${o.i}"><span class="pln"><span class="hl" style="background:#b9b1a2">${esc(exName(o.it.ex, o.it.va))}</span></span><span>${x.reps ? x.reps + '분' : '—'}</span><span>${x.spd ? x.spd + 'km/h' : '—'}</span>${경칸L ? `<span>${경사최대(o.it.ex) && x.kg != null && x.kg !== '' ? x.kg : '—'}</span>` : ''}</button>`; };
   const 채움 = w.items.some(it => !(exOf(it.ex) || {}).cardio && it.sets.some(x => x.reps > 0 || x.kg > 0));
@@ -9192,12 +9544,10 @@ function 플래너화면(w){
     <div class="pltb">${알엠만 ? 알엠머리 : `<div class="plr plh pl3h"><button class="pln plall" data-act="plall" title="오늘 루틴 한눈에">운동 명칭 <i>▾</i></button><div class="plcs${표n > 4 ? ' wide' : ''}"><div class="plg" style="--n:${표n}"><span class="plhh" style="grid-column:span ${표n}">무게(kg)</span><span class="plhh r1" style="grid-column:span ${표n}">반복수</span></div></div></div>`}
       ${근.map(행).join('')}
       ${tr && !알엠만 ? `<div class="plr pl3 plnew"><span class="pln"><input class="plnewin" data-k="plnewin" enterkeyhint="done" autocomplete="off" placeholder="＋ 종목" aria-label="종목 이름 쓰고 Enter"></span><div class="plcs${표n > 4 ? ' wide' : ''}"><div class="plg" style="--n:${표n}">${'<span class="plc nil"></span>'.repeat(표n * 2)}</div></div><span></span></div>` : ''}</div>
-    ${tr ? '<button class="pl-add" data-act="go:pick">＋ 웨이트 종목 추가</button>' : ''}
-    ${수업 && tr ? `<button class="zbtn zrest" data-act="rtrest"><span class="e">📋</span><span>나머지 운동 지정하기<small>오늘 루틴에서 · 검색해서 추가</small></span></button>` : ''}
+    ${tr ? `<div class="g89add"><button class="g89a" data-act="go:pick"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>웨이트</button><button class="g89a cd" data-act="plcardio"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>유산소</button></div>` : ''}
     ${유.length ? `<div class="pltb plcard"><div class="plr plca plh${경칸L ? ' g3' : ''}"><span class="pln">유산소</span><span>시간</span><span>속도</span>${경칸L ? '<span>경사</span>' : ''}</div>${유.map(유행).join('')}</div>` : ''}
-    ${tr ? '<button class="zbtn zcar" data-act="plcardio"><span class="e">🏃</span><span>유산소 운동 추가<small>종목 · 시간 · 속도 · 경사</small></span></button>' : ''}
+    ${tr ? `${수업 ? '<span class="lbl g89lb">수업 마무리</span>' : ''}<div class="g89list">${수업 ? `<button class="g89r" data-act="rtrest"><span class="g89i"><svg viewBox="0 0 24 24"><rect x="6" y="4" width="12" height="17" rx="2"/><path d="M9 9h6M9 13h6M9 17h3"/></svg></span><span class="g89t"><b>나머지 운동 지정</b><small>오늘 루틴에서 · 검색해서 추가</small></span><i>›</i></button>` : ''}<button class="g89r" data-act="bulkopen:${w.id}"><span class="g89i"><svg viewBox="0 0 24 24"><path d="M12 16V5M7.5 9.5 12 5l4.5 4.5"/><path d="M5 15v3a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-3"/></svg></span><span class="g89t"><b>피드백 몰아서 올리기</b><small>사진 · 영상 여러 개 → 종목마다</small></span><i>›</i></button></div>` : ''}
     ${수업 && tr ? 지정카드들(w.id) : ''}
-    ${tr ? `<button class="mu-go" data-act="bulkopen:${w.id}"><span class="e">📤</span><span>피드백 몰아서 올리기<small>사진 · 영상 여러 개 → 종목마다 붙이기</small></span></button>` : ''}
     ${수업 && tr ? `<span class="lbl">수업 메모 <small style="font-weight:600">이 수업에만 · 지난 수업 기록 맨 아래에 보여요</small></span><textarea class="pl-memo" data-k="wmemo" placeholder="오늘 컨디션 · 다음 수업에 할 것">${esc(w.trmemo || '')}</textarea>` : ''}
     ${tr ? '<button class="dngr" data-act="askcancel">기록 삭제</button>' : ''}`,
     foot: (tr || w.lock) ? 발판(w) : `<button class="btn sub ic" data-act="pladdsheet"><b class="pl">＋</b>운동 추가</button><button class="btn finx" data-act="askfin" style="flex:1.4">운동 마치기</button>` };
@@ -9384,7 +9734,7 @@ function sheetExDesc(exid, vk, mid){
     const vs=vars(exid), v=varOf(exid,vk), dsc=descOf(mid,exid,vk), cms=cmOf(mid,exid,vk), tr=(S.who==='tr');
     const editing = S.editDesc===exid+'|'+vk;
     const K = exid+'|'+vk;
-    const head = `<div class="h2">${esc(e.n)}${v.n?` <small>${esc(v.n)}</small>`:''}</div>
+    const head = `<div class="h2${tr ? ' g93h2' : ''}">${esc(e.n)}${v.n?` <small>${esc(v.n)}</small>`:''}</div>
       ${vs.length>1?`<div class="chips">${vs.map(x=>`<button class="chip ${x.k===vk?'on':''}" data-act="exd:${exid}:${x.k}${mid!==S.mid?':'+mid:''}">${esc(벌이름(exid, x))}${cmOf(mid,exid,x.k).filter(c=>!c.read).length?' •':''}</button>`).join('')}</div>`:''}`;
     if(editing) return head + `
       <span class="lbl">기본 설명 수정</span>
@@ -9398,19 +9748,17 @@ function sheetExDesc(exid, vk, mid){
       ${askOf(mid, exid, vk).length?`<div class="note" style="border-color:#e8b04b">
         <b style="color:#6f4a2f">회원이 이 종목 피드백을 요청했습니다</b>
         <div>${esc(askOf(mid, exid, vk)[0].note||'따로 입력한 말은 없습니다.')}</div></div>`:''}
-      ${지 ? `<div class="pl-prev">지난번 ${esc(dateTxt(지.date))} · ${지.sets.map(x => (x.kg ? kgfmt(x.kg) + '×' : '') + x.reps).join(' · ')}</div>` : ''}
-      <div class="attbig">
-        <button data-act="attask:pic:${K}"><span class="ic">📷</span>사진 올리기</button>
-        <button data-act="attask:vid:${K}"><span class="ic">🎬</span>영상 올리기</button></div>
-      ${붙 ? `<div class="attlbl">🎬 올린 사진 · 영상 ${붙}개가 붙어 있어요</div>` : ''}${붙인것(K)}
-      <textarea data-k="cm:${K}" placeholder="${esc(e.n)} 피드백을 입력해 주세요${붙 ? ' (비워 두면 사진 · 영상만 가요)' : ''}"></textarea>
-      <button class="fbq" data-act="jfopen:${esc(exid)}:${esc(K)}"><i>💬</i>지난 피드백 인용하기${인 != null ? ' (' + 인 + '개)' : ''}<em>›</em></button>
-      <button class="btn main" data-act="sendcm:${exid}:${vk}:${mid}">${S.보내는중?'보내는 중…':'보내기'}</button>
-      ${레 ? `<div class="pl-small"><button class="btn ghost sm" data-act="trio:prev">직전 기록</button><button class="btn ghost sm" data-act="plsadd:${S.plIdx}">＋ 세트 추가</button><button class="btn ghost sm" data-act="wdel:${S.plIdx}">종목 삭제</button></div>` : ''}
-      <div class="hr"></div>
-      <button class="fbsent" data-act="cmlist:${esc(K)}">보낸 피드백 ${cms.length}개 <i>${S.cmList === K ? '▴' : '▾'}</i></button>
+      ${(지 || 레) ? `<div class="g93hd">${지 ? `<span class="g93last">지난번 ${esc(dateTxt(지.date))}${(() => { const k = Math.max(0, ...지.sets.map(x => +x.kg || 0)), 분 = (exOf(exid) || {}).cardio ? 지.sets.reduce((a, x) => a + (+x.reps || 0), 0) : 0; return k ? ' · ' + kgfmt(k) + 'kg' : 분 ? ' · ' + 분 + '분' : ''; })()}</span>` : '<span></span>'}${레 ? '<button class="g93prev" data-act="trio:prev">직전 기록 ›</button>' : ''}</div>` : ''}
+      ${S.g93done === K ? '<div class="g93ok"><svg viewBox="0 0 24 24"><path d="m5 12 4 4 10-10"/></svg>올렸어요 · 회원 앱 피드백에 보여요</div>' : ''}
+      ${(() => { const ms = cms.flatMap(c => (c.media || []).map(m => m)).slice(-6).reverse(); return ms.length ? `<div class="g93th">${ms.map((m, i) => `<span class="g93t${m.kind === 'video' ? ' v' : ''}">${m.kind === 'video' ? '' : `<img src="${esc(phURL(m.path))}" alt="" loading="lazy" onerror="picFail(this)">`}${i === 0 && S.g93done === K ? '<em>✓</em>' : ''}</span>`).join('')}<small>이 종목에 올린 것</small></div>` : ''; })()}
+      ${붙 ? 붙인것(K) : ''}
+      <div class="g93box"><textarea data-k="cm:${K}" placeholder="${esc(e.n)} 피드백 — 자세 · 무게 · 다음에 할 것"></textarea>
+        <div class="g93bt"><span class="g93upl"><button data-act="attask:pic:${K}"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2"/><circle cx="12" cy="12.5" r="3.2"/><path d="M8 6l1.5-2h5L16 6"/></svg>사진</button><button data-act="attask:vid:${K}"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="13" height="12" rx="2"/><path d="m16 10 5-3v10l-5-3"/></svg>영상</button></span><button class="g93go" data-act="sendcm:${exid}:${vk}:${mid}">${S.보내는중?'보내는 중…':'보내기'}</button></div></div>
+      <button class="g93q" data-act="jfopen:${esc(exid)}:${esc(K)}">지난 피드백에서 인용${인 != null ? ' · ' + 인 + '개' : ''} ›</button>
+      <button class="g93sent" data-act="cmlist:${esc(K)}">보낸 피드백 <em>${cms.length}</em><i>${S.cmList === K ? '접기 ▴' : '펼치기 ▾'}</i></button>
       ${S.cmList === K ? 피드백회차(cms, K, true) : ''}
-      <button class="btn ghost sm" data-act="close">닫기</button>`;      /* 기본 설명은 「기구 사용법」 창으로 옮겼다 (2026-10-19) */ }
+      <button class="btn ghost g93close" data-act="close">닫기</button>
+      ${레 ? `<button class="g93del" data-act="wdel:${S.plIdx}">종목 삭제</button>` : ''}`;      /* 기본 설명은 「기구 사용법」 창으로 옮겼다 (2026-10-19) */ }
     /* 피드백 창은 어디서 열든 트레이너 피드백만 — 기본 설명 · 시범은 「기구 사용법」 창 (2026-10-19 대표 · 10/09 은 피드백 탭에서만 뺐었다) */
     return head + `
       <span class="lbl">피드백 ${cms.length?`${cms.length}개`:''}</span>
@@ -10443,7 +10791,7 @@ function fbStrip(mid){
     <div class="wkhd">
       <button data-act="fbmove:-1">‹</button>
       <button class="d" data-act="fbcal">${dowTxt(sel)} <span style="color:#6f4a2f;font-size:12px">▾</span></button>
-      <button data-act="fbmove:1" ${sel>=TODAY?'style="opacity:.3"':''}>›</button>
+      <button data-act="fbmove:1" ${sel>=TODAY?'disabled':''}>›</button>
     </div>
     ${주간줄(wk, sel, 'fbd', d => { const n = cmOnDay(mid,d).length; return { has: n > 0, n }; })}
   </div>`;
@@ -11194,7 +11542,7 @@ function dietStrip(mid, 곡선만){
     <div class="wkhd">
       <button data-act="dmove2:-1">‹</button>
       <button class="d" data-act="dcal2">${dowTxt(sel)} <span class="cvv">▾</span></button>
-      <button data-act="dmove2:1" ${sel>=TODAY?'style="opacity:.3"':''}>›</button>
+      <button data-act="dmove2:1" ${sel>=TODAY?'disabled':''}>›</button>
     </div>
     <div class="dwkd">${날들.map((t,i)=>`<button data-act="dday:${t.d}" class="${t.d===sel?'sel':''} ${t.d>TODAY?'fut':''}">
         <span class="dn ${i===0?'sun':''} ${t.d===TODAY?'tdy':''}">${t.d===TODAY ? '오늘' : DOW[i]}</span>${고리(t, t.d===sel)}</button>`).join('')}</div>
@@ -15135,7 +15483,7 @@ function tFeed(){
       <div class="wkhd">
         <button data-act="tfmove:-1">‹</button>
         <button class="d" data-act="tfcal">${dowTxt(sel)} <span style="color:#6f4a2f;font-size:12px">▾</span></button>
-        <button data-act="tfmove:1" ${sel>=TODAY?'style="opacity:.3"':''}>›</button>
+        <button data-act="tfmove:1" ${sel>=TODAY?'disabled':''}>›</button>
       </div>
       ${주간줄(wkd, sel, 'tfd', d => { const n = dayWs(d).length; return { has: n > 0, n }; })}
     </div>`
@@ -15361,15 +15709,15 @@ function tLive(){
 function tWrite(){
   const w=D.workouts.find(x=>x.id===S.twid), m=w && MEMBERS.find(x=>x.id===w.mid);
   if(!w || !m) return { top: bar('피드백 남기기', '', 'ttab:t_feed'), body:'<div class="note">기록을 찾지 못했습니다 · 목록에서 다시 선택해 주세요</div>' };
-  const done = w.items.filter(it=>it.sets.length);
+  const done = w.items.filter(it=>it.sets.length), 처음79 = S.g79in !== S.twid; S.g79in = S.twid;
   return { top: bar('피드백 남기기', `<span class="sub">${esc(m.n)}</span>`, 'ttab:t_feed'), body:
-    `<div class="note">${dateTxt(w.date)} · ${esc(w.kind||'')}${w.title?' · '+esc(w.title):''} · ${durTxt(w.dur)}</div>
+    `<div class="g78hd"><span class="g76k ${w.kind==='수업'?'su':'pe'}">${esc(w.kind||'')}</span><span class="g76d">${dateTxt(w.date)} (${'일월화수목금토'[new Date(w.date+'T00:00:00').getDay()]})</span><span class="g78t">${w.title?esc(w.title)+' · ':''}${durTxt(w.dur)}</span></div>
      <span class="lbl">종목을 눌러 피드백 남기기</span>`
-    + (done.length ? done.slice().sort((a,b)=> cmOf(m.id,a.ex,a.va).length - cmOf(m.id,b.ex,b.va).length).map(it=>{
+    + (done.length ? done.slice().sort((a,b)=> cmOf(m.id,a.ex,a.va).length - cmOf(m.id,b.ex,b.va).length).map((it, gi)=>{
         const n = cmOf(m.id,it.ex,it.va).length, ak = askOf(m.id,it.ex,it.va).length;
-        return `<button class="card rowc ${n?'':'gold'}" data-act="exd:${it.ex}:${it.va}:${m.id}">
+        return `<button class="card rowc g78${n?' done':''}${처음79?' g79':''}" style="--i:${gi}" data-act="exd:${it.ex}:${it.va}:${m.id}">
           <div><div class="nm ${n?'':'g'}">${esc(exName(it.ex,it.va))}${ak?' <span class="pill">요청</span>':''}</div>
-          <div class="sm">${it.sets.map(x=>setShort(it.ex,x)).join(' · ')}</div></div>
+          <div class="sm">${typeof g76세트글 === 'function' ? esc(g76세트글(it)) : it.sets.map(x=>setShort(it.ex,x)).join(' · ')}</div></div>
           <span class="pill${n?' q':''}">${n?`피드백 ${n}`:'피드백 쓰기'} ›</span></button>`; }).join('')
       : '<div class="empty">세트를 입력한 종목이 없습니다<small class="e2">아래 「기록 수정하기」에서 세트를 입력해 주세요</small></div>')
     ,
@@ -16260,10 +16608,15 @@ document.addEventListener('click', async ev=>{
     case 'tstartrecs': S.tmid=rest[0]; S.trf='전체'; sheetRecentPick(rest[0]); return;
     case 'trf': S.trf=rest[1]; sheetRecentPick(rest[0]); return;
     case 'tstartrec': {
-      const [mid, wid, kind] = rest; const w = D.workouts.find(x=>x.id===wid); if(!w) return;
+      const [mid, wid, kind, 나고름] = rest; const w = D.workouts.find(x=>x.id===wid); if(!w) return;
+      const 나 = w.kind === '수업' ? 나머지of(w.id) : [], 나종 = [...new Map(나.flatMap(t => t.items || []).map(x => [x.ex + ':' + (x.va || ''), x])).values()].filter(x => !(w.items || []).some(it => it.ex === x.ex && it.sets && it.sets.length));
+      if(나종.length && !나고름){ openSheet(() => `<div class="g71"><div class="h2">지난 수업에서 넘긴 나머지 운동이 있어요</div><p>${esc(나종.map(x => exName(x.ex, x.va)).join(' · '))}</p>
+        <button class="btn main" data-act="tstartrec:${esc(mid)}:${esc(wid)}:${esc(kind)}:all">PT 수업 + 나머지 운동 다 진행</button><button class="btn sub" data-act="tstartrec:${esc(mid)}:${esc(wid)}:${esc(kind)}:only">PT 수업 종목만</button></div>`); return; }
+      const 더 = 나고름 === 'all' ? 나종.map(x => { const 한 = D.workouts.filter(z => z.mid === mid && z.done && z.date >= w.date).flatMap(z => (z.items || []).filter(it => it.ex === x.ex && it.sets && it.sets.length).map(it => ({ z, it }))).sort((a, b) => a.z.date < b.z.date ? 1 : -1)[0];
+        return 한 ? itemsFromWorkout({ items:[한.it] })[0] : { ex:x.ex, va:x.va, rest:60, locked:false, sec:0, startAt:Date.now(), sets:[{ kg:+x.kg || 0, reps:+x.reps || 10, done:false }] }; }) : [];      /* 회원이 그 뒤 한 기록이 있으면 그 숫자 · 없으면 넘길 때 값 */
       const 고 = await 고침준비(mid); if(고 === false) return;
       closeSheet(); S.tmid=mid; S.subj=mid; const 날 = 고 ? 고.date : 고른수업날(); if(!고) 빈기록지움(mid, 날);
-      newLive(`${dateTxt(w.date)} ${w.kind==='수업'?'수업':'개인운동'} 다시`, itemsFromWorkout(w), kind, null, mid, '트레이너', 날, !!고);
+      newLive(`${dateTxt(w.date)} ${w.kind==='수업'?'수업':'개인운동'} 다시`, itemsFromWorkout(w).concat(더), kind, null, mid, '트레이너', 날, !!고);
       return; }
     case 'tgo': { const mid=rest[0];
       if(!adoptLive(mid)){ toast('진행 중인 운동이 없어요'); return; }
@@ -16388,6 +16741,10 @@ document.addEventListener('click', async ev=>{
       S.redit=id; toast('새 루틴을 만들었어요'); go('t_redit'); return; }
     case 'resave': await 고침저장(rest[0]); return;
     case 'refix': 고침창 = null; sheetRecEdit(rest[0]); return;
+    case 'g75p': g75창(rest[0]); return;      /* 11/26 수업 카드 아래 「개인운동 n」 → 아래 창에 그날 개인운동 전부 */
+    case 'g77o': g77창(rest[0]); return;
+    case 'g77fb': { S.g77re = rest[0]; S.twid = rest[0]; closeSheet(); go('t_write'); return; }      /* 기록 창 → 피드백 · 뒤로 오면 기록 창 다시(g77 popScreen) */      /* 작은 기록 카드 → 원래 기록 아래 창 */
+    case 'g73d': S.g73o = S.g73o === rest[0] ? '' : rest[0]; render(); return;      /* 그날 운동 묶음 펼침 · 한 번에 하나 */
     case 'g71go': { const id = rest[0]; closeSheet(); S.wid = id; go('summary'); setTimeout(() => { 고침창 = null; sheetRecEdit(id); }, 300); return; }      /* 빈 기록 안내 → 그 기록 수정 창으로 바로 */
     case 'reclose': 고침창 = null; closeSheet(); return;
     case 'readd': { const o = 고침창 && 고침창.its[+rest[0]]; if(!o) return; const 앞 = o.sets[o.sets.length - 1] || {}; o.sets.push({ kg:앞.kg == null ? null : 앞.kg, reps:null }); sheetRecEdit(고침창.wid); return; }
@@ -16891,7 +17248,7 @@ document.addEventListener('click', async ev=>{
     case 'posture': S.subj=S.mid; S.bodyPart='pose'; go('body'); return;
     case 'tposture': S.subj=rest[0]; S.tmid=rest[0]; S.bodyPart='pose'; go('body'); return;
     case 'anat': S.anaT = rest[0]; render(); return;
-    case 'g11o': S.g11o = S.g11o || {}; S.g11o[rest[0]] = !S.g11o[rest[0]]; render(); return;
+    case 'g11o': { const w82 = D.workouts.find(x => x.id === rest[0]); if(w82 && S.who !== 'tr' && 세트있나(w82)){ g82창(rest[0]); return; } S.g11o = S.g11o || {}; S.g11o[rest[0]] = !S.g11o[rest[0]]; render(); return; }
     case 'g11p': S.g11p = rest[0]; render(); return;
     case 'g13pl': S.g13pl = rest[0]; render(); return;
     case 'g19wk': { const d = addDays(S.dietDay || TODAY, +rest[0]); S.dietDay = d > TODAY ? TODAY : d; render(); return; }
@@ -19001,7 +19358,7 @@ function g19요약(mid, day){ const st = dietStat(mid, day, day), 먹 = Math.rou
     <div class="g19mac">${마}<div class="g19eat">먹은 것 <b>${먹.toLocaleString()}</b> / ${g.toLocaleString()}kcal</div></div></div>`; }
 function g19주(mid, day){ const 월 = 주첫날(day), 날들 = [0,1,2,3,4,5,6].map(i => addDays(월, i)), 있 = d => mealsSeq(mid, d).length > 0;
   const 몇째 = Math.ceil(+월.slice(8) / 7) || 1;
-  return `<div class="g19wk"><button data-act="g19wk:-7" aria-label="앞 주">‹</button><button class="m" data-act="dcal2">${+월.slice(5, 7)}/${+월.slice(8)} ~ ${+addDays(월, 6).slice(5, 7)}/${+addDays(월, 6).slice(8)} ▾</button><button data-act="g19wk:7" aria-label="다음 주"${addDays(월, 7) > TODAY ? ' disabled style="opacity:.3"' : ''}>›</button></div>
+  return `<div class="g19wk"><button data-act="g19wk:-7" aria-label="앞 주">‹</button><button class="m" data-act="dcal2">${+월.slice(5, 7)}/${+월.slice(8)} ~ ${+addDays(월, 6).slice(5, 7)}/${+addDays(월, 6).slice(8)} ▾</button><button data-act="g19wk:7" aria-label="다음 주"${addDays(월, 7) > TODAY ? ' disabled' : ''}>›</button></div>
     <div class="g19days">${날들.map(d => `<button class="${d === day ? 'on' : ''}${d > TODAY ? ' fu' : ''}" data-act="dday:${d}"${d > TODAY ? ' disabled' : ''}>${d === TODAY ? '오늘' : '일월화수목금토'[new Date(d + 'T12:00:00').getDay()]}<i>${+d.slice(8)}${있(d) ? '<u></u>' : ''}</i></button>`).join('')}</div>`; }
 function g19칸(mid, day, slot, ms){ const 열 = (S.g19o || {})[slot], 합 = ms.reduce((a, m) => a + (Math.round(mealSum(m).kcal) || 0), 0);
   const 그 = ms.find(m => m.path), 이름들 = ms.flatMap(m => (m.items || []).map(x => x.name).concat(!(m.items || []).length && m.memo ? [m.memo] : [])), 피 = ms.map(m => m.note).filter(Boolean)[0];
@@ -19639,19 +19996,20 @@ function g31댓글(k){ const x = (S.g31글 || [])[k]; if(!x) return;
 let g31통과 = false;
 window.addEventListener('click', e => { if(g31통과 || S.screen !== 'workout' || !live()) return;      /* 11/24 18:5x 트레이너 수업 기록 · 1RM 도 같은 물음 */
   const el = e.target.closest && e.target.closest('#top .back, #tabs [data-act], [data-act^="go:"], [data-act^="tab:"]'); if(!el) return;
-  const a = el.getAttribute('data-act') || ''; if(a === 'go:workout') return;
+  const a = el.getAttribute('data-act') || ''; if(a === 'go:workout' || a === 'go:pick') return;      /* 11/26 16:38 대표 「종목 추가 누르니까 나갈 거냐고 묻는데 왜 이래」 — 종목 고르기(pick)는 기록 흐름 안의 이동 */
   e.preventDefault(); e.stopImmediatePropagation(); window.__g31갈곳 = el;
   openSheet(() => `<div class="g31out"><div class="h2">기록 중이에요</div><p>나가도 기록은 그대로 남아요<br>홈의 「이어서 기록」으로 돌아올 수 있어요</p>
     <button class="btn main" data-act="g31out:stay">운동 이어서 하기</button><button class="btn sub" data-act="g31out:go">나가기</button><button class="g31del" data-act="g31out:del">기록 삭제</button></div>`); }, true);
 function g31물음(){ openSheet(() => `<div class="g31out"><div class="h2">기록 중이에요</div><p>나가도 기록은 그대로 남아요<br>홈의 「이어서 기록」으로 돌아올 수 있어요</p>
     <button class="btn main" data-act="g31out:stay">운동 이어서 하기</button><button class="btn sub" data-act="g31out:go">나가기</button><button class="g31del" data-act="g31out:del">기록 삭제</button></div>`); }
 /* 폰 「뒤로」(기록 뒤로) — 앱의 popstate 보다 먼저 받는다(같은 window 의 capture 가 먼저 돈다) · 11/24 대표 「1RM 에서 뒤로가기 해도 물음 팝업이 하단에서 안 뜨고」 */
-window.g31뒤로 = () => { if(g31통과 || S.screen !== 'workout' || !live()) return false; window.__g31갈곳 = 'back'; g31물음(); return true; };
+window.g31뒤로 = () => { if(window.__g31넘김){ window.__g31넘김 = false; return false; }      /* 11/26 대표 「기록 중 뒤로 → 나가기 누르면 같은 창이 한 번 더」 — 「나가기」 가 누른 뒤로 단추의 history.back 이 늦게 돌아와 또 물었다 → 한 번 넘김 */
+  if(g31통과 || S.screen !== 'workout' || !live()) return false; window.__g31갈곳 = 'back'; g31물음(); return true; };
 function g31나가기(갈){ closeSheet(); const el = window.__g31갈곳; window.__g31갈곳 = null;
   if(갈 === 'del'){ setTimeout(() => { const x = document.createElement('button'); x.setAttribute('data-act', 'askcancel'); x.style.display = 'none'; document.body.appendChild(x); x.click(); x.remove(); }, 220); return; }      /* 11/24 16:31 대표 「뒤로가기 할 때 기록 삭제 단추도」 — 원래 「기록 삭제」 길(확인 창 그대로) */
   if(갈 !== 'go' || !el) return;
   if(el === 'back'){ setTimeout(() => { g31통과 = true; try{ popScreen(); }finally{ g31통과 = false; } }, 220); return; }
-  setTimeout(() => { g31통과 = true; try{ el.click(); }finally{ g31통과 = false; } }, 220); }
+  setTimeout(() => { g31통과 = true; window.__g31넘김 = true; setTimeout(() => { window.__g31넘김 = false; }, 1500); try{ el.click(); }finally{ g31통과 = false; } }, 220); }
 
 /* ③ 루틴 선택 B — 주목 옮김 */
 let g31주목 = null;
@@ -20138,7 +20496,7 @@ function sheetRecEdit(wid){ const w = D.workouts.find(x => x.id === wid); if(!w)
       + [...Array(n)].map((_, j) => 칸(o.i, j, 'kg', ss[j], false)).join('')
       + [...Array(n)].map((_, j) => 칸(o.i, j, 'reps', ss[j], j === 0)).join('')
       + `</div></div><button class="pladd${고침창.메뉴 === o.i ? ' on' : ''}" data-act="g47m:${o.i}" aria-label="세트 추가 · 종목 삭제">⋯</button>`
-      + (고침창.메뉴 === o.i ? `<div class="plmenu"><button class="sub" data-act="g47del:${o.i}">종목 삭제</button><button data-act="g47add:${o.i}">세트 추가</button>${ss.length > 1 ? `<button class="sub" data-act="g47sdel:${o.i}">추가 세트 삭제</button>` : ''}</div>` : '') + `</div>`; };
+      + (고침창.메뉴 === o.i ? `<div class="plmenu g80"><button class="p" data-act="g47add:${o.i}">세트 ＋</button>${ss.length > 1 ? `<button class="mi" data-act="g47sdel:${o.i}">세트 −</button>` : ''}<i class="bar"></i><button class="del" data-act="g47del:${o.i}">종목 삭제</button></div>` : '') + `</div>`; };
   const 경칸 = 유.some(o => 경사최대(o.it.ex));
   const 유행 = o => { const x = 고침창.its[o.i].sets[0] || {};
     const 단칸 = (f, 단) => { const 지금 = 편판 && 편판.i === o.i && 편판.f === f, v = 지금 ? 편판.v : x[f]; return `<span class="g48u${지금 ? ' kp-on' : ''}" data-act="g48k:${o.i}:0:${f}">${v == null || v === '' ? '—' : esc(String(v)) + 단}</span>`; };      /* 기록 화면처럼 10분 · 7km/h · 경사 */
@@ -20385,6 +20743,508 @@ window.addEventListener('click', e => { if(g69통과 || S.screen !== 'start') re
 #main .hero2.wide2[data-act].g69on{transform:scale(.97)!important;box-shadow:inset 0 0 0 2.5px rgba(255,255,255,.9),0 6px 16px -8px rgba(40,25,15,.45)!important}
 #main .hero2[data-act="cardio"].g69on{box-shadow:inset 0 0 0 3px #447382,0 6px 16px -8px rgba(40,25,15,.45)!important}
 </style>
+
+<script>
+/* ㊸ 11/25 23:30 대표 「시안줘」 — 기록 탭 : 같은 날 기록이 여러 장(수업 · 수업 후 개인운동 · 유산소)이면 「그날 운동」 한 묶음
+   묶음 머리 = 날짜 · 「운동 n」 · 갈래(PT 수업 · 개인운동) · 합한 시간 · 그림 · 누르면 펼침(한 번에 하나 · 빈 곳 누르면 접힘 = 2-9)
+   펼치면 장마다 원래 줄(누르면 그 장 세부 · 수정 · 리포트) — 수정은 장마다(수업 = 트레이너 · 개인운동 = 회원 2주) 그대로 · 한 장뿐인 날은 지금처럼 */
+const g73옛기록 = vRecords;
+vRecords = function(){ const o = g73옛기록.apply(this, arguments);
+  if(!o || !o.body || S.who === 'tr' || (S.anaT || 'log') !== 'log') return o;
+  const box = document.createElement('div'); box.innerHTML = o.body; const 열 = S.g73o || '';
+  const 줄들 = [...box.querySelectorAll('.g11rw')]; const 날 = el => { const id = ((el.querySelector('[data-act^="g11o:"]') || {}).getAttribute ? el.querySelector('[data-act^="g11o:"]').getAttribute('data-act').slice(5) : ''); const w = D.workouts.find(x => x.id === id); return w ? w.date : ''; };
+  let i = 0;
+  while(i < 줄들.length){ const d = 날(줄들[i]); let j = i + 1; while(j < 줄들.length && 날(줄들[j]) === d && 줄들[j].previousElementSibling === 줄들[j - 1]) j++;
+    if(d && j - i >= 2){ const 묶 = 줄들.slice(i, j), ws = 묶.map(el => D.workouts.find(x => x.id === el.querySelector('[data-act^="g11o:"]').getAttribute('data-act').slice(5))).filter(Boolean);
+      const 수 = ws.filter(w => w.kind === '수업').length, 개 = ws.length - 수, 분 = Math.round(ws.reduce((a, w) => a + (+w.dur || 0), 0) / 60), 요 = '일월화수목금토'[new Date(d + 'T00:00:00').getDay()];
+      const 그 = [...new Set(ws.flatMap(w => w.items.filter(it => it.sets && it.sets.length && !isMemo(it.ex)).map(it => it.ex)))].slice(0, 3);
+      const g = document.createElement('div'); g.className = 'g73day' + (열 === d ? ' open' : '');
+      g.innerHTML = `<button class="g73h" data-act="g73d:${d}"><span class="g11dt"><b>${+d.slice(8)}</b><small>${요}</small></span>
+        <span class="g11mm"><b>그날 운동 ${ws.length}</b><small>${수 ? '<span class="g11kd pt">PT 수업 ' + 수 + '</span>' : ''}${개 ? '<span class="g11kd">개인운동 ' + 개 + '</span>' : ''}${분 ? 분 + '분' : ''}</small></span>
+        <span class="g11pics">${그.map(g11그림).join('')}</span><span class="g11cv">›</span></button><div class="g73in"></div>`;
+      묶[0].before(g); const 안 = g.querySelector('.g73in'); 묶.forEach(el => 안.appendChild(el)); }
+    i = j; }
+  return Object.assign({}, o, { body: box.innerHTML }); };
+</script>
+<style>
+#main .g73day{background:#ffffff;border:1px solid #b89a7e;border-radius:18px;margin-bottom:8px;overflow:hidden;flex-shrink:0}
+#main .g73day>.g73h{display:grid;grid-template-columns:42px 1fr auto 14px;gap:10px;align-items:center;padding:11px 12px;width:100%;border:0;background:none;color:inherit;font-family:inherit;text-align:left;cursor:pointer}
+#main .g73day>.g73in{display:none;padding:0 8px 8px;gap:6px;flex-direction:column}
+#main .g73day.open>.g73in{display:flex}
+#main .g73day.open>.g73h .g11cv{transform:rotate(90deg)}
+#main .g73day .g11kd{margin-right:6px}
+#main .g73in .g11rw{margin:0!important;border-radius:14px;background:#ffffff!important;border:1px solid #b89a7e!important}
+#main .g73in .g11rw>button{grid-template-columns:0 1fr auto 14px}
+#main .g73in .g11rw .g11dt{visibility:hidden;width:0;overflow:hidden}
+</style>
+
+<script>
+/* ㊹ 트레이너 회원 화면 「지난 기록」 — 11/26 09:10 대표 「펼치는 거 말고 팝업으로 · 날짜별 카드는 기존대로 하나씩 · 심플하게 · 눌러서 개인 기록도 하단 팝업으로 다 볼 수 있게」
+   수업 카드는 지금 그대로(표 펼친 채 · 쭉 훑어보기) · 같은 날 회원 개인운동 카드는 목록에서 빼고 → 그 수업 카드 맨 아래 한 줄
+   「개인운동 2 · 런닝머신 20분 · 체스트 프레스 ›」 → 누르면 아래 창에 그날 개인운동 카드 전부(표 그대로 · 수업에서 넘긴 것은 「수업 후 나머지」 딱지)
+   수업이 없는 날의 개인운동은 지금처럼 카드 */
+function g75나머지인가(w, s){
+  if(!s || w.kind === '수업') return false;
+  const 내종 = new Set((w.items || []).filter(it => it.sets && it.sets.length).map(it => it.ex));
+  const 준 = new Set((D.rtips || []).filter(t => t.workout_id === s.id).flatMap(t => (t.items || []).map(x => x.ex)).concat((D.ctips || []).filter(t => t.workout_id === s.id).map(t => t.ex_id)));
+  return [...내종].some(e => 준.has(e)); }
+const g75이름 = w => { const its = (w.items || []).filter(it => it.sets && it.sets.length && !isMemo(it.ex)); if(!its.length) return '기록 없음'; const e0 = exOf(its[0].ex) || {};
+  return exName(its[0].ex, its[0].va) + (e0.cardio ? ' ' + its[0].sets.reduce((a, x) => a + (+x.reps || 0), 0) + '분' : '') + (its.length > 1 ? ' 외 ' + (its.length - 1) : ''); };
+const g75옛카드 = 지난기록카드;
+지난기록카드 = function(m, ws){ window.__g79on = S.who === 'tr' && S.g79m !== m.id; window.__g79i = 0; S.g79m = m.id;      /* 회원 화면에 들어올 때마다 건반 효과 · 그 화면 안에서 다시 그릴 땐 안 함 */
+  const h = g75옛카드.apply(this, arguments); window.__g79on = false; if(S.who !== 'tr') return h;
+  const box = document.createElement('div'); box.innerHTML = h; const 판 = box.querySelector('.tmrs'); if(!판) return h;
+  const 아이디 = c => { const x = c.getAttribute('data-act') || ((c.querySelector('[data-act^="recfix:"],[data-act^="recdrop:"]') || {}).getAttribute ? c.querySelector('[data-act^="recfix:"],[data-act^="recdrop:"]').getAttribute('data-act') : ''); return (x || '').split(':')[1]; };
+  const 카드들 = [...판.children].map(c => ({ c, w: D.workouts.find(w => w.id === 아이디(c)) }));
+  const 수업날 = new Map(); 카드들.forEach(x => { if(x.w && x.w.kind === '수업' && !수업날.has(x.w.date)) 수업날.set(x.w.date, x); });
+  카드들.forEach(x => { if(!x.w || x.w.kind === '수업') return; const 주 = 수업날.get(x.w.date); if(!주) return; (주.개 = 주.개 || []).push(x.w); x.c.remove(); });
+  수업날.forEach(x => { if(!x.개 || !x.개.length) return;
+    const 단 = `<button class="g75pr" data-act="g75p:${esc(x.w.id)}">추가 운동 ${x.개.length} ›</button>`, ft = x.c.querySelector('.g76ft');
+    if(ft) ft.insertAdjacentHTML('beforeend', 단); else x.c.insertAdjacentHTML('beforeend', 단); });      /* 「피드백 올리기」 와 한 줄 */      /* 11/26 09:25 대표 「아래 작은 단추 좋아 · 개인운동이란 말이 너무 많아져 → 추가 운동」 */
+  return box.innerHTML; };
+function g75창(sid){ const s = D.workouts.find(w => w.id === sid); if(!s) return;
+  const 개 = D.workouts.filter(w => w.mid === s.mid && w.date === s.date && w.kind !== '수업' && (세트있나(w) || w.done));
+  const 요 = '일월화수목금토'[new Date(s.date + 'T00:00:00').getDay()];
+  openSheet(() => `<div class="h2">${esc(dateTxt(s.date))} (${요}) 추가 운동 <small>${개.length}</small></div>
+    <div class="tmrs g75sh">${개.map(w => { const c = 지난기록한장(w, { tr:true, full:true }).replace(/(<div class="tmrc[^"]*") data-act="tw:[^"]*"/, '$1');      /* 창 안 카드는 눌러도 이동 없음 */ return g75나머지인가(w, s) ? c.replace(/(<span class="(?:g76k|k)[^"]*">[^<]*<\/span>)/, '$1<span class="g75tag">수업 후 나머지</span>') : c; }).join('')}</div>
+    <button class="btn sub" data-act="close">닫기</button>`); }
+</script>
+<style>
+#main .tmrc .g75pr-old{display:flex;align-items:center;gap:8px;width:100%;margin-top:12px;padding:11px 12px;border:1px solid #b89a7e;border-radius:14px;background:#ffffff;font:inherit;text-align:left;cursor:pointer;color:inherit}
+#main .tmrc .g75pr .g75k{flex:none;font-size:13px;font-weight:800;color:#6f4a2f;background:#f3e6d6;border-radius:8px;padding:2px 8px}
+#main .tmrc .g75pr .g75ns{flex:1;min-width:0;font-size:13px;font-weight:600;color:#5d5249;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#main .tmrc .g75pr i{font-style:normal;font-size:16px;font-weight:800;color:#6f4a2f}
+#sheetbox .g75sh{display:flex;flex-direction:column;gap:10px;margin:6px 0 12px}
+#sheetbox .g75tag{flex:none;font-size:13px;font-weight:700;color:#6f4a2f;background:#f3e6d6;border-radius:8px;padding:2px 8px;margin-left:6px}
+</style>
+
+<script>
+/* ㊺ 11/26 09:50 대표 「지난 운동 기록의 핵심은 어떤 운동 했지? · 무게 · 횟수는 옅게 · 종목이 눈에 잘 들어오게 · 몸 사진은 빼면 안 됨(원래 자리)」
+   트레이너가 보는 지난 기록 카드(기록 있는 것) 새 꼴 :
+   맨 위 오른쪽 「수정」 → 한 줄 「● 수업 / ● 개인운동  날짜(크게 · 옅게)」 → 몸 그림(원래 자리 · 그대로) → 표(머리 줄 없음 · 맨 윗줄 = 「루틴 1」 브라운 딱지 + 이름)
+   종목 줄 = 이름(진하게 · 크게) + 세트(옅게 · 「42.5kg × 10 · 10 · 10 · 9」 · 무게가 다르면 「100×12 · 110×10 · 120×8」 · 유산소 「20분 · 6.5km/h」)
+   아래 = 작은 단추(수업이면 「피드백 올리기」 · 같은 날 개인운동이 있으면 g75 가 「추가 운동 n ›」) */
+function g76세트글(it){ const e = exOf(it.ex) || {}, s = (it.sets || []).filter(x => x.done !== false);
+  if(e.cardio){ const 분 = s.reduce((a, x) => a + (+x.reps || 0), 0), sp = (s[0] || {}).spd; return `${분}분${sp ? ' · ' + sp + 'km/h' : ''}`; }
+  const kg = s.map(x => +x.kg || 0), 같 = kg.every(k => k === kg[0]);
+  if(!kg.some(k => k)) return s.map(x => x.reps || 0).join(' · ') + '회';
+  return 같 ? `${kgfmt(kg[0])}kg × ${s.map(x => x.reps || 0).join(' · ')}` : s.map(x => `${kgfmt(+x.kg || 0)}×${x.reps || 0}`).join(' · '); }
+const g76옛한장 = 지난기록한장;
+지난기록한장 = function(w, o){ o = o || {}; if(!o.tr || !세트있나(w)) return g76옛한장.apply(this, arguments);
+  const 요 = '일월화수목금토'[new Date(w.date + 'T00:00:00').getDay()], 수업 = (w.kind || '') === '수업', r = w.rid && rOf(w.rid);
+  const its = (w.items || []).filter(it => it.sets && it.sets.length && !isMemo(it.ex));
+  const 루 = r ? `<div class="g76rt"><i>루틴 ${esc(String(r.no || ''))}</i>${esc(r.n || '')}</div>` : (w.title ? `<div class="g76rt">${esc(w.title)}</div>` : '');
+  const 메 = (D.cm || []).filter(c => c.wid === w.id && c.ex === 'memo').map(c => c.tx).filter(Boolean);
+  return `<div class="tmrc g76${수업 ? '' : ' self'}" data-act="tw:${w.id}">
+    <div class="g76top">${회원기록인가(w) ? '' : `<button class="g76fix" data-act="recfix:${w.id}">수정</button>`}</div>
+    <div class="g76hd"><span class="g76k ${수업 ? 'su' : 'pe'}">${수업 ? '수업' : '개인운동'}</span><span class="g76d">${dateTxt(w.date)} (${요})</span></div>
+    <div class="tmfig tmfig2">${오늘부위판(w, false)}</div>
+    <div class="g76tb">${루}${its.map(it => `<div class="g76r"><b>${esc(exName(it.ex, it.va))}</b><span>${esc(g76세트글(it))}</span></div>`).join('')}</div>
+    ${메.length ? `<div class="tmmemo"><b>수업 메모</b>${메.map(t => esc(t)).join(' · ')}</div>` : ''}
+    ${수업 ? `<div class="g76ft"><button class="g76fb" data-act="bulkopen:${w.id}">피드백 올리기</button></div>` : ''}</div>`; };
+</script>
+
+<script>
+/* ㊻ 11/26 09:59 대표 「아예 새로운 안 — 지난 기록 보기에서만 좌측 몸 사진 · 우측 종목만 나열 · 지난 기록으로 수업하기는 누르면 원래 기록 화면이 팝업으로 한 번 뜨고 시작하기로 기록 시작」
+   트레이너 지난 기록 목록 · 「지난 기록으로 시작」 고르는 목록 = 작은 카드(머리 한 줄 + 왼쪽 몸 그림 · 오른쪽 종목 이름)
+   카드를 누르면 아래 창 = 원래 기록 카드(g76 · 숫자까지) · 고르는 목록에서 열었으면 맨 아래 「이 기록으로 시작」(주) */
+S.g77p = S.g77p || {};
+const g77옛한장 = 지난기록한장;
+지난기록한장 = function(w, o){ o = o || {};
+  if(o.full || !(o.tr || o.pick) || !세트있나(w)) return g77옛한장.call(this, w, o.full ? Object.assign({}, o, { tr:true, pick:null }) : o);
+  const 요 = '일월화수목금토'[new Date(w.date + 'T00:00:00').getDay()], 수업 = (w.kind || '') === '수업', r = w.rid && rOf(w.rid);
+  const 종 = (w.items || []).filter(it => it.sets && it.sets.length && !isMemo(it.ex)), 보 = 종.slice(0, 6);
+  if(o.pick) S.g77p[w.id] = o.pick; else delete S.g77p[w.id];
+  const 건 = window.__g79on ? ` g79" style="--i:${window.__g79i++}` : '';      /* 11/26 10:33 지난 기록에도 건반 효과 */
+  return `<div class="tmrc g77${수업 ? '' : ' self'}${건}" data-act="g77o:${w.id}">
+    <div class="g77hd"><span class="g76k ${수업 ? 'su' : 'pe'}">${수업 ? '수업' : '개인운동'}</span><span class="g77d">${dateTxt(w.date)} (${요})</span>${r ? `<span class="g77rt">루틴 ${esc(String(r.no || ''))}</span>` : ''}<i class="g77go">›</i></div>
+    <div class="g77bd"><div class="tmfig g77fig">${오늘부위판(w, false)}</div>
+      <ul class="g77ex${종.length <= 2 ? ' few' : ''}">${보.map(it => `<li><b>${esc(exName(it.ex, it.va))}</b><small>${esc(g76세트글(it))}</small></li>`).join('')}${종.length > 보.length ? `<li class="more">외 ${종.length - 보.length}종목</li>` : ''}</ul></div></div>`; };
+/* 11/26 10:12 대표 「한 번 더 누르면 피드백 창으로 이동 · 뒤로 가면 엉뚱한 곳 · 피드백 올리기 · 지난 기록으로 시작 길목이 사라졌다」
+   창 안 카드는 눌러도 아무 데도 안 감(뜻밖의 이동 없음) · 길목은 창 맨 아래에 그대로 : 이 기록으로 수업 시작 · 피드백(이 기록에 남긴 것) · (수업이면 카드 안 「피드백 올리기」)
+   창에서 다른 화면으로 갔다가 뒤로 오면 이 창이 다시 열린다(직전 자리) */
+function g77창(wid){ const w = D.workouts.find(x => x.id === wid); if(!w) return; const 골 = S.g77p[wid], 트 = S.who === 'tr';
+  const 카 = 지난기록한장(w, { tr:true, full:true }).replace(/(<div class="tmrc[^"]*") data-act="tw:[^"]*"/, '$1');
+  const 시작 = 골 ? [골[0], 골[1] || '이 기록으로 시작'] : (트 ? ['tstartrec:' + w.mid + ':' + w.id + ':수업', '이 기록으로 수업 시작'] : null);
+  openSheet(() => `<div class="g77sh">${카}</div>
+    ${시작 ? `<button class="btn main" data-act="${esc(시작[0])}">${esc(시작[1])}</button>` : ''}
+    ${트 && !골 ? `<button class="btn sub" data-act="g77fb:${esc(w.id)}">피드백</button>` : ''}<button class="btn ghost sm" data-act="close">닫기</button>`); }
+const g77옛pop = popScreen;
+popScreen = function(){ const r = g77옛pop.apply(this, arguments); if(S.g77re){ const id = S.g77re; S.g77re = null; if(S.screen === 't_member') setTimeout(() => g77창(id), 60); } return r; };
+/* 트레이너 「수업 시작 → 지난 기록에서 선택」 — 줄 목록 대신 같은 작은 카드 · 누르면 원래 기록 창 → 「이 기록으로 시작」 */
+sheetRecentPick = function(mid){ const m = MEMBERS.find(x => x.id === mid) || { n:'' }, f = S.trf || '전체';
+  const ws = workoutsOf(mid).filter(w => 세트있나(w)).filter(w => f === '전체' || w.kind === f).slice(0, 12);
+  openSheet(() => `<div class="h2">지난 기록에서 선택 <small>${esc(m.n)} 회원 · 눌러서 확인하고 시작</small></div>
+    <div class="seg">${['전체', '수업', '개인운동'].map(k => `<button class="${f === k ? 'on' : ''}" data-act="trf:${mid}:${k}">${k === '수업' ? 'PT 수업' : k}</button>`).join('')}</div>
+    <div class="tmrs g77pick">${ws.length ? (() => { window.__g79on = true; window.__g79i = 0; const h = ws.map(w => 지난기록한장(w, { pick:['tstartrec:' + mid + ':' + w.id + ':수업', '이 기록으로 시작'] })).join(''); window.__g79on = false; return h; })() : '<div class="empty">그런 기록이 없어요</div>'}</div>
+    <button class="btn ghost sm" data-act="tstartask:${mid}">‹ 루틴으로 돌아가기</button>`); };
+</script>
+
+<script>
+/* 11/26 10:31 대표 「넣은 거야? · 종목을 눌러 피드백 남기기 카드들에 효과」 — 건반 효과는 「들어올 때마다」 : 피드백 남기기 화면을 떠나면 기억을 지워 다시 들어오면 또 나온다
+   (같은 화면 안에서 다시 그릴 때만 안 나옴) */
+const g79옛go = go;
+go = function(s){ if(s !== 't_write') S.g79in = null; if(s !== 't_member') S.g79m = null; return g79옛go.apply(this, arguments); };
+const g79옛pop = popScreen;
+popScreen = function(){ const 전 = S.screen, r = g79옛pop.apply(this, arguments); if(S.screen !== 't_write') S.g79in = null; if(S.screen !== 't_member' || 전 !== 't_member') S.g79m = null; return r; };
+</script>
+
+<script>
+/* ㊼ 11/26 11:43 대표 「회원이 지난 기록으로 운동하기에도 사진 · 루틴 기록표가 트레이너가 보는 거랑 동일하게」
+   회원 「지난 기록으로 시작」 창(sheetMyRecs · o.start) = 트레이너 기록 카드(g76) 꼴 그대로 · 길목만 회원 것 :
+   위 「수정」(14일 안 개인운동) · 「리포트 ›」 / 트레이너용(카드 눌러 피드백 쓰기 · 피드백 올리기) 없음 / 아래 트레이너 팁 · 「이 기록으로 시작」 */
+const g81옛한장 = 지난기록한장;
+지난기록한장 = function(w, o){ o = o || {};
+  if(!o.start || S.who === 'tr' || !세트있나(w)) return g81옛한장.apply(this, arguments);
+  let h = g81옛한장.call(this, w, { tr:true, full:true });
+  h = h.replace(/(<div class="tmrc[^"]*") data-act="tw:[^"]*"/, '$1')
+       .replace(/<div class="g76top">[\s\S]*?<\/div>/, `<div class="g76top">${회원수정가능(w) ? `<button class="g76fix" data-act="myfix:${w.id}">수정</button>` : ''}<button class="g76fix g81rp" data-act="rpt:${w.id}">리포트 ›</button></div>`)
+       .replace(/<div class="g76ft">[\s\S]*?<\/div>/, '');
+  const 끝 = `${팁줄들(w.id)}<button class="btn main sm tlgo" data-act="again:${w.id}">이 기록으로 시작</button>${회원수정가능(w) ? '' : `<div class="tlwho">${회원수정막힘(w)}</div>`}`;
+  return h.replace(/<\/div>\s*$/, 끝 + '</div>'); };
+</script>
+<script>
+/* 11/26 11:51 대표 「이거 아닌데 · 사진이 왼쪽이고 우측에 운동명만 나오는 게 트레이너 화면」
+   회원 「지난 기록으로 시작」 창 = 트레이너 「지난 기록에서 선택」 과 같은 작은 카드 목록(왼쪽 몸 그림 │ 오른쪽 종목 이름)
+   카드를 누르면 아래 창 = 숫자까지 있는 기록 카드(회원 길목 : 수정 · 리포트 · 이 기록으로 시작) */
+sheetMyRecs = function(){ if(S.who === 'tr') return;
+  const ws = workoutsOf(S.mid).filter(w => 세트있나(w)).slice(0, 12);
+  openSheet(() => `<div class="h2">지난 기록으로 시작 <small>눌러서 확인하고 시작 · 그날 종목 · 무게 그대로</small></div>
+    <div class="tmrs g77pick">${ws.length ? (() => { window.__g79on = true; window.__g79i = 0; const h = ws.map(w => 지난기록한장(w, { pick:['again:' + w.id, '이 기록으로 시작'] })).join(''); window.__g79on = false; return h; })() : 빔('pic', '아직 운동 기록이 없습니다', '홈 「운동하기」에서 첫 운동을 시작해 주세요')}</div>
+    <button class="btn ghost sm" data-act="close">닫기</button>`); };
+const g81옛창 = g77창;
+g77창 = function(wid){ if(S.who === 'tr') return g81옛창.apply(this, arguments);
+  const w = D.workouts.find(x => x.id === wid); if(!w) return;
+  openSheet(() => `<div class="g77sh">${지난기록한장(w, { start:true })}</div><button class="btn ghost sm" data-act="myrecs">‹ 목록으로</button>`); };
+</script>
+
+<script>
+/* ㊽ 11/26 11:45 대표 「(기록 탭) 눌렀을 때 지난 기록이 지난 기록 카드 눌렀을 때 뜨듯이 나오게」
+   기록 탭 줄을 누르면 그 자리 펼침 대신 아래 창 = 지난 기록 카드(트레이너와 같은 꼴 · g81) + 「이 기록으로 시작」 · 닫기
+   창에서 「수정」 · 「리포트」 로 갔다가 뒤로 오면 이 창이 다시 열린다(뒤로가기 = 직전 자리) · 세트 없는 기록은 예전 펼침 그대로 */
+function g82창(wid){ const w = D.workouts.find(x => x.id === wid); if(!w) return; S.g82열 = wid;
+  const 개 = w.kind === '수업' ? D.workouts.filter(x => x.mid === w.mid && x.date === w.date && x.kind !== '수업' && 세트있나(x)) : [];      /* 11/26 12:20 대표 「PT 수업에서 나머지 운동은 눌렀을 때 표기가 되는 거야?」 — 트레이너와 같이 「추가 운동 n ›」 */
+  openSheet(() => `<div class="g77sh g82sh">${지난기록한장(w, { start:true })}${개.length ? `<div class="g84ft"><button class="g75pr" data-act="g84p:${esc(w.id)}">추가 운동 ${개.length} ›</button></div>` : ''}</div><button class="btn ghost sm" data-act="close">닫기</button>`); }
+function g84창(sid){ const s = D.workouts.find(x => x.id === sid); if(!s) return; const 요 = '일월화수목금토'[new Date(s.date + 'T00:00:00').getDay()];
+  const 개 = D.workouts.filter(x => x.mid === s.mid && x.date === s.date && x.kind !== '수업' && 세트있나(x));
+  openSheet(() => `<div class="h2">${esc(dateTxt(s.date))} (${요}) 추가 운동 <small>${개.length}</small></div>
+    <div class="tmrs g75sh g82sh">${개.map(x => { const c = 지난기록한장(x, { start:true }); return g75나머지인가(x, s) ? c.replace(/(<span class="g76k[^"]*">[^<]*<\/span>)/, '$1<span class="g75tag">수업 후 나머지</span>') : c; }).join('')}</div>
+    <button class="btn ghost sm" data-act="g82o:${esc(sid)}">‹ 수업 기록으로</button>`); }
+window.addEventListener('click', e => { const b = e.target.closest && e.target.closest('[data-act^="g84p:"], [data-act^="g82o:"]'); if(!b) return; e.preventDefault(); e.stopImmediatePropagation();
+  const [k, id] = b.getAttribute('data-act').split(':'); if(k === 'g84p') g84창(id); else g82창(id); }, true);
+window.addEventListener('click', e => { const b = e.target.closest && e.target.closest('#sheetbox .g82sh [data-act^="myfix:"], #sheetbox .g82sh [data-act^="rpt:"]'); if(b) S.g82re = S.g82열; }, true);
+const g82옛pop = popScreen;
+popScreen = function(){ const r = g82옛pop.apply(this, arguments); if(S.g82re){ const id = S.g82re; S.g82re = null; if(S.screen === 'records') setTimeout(() => g82창(id), 60); } return r; };
+/* 시험 페이지 (?seed84=1) — PT 수업 날에 수업 후 나머지 개인운동 하나를 심고 기록 탭을 연다 (샘플 전용 · 자료를 다시 받아도 다시 심음) */
+if(/[?&]seed84=1/.test(location.search)){
+  const 심기 = () => { try{ if(!S.mid || !D.workouts || D.workouts.some(x => x.id === 'zq84')) return; const 다 = 옛기록들(S.mid), 수 = 다.find(w => w.kind === '수업' && 세트있나(w)), 개 = 다.find(w => w.kind !== '수업' && 세트있나(w)); if(!수 || !개) return;
+    const 수종 = new Set(수.items.map(i => i.ex)), 웨 = EX.filter(x => !x.cardio && !isMemo(x.id) && !수종.has(x.id)).slice(0, 2), 유 = EX.find(x => x.cardio);      /* 수업과 다른 종목 둘 + 유산소 (11/26 대표 「위아래 기록이 똑같은데?」 — 복사본이라 같았음) */
+    const 줄 = 웨.map((x, i) => ({ _id:'z84' + i, ex:x.id, va:'a', sec:0, sets:[1, 2, 3].map(() => ({ kg:20 + i * 10, reps:12, done:true })) })).concat(유 ? [{ _id:'z84c', ex:유.id, va:'a', sec:0, sets:[{ reps:20, spd:6.5, kg:0, done:true }] }] : []);
+    D.workouts.push(Object.assign(JSON.parse(JSON.stringify(개)), { id:'zq84', date:수.date, title:'수업 후 나머지', rid:null, items:줄 })); (D.rtips = D.rtips || []).push({ workout_id:수.id, items:[{ ex:줄[0].ex }] }); }catch(e){} };
+  const 옛그리기 = render; render = function(){ 심기(); return 옛그리기.apply(this, arguments); };
+  const 옛기록들 = workoutsOf; workoutsOf = function(){ 심기(); return 옛기록들.apply(this, arguments); };
+  setTimeout(() => { S.anaT = 'log'; go('records'); }, 3000); }
+</script>
+
+<script>
+/* ㊾ 11/26 12:10 대표 「회원 지난 기록 C안 실제로 · 텍스트 강도나 색감 조정 · 다 강조되어 보여」
+   기록 탭 줄(회원) = 날짜(옅게) │ 작은 몸 그림 │ ● 갈래(작게) · 이름(진하게 하나) · 종목 · 세트(옅게) │ ›   — 진한 것은 이름 하나만 */
+const g83옛줄 = g11줄;
+g11줄 = function(w){ const h = g83옛줄.apply(this, arguments); if(S.who === 'tr' || !세트있나(w)) return h;
+  const 수업 = w.kind === '수업', 몸 = (오늘부위판(w, false).match(/<span class="b2w">[\s\S]*?<\/span>/) || [''])[0];
+  return h.replace('<div class="g11rw', '<div class="g11rw g83rw')
+    .replace(/<span class="g11mm"><b>([\s\S]*?)<\/b><small><span class="g11kd[^"]*">[^<]*<\/span>([^<]*)<\/small><\/span>\s*<span class="g11pics">[\s\S]*?<\/span><span class="g11cv">/,
+      (m, 제목, 부) => `<span class="g83fig">${몸}</span><span class="g11mm g83mm"><span class="g83k ${수업 ? 'su' : 'pe'}">${수업 ? 'PT 수업' : '개인운동'}</span><b>${제목}</b><small>${부}</small></span><span class="g11cv">`); };
+</script>
+
+<script>
+/* ㊿ 11/26 14:31 대표 「트레이너가 보는 거랑 맞춘 거야? 몸통 좌측 · 우측에 종목명만 · 그날 운동 2 하지 말고 · PT 수업 · 개인운동이 두 번씩 나와 복잡 ·
+   루틴 아래 종목 · 세트 없애(들어가면 보이게) · 들어가서도 추가 운동 또 누르지 말고 팝업에서 쭉 다 · 그날 운동 2 를 어떻게 할지 아이디어」
+   기록 탭(회원) = 하루 카드 하나 — 트레이너 지난 기록 작은 카드와 같은 꼴(머리 한 줄 · 왼쪽 몸 그림 │ 오른쪽 종목 이름만)
+   같은 날 여러 장(수업 + 개인운동)도 카드 하나 · 몸 그림은 그날 전체 · 누르면 아래 창에 그날 기록 전부 차례로(수업 먼저 · 수업 후 나머지 딱지)
+   같은 날 두 갈래 보이는 법 3안 : A 이름 앞 작은 점(청록 = 수업 · 브라운 = 개인운동) · B 갈래별 작은 머리 · C 수업 이름만 + 「+ 개인운동 n종목」  (?g85=A|B|C · 기본 A) */
+S.g85v = (location.search.match(/[?&]g85=([ABC])/) || [])[1] || 'A';
+function g85하루(ws){ ws = ws.slice().sort((a, b) => (a.kind === '수업' ? 0 : 1) - (b.kind === '수업' ? 0 : 1)); const d = ws[0].date, 요 = '일월화수목금토'[new Date(d + 'T00:00:00').getDay()];
+  const 종 = w => (w.items || []).filter(it => it.sets && it.sets.length && !isMemo(it.ex));
+  const 합 = { id:'d85_' + d, date:d, mid:ws[0].mid, kind:ws[0].kind, items:ws.flatMap(종) };
+  const 갈 = [...new Set(ws.map(w => w.kind === '수업' ? '수업' : '개인운동'))];
+  const 루 = ws.map(w => w.rid && rOf(w.rid)).filter(Boolean)[0];
+  const 머 = `<div class="g77hd">${갈.map(k => `<span class="g76k ${k === '수업' ? 'su' : 'pe'}">${k === '수업' ? 'PT 수업' : '개인운동'}</span>`).join('')}<span class="g77d">${+d.slice(8)}일 (${요})</span>${루 ? `<span class="g77rt">루틴 ${esc(String(루.no || ''))}</span>` : ''}<i class="g77go">›</i></div>`;
+  const 이름 = (it, k) => `<li class="${k}"><b>${esc(exName(it.ex, it.va))}</b></li>`;
+  let 목 = '', 최대 = 6;
+  const 두 = 갈.length > 1;
+  if(!두 || S.g85v === 'A'){ const 줄 = ws.flatMap(w => 종(w).map(it => [it, 두 ? (w.kind === '수업' ? 'su' : 'pe') : ''])); 목 = 줄.slice(0, 최대).map(([it, k]) => 이름(it, k)).join('') + (줄.length > 최대 ? `<li class="more">외 ${줄.length - 최대}종목</li>` : ''); }
+  else if(S.g85v === 'B'){ ws.forEach(w => { const its = 종(w); 목 += `<li class="g85t ${w.kind === '수업' ? 'su' : 'pe'}">${w.kind === '수업' ? 'PT 수업' : '개인운동'}</li>` + its.slice(0, 3).map(it => 이름(it, '')).join('') + (its.length > 3 ? `<li class="more">외 ${its.length - 3}종목</li>` : ''); }); }
+  else { const 수 = ws.filter(w => w.kind === '수업'), 개 = ws.filter(w => w.kind !== '수업'), 수줄 = 수.flatMap(종), 개수 = 개.flatMap(종).length;
+    목 = 수줄.slice(0, 5).map(it => 이름(it, '')).join('') + (수줄.length > 5 ? `<li class="more">외 ${수줄.length - 5}종목</li>` : '') + (개수 ? `<li class="g85plus">+ 개인운동 ${개수}종목</li>` : ''); }
+  return `<div class="tmrc g77 g85${ws.every(w => w.kind !== '수업') ? ' self' : ''}" data-act="g85d:${d}">${머}
+    <div class="g77bd"><div class="tmfig g77fig">${오늘부위판(합, false)}</div><ul class="g77ex g85ex${목.split('<li').length <= 3 ? ' few' : ''}">${목}</ul></div></div>`; }
+const g85옛기록 = typeof g73옛기록 === 'function' ? g73옛기록 : vRecords;      /* 「그날 운동 n」 묶음(g73) 은 쓰지 않음 */
+vRecords = function(){ const o = g85옛기록.apply(this, arguments);
+  if(!o || !o.body || S.who === 'tr' || (S.anaT || 'log') !== 'log') return o;
+  const box = document.createElement('div'); box.innerHTML = o.body;
+  const 줄들 = [...box.querySelectorAll('.g11rw')], 아 = el => { const b = el.querySelector('[data-act^="g11o:"]'); return b ? D.workouts.find(x => x.id === b.getAttribute('data-act').slice(5)) : null; };
+  let i = 0;
+  while(i < 줄들.length){ const w0 = 아(줄들[i]); let j = i + 1; while(j < 줄들.length && w0 && (아(줄들[j]) || {}).date === w0.date && 줄들[j].previousElementSibling === 줄들[j - 1]) j++;
+    const 묶 = 줄들.slice(i, j), ws = 묶.map(아).filter(w => w && 세트있나(w));
+    if(ws.length){ const t = document.createElement('div'); t.innerHTML = g85하루(ws); 묶[0].before(t.firstElementChild); 묶.forEach(el => { const w = 아(el); if(w && 세트있나(w)) el.remove(); }); }
+    i = j; }
+  return Object.assign({}, o, { body: box.innerHTML }); };
+/* 누르면 아래 창 = 그날 기록 전부 차례로 (수업 먼저 · 개인운동은 「수업 후 나머지」 딱지) · 리포트 · 수정 갔다 오면 다시 */
+function g85창(d){ const ws = workoutsOf(S.mid).filter(w => w.date === d && 세트있나(w)).sort((a, b) => (a.kind === '수업' ? 0 : 1) - (b.kind === '수업' ? 0 : 1)); if(!ws.length) return; S.g85열 = d;
+  const 수 = ws.find(w => w.kind === '수업'), 요 = '일월화수목금토'[new Date(d + 'T00:00:00').getDay()];
+  openSheet(() => `<div class="h2">${esc(dateTxt(d))} (${요})${ws.length > 1 ? ` <small>운동 ${ws.length}</small>` : ''}</div>
+    <div class="tmrs g77sh g82sh g85sh">${ws.map(w => { const c = 지난기록한장(w, { start:true }); return 수 && w !== 수 && g75나머지인가(w, 수) ? c.replace(/(<span class="g76k[^"]*">[^<]*<\/span>)/, '$1<span class="g75tag">수업 후 나머지</span>') : c; }).join('')}</div>
+    <button class="btn ghost sm" data-act="close">닫기</button>`); }
+window.addEventListener('click', e => { const t = e.target.closest && e.target.closest('[data-act^="g85d:"]'); if(t && !t.closest('#sheetbox')){ e.preventDefault(); e.stopImmediatePropagation(); g85창(t.getAttribute('data-act').slice(5)); return; }
+  const b = e.target.closest && e.target.closest('#sheetbox .g85sh [data-act^="myfix:"], #sheetbox .g85sh [data-act^="rpt:"]'); if(b){ S.g85re = S.g85열; S.g82re = null; } }, true);
+const g85옛pop = popScreen;
+popScreen = function(){ const r = g85옛pop.apply(this, arguments); if(S.g85re){ const d = S.g85re; S.g85re = null; S.g82re = null; if(S.screen === 'records') setTimeout(() => g85창(d), 60); } return r; };
+</script>
+
+<script>
+/* 51 11/26 15:27 대표 「A안」 — 기록 탭 · 지난 기록으로 시작 = 하루 한 장 · 안에서 나눔
+   목록 : 날짜마다 카드 하나 · 같은 날 두 갈래면 오른쪽 종목을 「PT 수업 · 루틴 n」 / 「수업 후 나머지」 두 묶음으로(얇은 선)
+   창 : 같은 날 여러 장이면 위쪽 두 칸(PT 수업 · n종목 | 나머지 · n종목)으로 바꿔 봄 · 아래 「이 기록으로 시작」 하나
+   시작 : 「PT 수업 종목 그대로 / 나머지 운동만 / 둘 다 이어서」 고름 → 시작 · 한 장뿐인 날은 고름 없이 바로 */
+const g86종 = w => (w.items || []).filter(it => it.sets && it.sets.length && !isMemo(it.ex));
+const g86정렬 = ws => ws.slice().sort((a, b) => (a.kind === '수업' ? 0 : 1) - (b.kind === '수업' ? 0 : 1));
+function g86이름(w, ws){ if(w.kind === '수업') return 'PT 수업'; const 수 = ws.find(x => x.kind === '수업'); return 수 && g75나머지인가(w, 수) ? '나머지' : '개인운동'; }
+function g86날(d){ return g86정렬(workoutsOf(S.mid).filter(w => w.date === d && 세트있나(w))); }
+g85하루 = function(ws){ ws = g86정렬(ws); const d = ws[0].date, 요 = '일월화수목금토'[new Date(d + 'T00:00:00').getDay()];
+  const 합 = { id:'d85_' + d, date:d, mid:ws[0].mid, kind:ws[0].kind, items:ws.flatMap(g86종) };
+  const 이 = ws.map(w => g86이름(w, ws)), 갈 = [...new Set(이)];
+  const 루 = w => { const r = w.rid && rOf(w.rid); return r ? '루틴 ' + (r.no || '') : ''; };
+  const 머 = `<div class="g86hd"><span class="g86dt">${+d.slice(8)}<small>${요}</small></span>${갈.map(k => `<span class="g76k ${k === 'PT 수업' ? 'su' : 'pe'}">${k}</span>`).join('')}${ws.length === 1 && 루(ws[0]) ? `<span class="g77rt">${루(ws[0])}</span>` : ''}<i class="g77go">›</i></div>`;
+  let 목;
+  if(ws.length === 1){ const its = g86종(ws[0]); 목 = its.slice(0, 6).map(it => `<li><b>${esc(exName(it.ex, it.va))}</b></li>`).join('') + (its.length > 6 ? `<li class="more">외 ${its.length - 6}종목</li>` : ''); }
+  else 목 = ws.map((w, i) => { const its = g86종(w), 둘 = its.slice(0, 2).map(it => esc(exName(it.ex, it.va))).join(' · '), k = 이[i];
+      return `${i ? '<li class="g86sep"></li>' : ''}<li class="g86gh ${k === 'PT 수업' ? 'su' : 'pe'}">${k === '나머지' ? '수업 후 나머지' : k}${루(w) ? ' · ' + 루(w) : ''}</li><li class="g86ln">${둘}</li>${its.length > 2 ? `<li class="more">외 ${its.length - 2}종목</li>` : ''}`; }).join('');
+  return `<div class="tmrc g77 g85 g86${ws.every(w => w.kind !== '수업') ? ' self' : ''}" data-act="g85d:${d}">${머}
+    <div class="g77bd"><div class="tmfig g77fig">${오늘부위판(합, false)}</div><ul class="g77ex g86ex${ws.length === 1 && 목.split('<li').length <= 3 ? ' few' : ''}">${목}</ul></div></div>`; };
+/* 창 */
+S.g86i = S.g86i || {};
+g85창 = function(d){ const ws = g86날(d); if(!ws.length) return; S.g85열 = d; const 요 = '일월화수목금토'[new Date(d + 'T00:00:00').getDay()];
+  const i = Math.min(S.g86i[d] || 0, ws.length - 1), w = ws[i], 수 = ws.find(x => x.kind === '수업'), 이 = ws.map(x => g86이름(x, ws));
+  let c = 지난기록한장(w, { start:true });
+  if(수 && w !== 수 && 이[i] === '나머지') c = c.replace(/(<span class="g76k[^"]*">[^<]*<\/span>)/, '$1<span class="g75tag">수업 후 나머지</span>');
+  if(ws.length > 1) c = c.replace(/<button class="btn main sm tlgo" data-act="again:[^"]*">[^<]*<\/button>/, '');
+  const 뒤 = S.g86from === 'myrecs' ? '<button class="btn ghost sm" data-act="myrecs">‹ 목록으로</button>' : '<button class="btn ghost sm" data-act="close">닫기</button>';
+  openSheet(() => `<div class="h2">${esc(dateTxt(d))} (${요})${ws.length > 1 ? ` <small>운동 ${ws.length}</small>` : ''}</div>
+    ${ws.length > 1 ? `<div class="g86seg">${ws.map((x, k) => `<button class="${k === i ? 'on ' : ''}${이[k] === 'PT 수업' ? 'su' : 'pe'}" data-act="g86t:${d}:${k}">${이[k]} · ${g86종(x).length}종목</button>`).join('')}</div>` : ''}
+    <div class="tmrs g77sh g82sh g85sh">${c}</div>
+    ${ws.length > 1 ? `<button class="btn main" data-act="g86p:${d}">이 기록으로 시작</button>` : ''}${뒤}`); };
+/* 시작 고르기 */
+function g86고르기(d){ const ws = g86날(d); if(ws.length < 2) return; const 이 = ws.map(x => g86이름(x, ws)), 골 = S.g86골 && S.g86골.d === d ? S.g86골.k : '0';
+  const 줄 = (k, 제목, 설명) => `<button class="g86op${골 === k ? ' on' : ''}" data-act="g86o:${d}:${k}"><b>${제목}</b><small>${설명}</small></button>`;
+  const 요약 = its => esc(exName(its[0].ex, its[0].va)) + (its.length > 1 ? ' 외 ' + (its.length - 1) + '종목' : '');
+  openSheet(() => `<div class="h2">무엇으로 시작할까요? <small>그날 종목 · 무게 그대로</small></div><div class="g86ops">
+    ${ws.map((w, k) => 줄(String(k), 이[k] === 'PT 수업' ? 'PT 수업 종목 그대로' : 이[k] === '나머지' ? '나머지 운동만' : '개인운동 그대로', 요약(g86종(w)))).join('')}
+    ${줄('all', '둘 다 이어서', ws.flatMap(g86종).length + '종목 · ' + 이.join(' → ') + ' 순서')}</div>
+    <button class="btn main" data-act="g86go:${d}">시작</button><button class="btn ghost sm" data-act="g86b:${d}">‹ 기록으로</button>`); }
+function g86시작(d){ const ws = g86날(d), k = S.g86골 && S.g86골.d === d ? S.g86골.k : '0';
+  const 고른 = k === 'all' ? ws : [ws[+k]].filter(Boolean); if(!고른.length) return;
+  if(고른.length === 1){ S.g86골 = null; const b = document.createElement('button'); b.setAttribute('data-act', 'again:' + 고른[0].id); b.style.display = 'none'; document.body.appendChild(b); b.click(); b.remove(); return; }
+  closeSheet(); if(liveOf(S.mid)){ toast('하던 운동이 있어요\n마치고 시작해 주세요'); go('workout'); return; }
+  const 것들 = 고른.flatMap(g86종).map(it => { const f = it.sets[0]; return { ex:it.ex, va:it.va, rest:60, locked:false, sec:0, startAt:Date.now(), sets:[{ kg:f.kg || 0, reps:f.reps || (exOf(it.ex).cardio ? 20 : 10), spd:f.spd, done:false }] }; });
+  S.g86골 = null; newLive('지난 운동 그대로', 것들, '개인운동', null); }
+window.addEventListener('click', e => { const b = e.target.closest && e.target.closest('[data-act^="g86"], #sheetbox .g86pick [data-act^="g85d:"]'); if(!b) return;
+  const [k, d, x] = b.getAttribute('data-act').split(':'); e.preventDefault(); e.stopImmediatePropagation();
+  if(k === 'g85d' || k === 'g86b'){ g85창(d); return; }
+  if(k === 'g86t'){ S.g86i[d] = +x; g85창(d); return; }
+  if(k === 'g86p'){ S.g86골 = { d, k:String(S.g86i[d] || 0) }; g86고르기(d); return; }
+  if(k === 'g86o'){ S.g86골 = { d, k:x }; g86고르기(d); return; }
+  if(k === 'g86go'){ g86시작(d); return; } }, true);
+/* 기록 탭에서 열면 「닫기」 · 홈 「지난 기록으로 시작」 에서 열면 「‹ 목록으로」 */
+window.addEventListener('click', e => { const t = e.target.closest && e.target.closest('#main [data-act^="g85d:"]'); if(t) S.g86from = ''; }, true);
+/* 홈 「지난 기록으로 시작」 = 같은 하루 카드 목록 → 누르면 같은 창 · 같은 고르기 */
+sheetMyRecs = function(){ if(S.who === 'tr') return; S.g86from = 'myrecs';
+  const 날 = [...new Set(workoutsOf(S.mid).filter(w => 세트있나(w)).map(w => w.date))].slice(0, 12);
+  openSheet(() => `<div class="h2">지난 기록으로 시작 <small>눌러서 확인하고 시작 · 그날 종목 · 무게 그대로</small></div>
+    <div class="tmrs g77pick g86pick">${날.length ? 날.map((d, n) => g85하루(g86날(d)).replace('class="tmrc g77 g85 g86', `style="--i:${n}" class="tmrc g77 g85 g86 g79`)).join('') : 빔('pic', '아직 운동 기록이 없습니다', '홈 「운동하기」에서 첫 운동을 시작해 주세요')}</div>
+    <button class="btn ghost sm" data-act="close">닫기</button>`); };
+</script>
+
+<script>
+/* 52 11/26 15:45 대표 「(트레이너) 입구는 원래 모습 · 들어가서는 B안 · 기록할 때는 나누지 말고 그대로(헷갈림) · 그 수업 때 또 나머지 운동 지정하면 그렇게 되는 것」
+   트레이너 지난 기록 : 목록 = 지금 작은 카드 그대로 · 누르면 창 = 펼친 기록 카드(PT 표) + 바로 아래 「수업 후 나머지」 작은 표(내준 것 · 회원이 한 숫자 ✓ / 아직)
+   수업 시작 = 지금 물음(g71) 그대로 — 「PT 수업 + 나머지 운동 다 진행」 / 「PT 수업 종목만」 · 수업 화면은 한 목록(나누지 않음) */
+function g87나머지(w){ if(!w || w.kind !== '수업') return '';
+  const 종 = [...new Map(나머지of(w.id).flatMap(t => t.items || []).map(x => [x.ex + ':' + (x.va || ''), x])).values()].filter(x => !(w.items || []).some(it => it.ex === x.ex && it.sets && it.sets.length));
+  if(!종.length) return '';
+  const 줄 = 종.map(x => { const 한 = D.workouts.filter(z => z.mid === w.mid && z.id !== w.id && z.date >= w.date && 세트있나(z)).flatMap(z => (z.items || []).filter(it => it.ex === x.ex && it.sets && it.sets.length).map(it => ({ z, it }))).sort((a, b) => a.z.date < b.z.date ? -1 : 1)[0];
+    return { 이름:exName(x.ex, x.va), 한 }; });
+  const 했 = 줄.filter(r => r.한).length;
+  return `<div class="g87"><div class="g87hd"><span class="g76k pe">수업 후 나머지</span><em class="${했 === 줄.length ? 'ok' : ''}">${했} / ${줄.length} 했음${했 === 줄.length ? ' ✓' : ''}</em></div>
+    <div class="g87tb">${줄.map(r => `<div class="g87r${r.한 ? ' ok' : ''}"><b>${esc(r.이름)}</b><span>${r.한 ? esc(g76세트글(r.한.it)) + ' ✓' : '아직'}</span></div>`).join('')}</div></div>`; }
+const g87옛창 = g77창;
+g77창 = function(wid){ if(S.who !== 'tr') return g87옛창.apply(this, arguments);
+  const w = D.workouts.find(x => x.id === wid); if(!w) return; const 골 = S.g77p[wid];
+  let 카 = 지난기록한장(w, { tr:true, full:true }).replace(/(<div class="tmrc[^"]*") data-act="tw:[^"]*"/, '$1');
+  const 나 = g87나머지(w);
+  if(나) 카 = 카.includes('<div class="g76ft">') ? 카.replace('<div class="g76ft">', 나 + '<div class="g76ft">') : 카.replace(/<\/div>\s*$/, 나 + '</div>');
+  const 시작 = 골 ? [골[0], 골[1] || '이 기록으로 시작'] : ['tstartrec:' + w.mid + ':' + w.id + ':수업', '이 기록으로 수업 시작'];
+  openSheet(() => `<div class="g77sh">${카}</div>
+    <button class="btn main" data-act="${esc(시작[0])}">${esc(시작[1])}</button>
+    ${!골 ? `<button class="btn sub" data-act="g77fb:${esc(w.id)}">피드백</button>` : ''}<button class="btn ghost sm" data-act="close">닫기</button>`); };
+/* 시험 페이지 (?seed87=1 · 트레이너) — 첫 회원 최근 수업에 나머지 운동 3개를 내주고 그중 2개를 회원이 한 기록을 심고 그 회원 화면을 연다 (샘플 전용) */
+if(/[?&]seed87=1/.test(location.search)){
+  const 심87 = () => { try{ const m = (MEMBERS[0] || {}).id; if(!m || !D.workouts || (D.workouts.some(x => x.id === 'zq87') && (D.rtips || []).some(t => t.z87))) return;
+    D.workouts = D.workouts.filter(x => x.id !== 'zq87'); D.rtips = (D.rtips || []).filter(t => !t.z87);
+    const 수 = D.workouts.filter(w => w.mid === m && w.kind === '수업' && 세트있나(w)).sort((a, b) => a.date < b.date ? 1 : -1)[0]; if(!수) return;
+    const 수종 = new Set(수.items.map(i => i.ex)), 나 = EX.filter(x => !x.cardio && !isMemo(x.id) && !수종.has(x.id)).slice(0, 3);
+    D.rtips.push({ z87:true, workout_id:수.id, items:나.map(x => ({ ex:x.id, va:'a', kg:20, reps:12 })) });
+    D.workouts.push({ id:'zq87', mid:m, date:수.date, kind:'개인운동', done:true, title:'', items:나.slice(0, 2).map((x, i) => ({ _id:'q' + i, ex:x.id, va:'a', sec:0, sets:[1, 2, 3].map(() => ({ kg:20, reps:12, done:true })) })) }); }catch(e){} };
+  const 옛87 = render; render = function(){ 심87(); return 옛87.apply(this, arguments); };
+  const 옛창87 = g77창; g77창 = function(){ 심87(); return 옛창87.apply(this, arguments); };
+  setTimeout(() => { S.tm = (MEMBERS[0] || {}).id; go('t_member'); }, 3000); }
+</script>
+
+<script>
+/* 53 11/26 16:03 대표 「(A안) 종목을 더 옅게 · 무게 횟수는 자세히 안 볼 듯 · 몸 그림 가운데 · 터치하면 크게 나오는지」
+   기록 카드(g76)의 몸 그림을 누르면 화면 가운데 크게(빈 곳 · ✕ 누르면 닫힘) — 카드의 다른 길목(피드백 쓰기 등)으로 새지 않게 먼저 받는다 */
+window.addEventListener('click', e => { const f = e.target.closest && e.target.closest('.tmrc.g76 .tmfig');
+  if(!f || !f.querySelector('img, svg')) return; e.preventDefault(); e.stopImmediatePropagation();
+  const 판 = document.createElement('div'); 판.id = 'g88z'; 판.innerHTML = '<div class="g88b">' + f.innerHTML + '</div><button class="g88x" aria-label="닫기">✕</button>';
+  판.addEventListener('click', () => 판.remove()); document.body.appendChild(판); }, true);
+</script>
+
+
+<script>
+/* 54 11/26 16:58 대표 「운동 마치고 보는 화면이 이렇게 하기로 정했었나? · 시안 만들어」 — 시안(?g90=1 일 때만)
+   끝 화면 「오늘은 여기까지」 카드 = 새 기록 카드 꼴(g76 · ● 갈래 크게 · 루틴 줄 진하게 · 판 없는 몸 그림 · 종목 옅게) · 「기록 수정」 은 11/25 정한 그대로 브라운 채움(머리 오른쪽)
+   세트 없는 기록 = 머리 + 「기록한 세트가 없어요 · 기록 수정에서 넣을 수 있어요」 한 줄 (지금은 머리만 남아 빈 카드) */
+if(/[?&]g90=1/.test(location.search)){
+  const g90옛 = 지난기록한장;
+  지난기록한장 = function(w, o){ o = o || {}; if(!o.end) return g90옛.apply(this, arguments);
+    const 트 = S.who === 'tr', 고 = 트 ? `refix:${w.id}` : (회원수정가능(w) ? `myfix:${w.id}` : ''), 단 = 고 ? `<button class="g90fix tlrp tlfx g44fx" data-act="${고}">기록 수정</button>` : '';
+    if(!세트있나(w)){ const 요 = '일월화수목금토'[new Date(w.date + 'T00:00:00').getDay()], 수업 = (w.kind || '') === '수업';
+      return `<div class="tmrc g76 g90 none"><div class="g76top">${단}</div><div class="g76hd"><span class="g76k ${수업 ? 'su' : 'pe'}">${수업 ? '수업' : '개인운동'}</span><span class="g76d">${dateTxt(w.date)} (${요})</span></div>
+        <div class="g90none"><b>기록한 세트가 없어요</b><small>${고 ? '「기록 수정」에서 종목 · 세트를 넣을 수 있어요' : '트레이너가 기록한 수업이에요'}</small></div></div>`; }
+    let h = g90옛.call(this, w, { tr:true, full:true });
+    h = h.replace(/(<div class="tmrc[^"]*)" data-act="tw:[^"]*"/, '$1 g90"').replace(/<div class="g76top">[\s\S]*?<\/div>/, `<div class="g76top">${단}</div>`).replace(/<div class="g76ft">[\s\S]*?<\/div>/, '');
+    return h; };
+}
+</script>
+
+
+<script>
+/* 55 11/26 18:29 대표 「C 로 하고 샘플 넣어 · 규칙으로 넣고 모든 검색창은 동일하게」
+   효과 I · 검색창 = 화면(또는 아래 창)에 들어올 때 한 번 : 테가 두 번 살짝 짙어짐 + (돋보기 그림이 있으면) 까딱 + 예시 글이 한 번 넘어감 → 원래 글로
+   모든 검색창(input type=search · .search · 「검색」 이 든 placeholder) 같은 꼴 · 같은 화면 안 다시 그리기 · 글 쓰는 중엔 안 함 · 움직임 줄이기 설정이면 안 함
+   회원 이름 검색은 예시를 넣지 않음(실명) — 테만 */
+(() => {
+  const 고르개 = 'input[type=search], input.search, input[placeholder*="검색"]';
+  const 예시 = ph => { const m = ph.match(/예\)\s*(.+)$/); if(m) return m[1].split(/[,·]/).map(x => x.trim()).filter(Boolean).slice(0, 3);
+    if(/종목|동작/.test(ph)) return ['스쿼트', '벤치프레스', '랫풀다운']; if(/루틴/.test(ph)) return ['하체', '가슴']; return []; };
+  const 줄임 = () => { try{ return matchMedia('(prefers-reduced-motion: reduce)').matches; }catch(e){ return false; } };
+  let 본 = new Set(), 지난화면 = null, 창연때 = 0;
+  const 돌리기 = inp => { const 원 = inp.getAttribute('placeholder') || '', 앞 = 원.replace(/\s*·?\s*예\).*$/, '').replace(/^🔍\s*/, ''), ex = 예시(원);
+    inp.classList.remove('g92go'); void inp.offsetWidth; inp.classList.add('g92go');
+    const 판 = inp.parentElement; if(판) 판.querySelectorAll(':scope > svg, :scope > .ic, :scope > i').forEach(x => { x.classList.remove('g92k'); void x.offsetWidth; x.classList.add('g92k'); });
+    if(!ex.length) return; let i = 0;
+    const t = setInterval(() => { if(!inp.isConnected || document.activeElement === inp || inp.value){ clearInterval(t); if(inp.isConnected) inp.setAttribute('placeholder', 원); return; }
+      if(i >= ex.length){ clearInterval(t); inp.setAttribute('placeholder', 원); return; }
+      inp.setAttribute('placeholder', 앞 + ' · 예) ' + ex[i++]); }, 1100); };
+  const 살피기 = () => { if(window.__g92off) return;
+    if(S.screen !== 지난화면){ 지난화면 = S.screen; 본 = new Set([...본].filter(k => k.startsWith('창|'))); }
+    document.querySelectorAll('#main ' + 고르개.split(', ').join(', #main ') + ', #sheetbox ' + 고르개.split(', ').join(', #sheetbox ')).forEach(inp => {
+      if(inp.dataset.g92 || !inp.offsetWidth) return; inp.dataset.g92 = '1';
+      const 창 = !!inp.closest('#sheetbox'), k = (창 ? '창|' : S.screen + '|') + (inp.getAttribute('placeholder') || '');
+      if(창 && Date.now() - 창연때 > 900) return;                  /* 창은 막 열렸을 때만 */
+      if(본.has(k) || 줄임() || document.activeElement === inp || inp.value) return;
+      본.add(k); 돌리기(inp); }); };
+  const 시작 = () => { const m = document.getElementById('main'), sb = document.getElementById('sheetbox'), sh = document.getElementById('sheet');
+    if(!m){ setTimeout(시작, 300); return; }
+    new MutationObserver(() => 살피기()).observe(m, { childList:true, subtree:true });
+    if(sb) new MutationObserver(() => 살피기()).observe(sb, { childList:true, subtree:true });
+    if(sh) new MutationObserver(() => { if(sh.classList.contains('open')){ if(!sh.dataset.g92o){ sh.dataset.g92o = '1'; 창연때 = Date.now(); 본 = new Set([...본].filter(k => !k.startsWith('창|'))); } } else delete sh.dataset.g92o; }).observe(sh, { attributes:true, attributeFilter:['class'] });
+    살피기(); };
+  window.g92살피기 = 살피기;
+  setTimeout(시작, 0);
+})();
+</script>
+
+
+<script>
+/* g93 — 트레이너 종목 피드백 창 : 사진 · 영상을 고르면 바로 「이 사진을 올릴까요?」(미리보기 · 꾸미기 · 한마디) → 올리기 = 보내기 → 종목 창으로 돌아와 ✓ · 취소 = 붙인 것 비우고 돌아옴 */
+(() => {
+  const 옛고르기 = 첨부고르기;
+  첨부고르기 = function(종, K, 찍기){ const 전 = (att(K).files || []).length, 시작 = Date.now(); const r = 옛고르기.apply(this, arguments);
+    if(S.who === 'tr' && String(K).includes('|')){ const t = setInterval(() => { const n = (att(K).files || []).length;
+      if(n > 전){ clearInterval(t); setTimeout(() => g93올릴까(K), 120); } else if(Date.now() - 시작 > 60000) clearInterval(t); }, 250); }
+    return r; };
+  window.g93올릴까 = K => { const [exid, vk] = K.split('|'), mid = (S.attMid || {})[K] || S.subj || S.mid, e = exOf(exid) || {}, fs = att(K).files || [], 영 = fs.every(x => x.kind === 'video');
+    S.g93ask = K;
+    openSheet(() => `<div class="h2 g93h2">${영 ? '이 영상을' : '이 사진을'} 올릴까요? <small>${esc(e.n || '')} 피드백으로 · 회원 앱에 보여요</small></div>
+      ${붙인것(K)}
+      <div class="g93box g93one"><textarea data-k="cm:${K}" placeholder="한마디 (안 써도 돼요)"></textarea></div>
+      <button class="btn main" data-act="sendcm:${exid}:${vk}:${mid}">${S.보내는중 ? '올리는 중…' : '올리기'}</button>
+      <button class="btn ghost" data-act="g93x:${esc(K)}">취소</button>`); };
+  window.addEventListener('click', ev => { const b = ev.target.closest && ev.target.closest('[data-act^="g93x:"], #sheetbox [data-act^="sendcm:"]'); if(!b) return;
+    const a = b.getAttribute('data-act');
+    if(a.startsWith('g93x:')){ ev.preventDefault(); ev.stopImmediatePropagation(); const K = a.slice(5), [exid, vk] = K.split('|'), mid = (S.attMid || {})[K] || S.subj || S.mid; att(K).files = []; S.g93ask = null; sheetExDesc(exid, vk, mid); return; }
+    if(S.g93ask){ const K = S.g93ask, [exid, vk] = K.split('|'), mid = (S.attMid || {})[K] || S.subj || S.mid, 시작 = Date.now();      /* 올리기 = 원래 보내기 그대로 · 끝나면 종목 창으로 */
+      const t = setInterval(() => { if(!S.보내는중 && !(att(K).files || []).length){ clearInterval(t); S.g93ask = null; S.g93done = K; sheetExDesc(exid, vk, mid); setTimeout(() => { if(S.g93done === K){ S.g93done = null; } }, 6000); }
+        else if(Date.now() - 시작 > 60000) clearInterval(t); }, 250); } }, true);
+})();
+</script>
+
+
+<script>
+/* 56 11/26 19:01 대표 「아직 옛날 버전이라니까 · 하루 종일 돌리더니 왜 안 바뀐 시안이냐」 — 종목 고르기 v3.2 를 샘플에
+   카드 글 = 이름(메인) + 지난번 무게만(부가 · 유산소는 분 · 없으면 둘째 줄 없음) · 「센터 기구」 금 테 딱지 → 갈래 딱지(기구 · 맨몸 · 유산소)를 그림 왼쪽 아래(바둑판 · 크게만 · 목록엔 없음)
+   ★ = 브라운(금색 안 씀) · 그림 왼쪽 위 · ＋ = 흰 원 아이콘 단추(유산소 청록) · 꼴은 덧칠 css(g94) */
+(() => {
+  const 고치기 = () => { if(S.screen !== 'pick') return;
+    document.querySelectorAll('#main .megrp.pkg > button.mrow2:not([data-g94])').forEach(b => { b.dataset.g94 = '1';
+      const a = (b.getAttribute('data-act') || '').split(':'), id = a[0] === 'add' ? a[1] : '', e = id ? (exOf(id) || {}) : {}, eq = b.getAttribute('data-eq') || '';
+      const 갈 = e.cardio ? ['cd', '유산소'] : /맨몸|자중|매트/.test(eq) ? ['mm', '맨몸'] : ['gi', '기구'];
+      b.querySelectorAll('.ctrtag').forEach(x => x.remove());
+      const im = b.querySelector('.pkim'); if(im && id && !im.querySelector('.g94tg')) im.insertAdjacentHTML('beforeend', `<span class="g94tg ${갈[0]}">${갈[1]}</span>`);
+      if(e.cardio) b.classList.add('g94cd');
+      const sm = b.querySelector('.mt small'); if(sm){ const t = sm.textContent, m = t.match(/지난번\s*([\d.,]+\s*kg)/) || t.match(/지난번\s*([\d.,]+\s*분)/);
+        if(m) sm.textContent = '지난번 ' + m[1].replace(/\s+/g, ''); else sm.remove(); } }); };
+  const 시작 = () => { const m = document.getElementById('main'); if(!m){ setTimeout(시작, 300); return; } new MutationObserver(고치기).observe(m, { childList:true, subtree:true }); 고치기(); };
+  window.g94고치기 = 고치기; setTimeout(시작, 0);
+})();
+</script>
+
+<script>
+/* 57 11/26 19:16 대표 「여기도 다른 방식 · 버튼이 너무 많아(기구 20개) · 크게 / 작게 보기 버튼이 없어 검색창을 눌러야 나와 · 왜 시안이랑 다르게 나오지 계속」
+   종목 고르기 위쪽 = v3 시안 그대로 : 검색 → 부위 칩 → 도구 한 줄 [순서 ▾] [기구 ▾] [1RM] [＋ 새 종목] … [바둑판 · 크게 · 목록 아이콘 — 늘 보임]
+   순서 · 기구는 누르면 아래 창(기구 = 자주 쓰는 것 / 그 밖 두 묶음) · 옛 줄(이름만 추가 · 1RM · 기구 · 전체 ▾ / 순서 / 보기)은 숨김(같은 data-act 를 그대로 씀) */
+(() => {
+  const 순서이름 = { '그림':'그림 있는 순', '이름':'가나다 순', '기구':'기구별', '별':'즐겨찾기 먼저' };
+  const 지금순서 = () => { try{ return localStorage.getItem('gg_pksort') || '그림'; }catch(e){ return '그림'; } };
+  const 아 = { g3:'<svg viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7"/><rect x="13" y="4" width="7" height="7"/><rect x="4" y="13" width="7" height="7"/><rect x="13" y="13" width="7" height="7"/></svg>',
+    big:'<svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/></svg>', list:'<svg viewBox="0 0 24 24"><path d="M5 7h14M5 12h14M5 17h14"/></svg>' };
+  const 줄 = () => { const v = document.documentElement.dataset.pkv || 'list', 기 = S.pickEq || '전체';
+    return `<div class="g95tools"><button class="g95b" data-act="g95sort">${순서이름[지금순서()] || '순서'} ▾</button><button class="g95b${기 !== '전체' ? ' on' : ''}" data-act="g95eq">${기 === '전체' ? '기구 전체' : esc(기)} ▾</button>
+      <button class="g95b" data-act="rmaddpick">1RM</button><button class="g95b" data-act="pknew">＋ 새 종목</button><span class="g95sp"></span>
+      <span class="g95v">${['g3', 'big', 'list'].map(k => `<button class="${v === k ? 'on' : ''}" data-act="pkview:${k}" aria-label="${k === 'g3' ? '바둑판' : k === 'big' ? '크게' : '목록'}">${아[k]}</button>`).join('')}</span></div>`; };
+  const 고치기 = () => { if(S.screen !== 'pick') return; const m = document.getElementById('main'); const p = m && m.querySelector('.pkparts'); if(!p) return;
+    const 키 = [지금순서(), S.pickEq || '전체', document.documentElement.dataset.pkv || 'list'].join('|'), 옛 = m.querySelector('.g95tools');      /* 상태 열쇠가 같으면 안 건드림(끝없이 다시 그리지 않게) */
+    if(옛 && 옛.dataset.k === 키) return; const 새 = 줄().replace('<div class="g95tools"', '<div class="g95tools" data-k="' + 키 + '"'); if(옛) 옛.outerHTML = 새; else p.insertAdjacentHTML('afterend', 새); };
+  window.addEventListener('click', e => { const b = e.target.closest && e.target.closest('[data-act]'); if(!b) return; const a = b.getAttribute('data-act');
+    if(a === 'g95sort'){ e.preventDefault(); e.stopImmediatePropagation(); const 지 = 지금순서();
+      openSheet(() => `<div class="h2">순서</div><div class="g95ops">${Object.entries(순서이름).map(([k, n]) => `<button class="g95op${k === 지 ? ' on' : ''}" data-act="pksort:${k}">${n}</button>`).join('')}</div><button class="btn ghost" data-act="close">닫기</button>`); return; }
+    if(a === 'g95eq'){ e.preventDefault(); e.stopImmediatePropagation(); const 지 = S.pickEq || '전체', 자주 = ['전체', '맨몸', '바벨', '덤벨', '케이블', '머신', '스미스', '밴드', '케틀벨', '유산소'];
+      const 다 = [...new Set(EX.map(x => x.e || x.eq || x.equip).filter(Boolean))], 밖 = 다.filter(x => !자주.includes(x));
+      const 칩 = x => `<button class="g95op${x === 지 ? ' on' : ''}" data-act="peq:${esc(x)}">${esc(x)}</button>`;
+      openSheet(() => `<div class="h2">기구</div><div class="g95lb">자주 쓰는 것</div><div class="g95ops g95wrap">${자주.map(칩).join('')}</div>${밖.length ? `<div class="g95lb">그 밖</div><div class="g95ops g95wrap">${밖.map(칩).join('')}</div>` : ''}<button class="btn ghost" data-act="close">닫기</button>`); return; }
+    if((a.startsWith('pksort:') || a.startsWith('peq:')) && b.closest('#sheetbox')) setTimeout(() => { closeSheet(); 고치기(); }, 30);
+    if(a.startsWith('pkview:')) setTimeout(고치기, 30); }, true);
+  const 시작 = () => { const m = document.getElementById('main'); if(!m){ setTimeout(시작, 300); return; } new MutationObserver(고치기).observe(m, { childList:true }); 고치기(); };
+  setTimeout(시작, 0);
+})();
+</script>
+
+<script>
+/* g96 — 유산소 종류 줄 : 끝까지 밀면 › 와 흐림이 사라짐 · 고른 칩이 보이게 밀어 둠 */
+document.addEventListener('scroll', e => { const r = e.target; if(!r.classList || !r.classList.contains('g96row')) return; r.parentElement.classList.toggle('end', r.scrollLeft + r.clientWidth >= r.scrollWidth - 4); }, true);
+new MutationObserver(() => { const r = document.querySelector('#sheetbox .g96row:not([data-g96])'); if(!r) return; r.dataset.g96 = '1'; const on = r.querySelector('.chip.on'); if(on && on.offsetLeft + on.offsetWidth > r.clientWidth - 40) r.scrollLeft = on.offsetLeft - 12; r.parentElement.classList.toggle('end', r.scrollLeft + r.clientWidth >= r.scrollWidth - 4); }).observe(document.getElementById('sheetbox') || document.body, { childList:true, subtree:true });
+</script>
 
 </body>
 </html>
