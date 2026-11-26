@@ -4987,6 +4987,12 @@ html body #sheetbox .g99md{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
 html body #sheetbox .g99md img,html body #sheetbox .g99md video{width:96px;height:96px;object-fit:cover;border-radius:12px;background:#d9cfc3}
 html body #sheetbox .g99ask{margin-top:16px}
 html body #sheetbox .g99th>.g99ic.has{border:1px solid #e6ddd2}html body #sheetbox .g99ic.has svg{stroke:#837666}  /* 피드백은 있는데 사진 · 영상이 없을 때 — 점선(없음)과 다르게 */
+/* g99 피드백 창 첨부 = 넘겨보기(cmslide) — 카드 폭에 맞춤 */
+html body #sheetbox .g99md{display:block;margin-top:10px}html body #sheetbox .g99md img,html body #sheetbox .g99md video{width:100%;height:auto;max-height:46vh;object-fit:contain;border-radius:12px;background:#f6f1ea}
+/* g99 피드백 첨부 틀 = 4:3 (기본 52vh 는 카드 안에서 너무 큼) · 바탕 옅은 판 */
+html body #sheetbox .g99md .cs-track{background:#f6f1ea}
+html body #sheetbox .g99md .cs-item{height:auto;aspect-ratio:4/3}
+html body #sheetbox .g99md .cs-item img,html body #sheetbox .g99md .cs-item video{width:100%;height:100%;max-height:none;object-fit:contain;border-radius:0;background:transparent}
 </style></head>
 <body>
 <div class="pwabar" id="pwabar"></div>
@@ -21365,6 +21371,12 @@ new MutationObserver(() => { const r = document.querySelector('#sheetbox .g96row
   const 말 = '<svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/></svg>';
   const 날 = d => { const t = new Date(String(d).slice(0, 10) + 'T00:00:00'); return isNaN(t) ? '' : (t.getMonth() + 1) + '월 ' + t.getDate() + '일'; };
   const 갈래 = k => /수업/.test(k || '') ? ['su', '수업'] : ['pe', k || '개인운동'];
+  /* 피드백 첨부 — 샘플(?sample=1)엔 첨부가 없어서 그 종목 가장 최근 피드백에 보기용을 붙인다(사진 · 영상 둘 다 · 21:50 대표 「눌렀을 때 어떻게 나오는지」) */
+  const 자료of = c => { const m = c.media || []; if(m.length || !/sample=1/.test(location.search)) return m;
+    const 최근 = (D.cm || []).filter(x => x.mid === c.mid && x.ex === c.ex).sort((a, b) => String(b.ts).localeCompare(String(a.ts)))[0];
+    if(!최근 || 최근.id !== c.id) return [];
+    return c.ex === 'lpd' ? [{ kind:'video', path:'demo/fb_lpd.mp4' }, { kind:'photo', path:'demo/fb_lpd.jpg' }] : [{ kind:'photo', path:'demo/fb_sq.jpg' }, { kind:'video', path:'demo/fb_lpd.mp4' }]; };
+  const 썸 = m => m.kind === 'video' ? (m.poster || String(m.path).replace(/\.mp4$/, '.jpg')) : m.path;
   let 앞 = null, 앞높이 = 0;      /* 지난 기록 · 피드백 창에서 ‹ 뒤로 = 앞 창 */
   const 높이고정 = () => { const sb = document.getElementById('sheetbox'); if(sb && 앞높이) sb.style.minHeight = 앞높이 + 'px'; };
   const 높이풀기 = () => { const sb = document.getElementById('sheetbox'); if(sb) sb.style.minHeight = ''; };
@@ -21391,7 +21403,7 @@ new MutationObserver(() => { const r = document.querySelector('#sheetbox .g96row
     높이재기(); 앞 = 'mx:' + i;
     openSheet(() => { const cms = cmOf(wmid, it.ex, it.va).slice().sort((a, b) => String(b.ts || '') < String(a.ts || '') ? -1 : 1);
       return `<div class="h2 g99h">트레이너 피드백<small>${esc(e.n || exName(it.ex, it.va))}</small></div>
-        ${cms.length ? `<div class="g99fl">${cms.map(c => `<div class="g99fi"><div class="g99fd"><b>${날(c.ts)}</b>${c.tr ? ' · ' + esc(c.tr) + ' 트레이너' : ''}</div>${c.tx ? `<p>${esc(c.tx)}</p>` : ''}${(c.media || []).length ? `<div class="g99md">${c.media.map(m => m.kind === 'video' ? `<video src="${esc(phURL(m.path))}" controls playsinline preload="metadata"></video>` : `<img src="${esc(phURL(m.path))}" alt="" loading="lazy" data-zoom="${esc(phURL(m.path))}">`).join('')}</div>` : ''}</div>`).join('')}</div>`
+        ${cms.length ? `<div class="g99fl">${cms.map(c => `<div class="g99fi"><div class="g99fd"><b>${날(c.ts)}</b>${c.tr ? ' · ' + esc(c.tr) + ' 트레이너' : ''}</div>${c.tx ? `<p>${esc(c.tx)}</p>` : ''}${(() => { const m = 자료of(c); return m.length ? `<div class="g99md">${넘겨보기(m, c.id).replace(/<video src="([^"]+)"/g, (a, u) => /fb_lpd\.mp4/.test(u) ? `<video poster="${u.replace(/\.mp4$/, '.jpg')}" src="${u}"` : /#t=/.test(u) ? a : `<video src="${u}#t=0.1"`)}</div>` : '';      /* 영상 첫 장면 — 그릴 때 바로 넣음(다시 그려도 남게) */ })()}</div>`).join('')}</div>`
           : '<div class="g99card g99empty">아직 받은 피드백이 없어요</div>'}
         ${요청켬(S.mid) ? `<button class="btn main g99ask" data-act="exd:${it.ex}:${it.va}">피드백 요청하기</button>` : ''}
         <button class="g99back" data-act="g99back">‹ 뒤로</button>`; });
@@ -21406,12 +21418,12 @@ new MutationObserver(() => { const r = document.querySelector('#sheetbox .g96row
       const r = rOf(w.rid), ri = r && (r.items || []).find(x => x.ex === it.ex && x.va === it.va), 추 = ri ? 루틴줄(ri, e) : '';
       const 추있 = 추 && !/정합니다/.test(추), [큰, ...작] = 추있 ? 추.split(' · ') : [];
       const cms = cmOf(wmid, it.ex, it.va).slice().sort((a, b) => String(b.ts || '') < String(a.ts || '') ? -1 : 1);
-      const 자료 = cms.flatMap(c => c.media || []).slice(0, 2);
+      const 자료 = cms.flatMap(c => 자료of(c)).slice(0, 2);
       return `<div class="g99top">${그림 ? `<img src="${esc(그림)}" alt="" data-zoom="${esc(그림)}">` : `<span class="g99noimg">${esc(e.p || '')}</span>`}<button class="g99del" data-act="wdel:${i}">${휴}종목 삭제</button></div>
         <div class="g99nm">${esc(e.n || exName(it.ex, it.va))}</div>
         <div class="g99card g99goal">${추있 ? `<div class="g99gi"><div class="g99k">트레이너 추천</div><div class="g99v">${esc(큰)}</div>${작.length ? `<div class="g99vs">${esc(작.join(' · '))}</div>` : ''}</div>` : ''}
           <button class="g99row${추있 ? '' : ' solo'}" data-act="g99past:${i}"><span class="g99t">지난 기록</span><span class="g99a">›</span></button></div>
-        <button class="g99fb${cms.length ? '' : ' no'}" data-act="g99fb:${i}"><span class="g99th">${cms.length && 자료.length ? 자료.map(m => `<span class="${m.kind === 'video' ? 'v' : ''}" style="background-image:url('${esc(phURL(m.kind === 'video' ? (m.poster || m.path.replace(/\.mp4$/, '.jpg')) : m.path))}')"></span>`).join('') : `<span class="g99ic${cms.length ? ' has' : ''}">${말}</span>`}</span>
+        <button class="g99fb${cms.length ? '' : ' no'}" data-act="g99fb:${i}"><span class="g99th">${cms.length && 자료.length ? 자료.map(m => `<span class="${m.kind === 'video' ? 'v' : ''}" style="background-image:url('${esc(phURL(썸(m)))}')"></span>`).join('') : `<span class="g99ic${cms.length ? ' has' : ''}">${말}</span>`}</span>
           <span class="g99t">${cms.length ? '<i class="g99ping"></i>' : ''}피드백<small>${cms.length ? '보기 · 요청' : '아직 없어요 · 요청하기'}</small></span><span class="g99a">›</span></button>`; }); };
 
   window.addEventListener('click', e => { const b = e.target.closest && e.target.closest('[data-act]'); if(!b) return; const a = b.getAttribute('data-act');
