@@ -5041,14 +5041,25 @@ html body #sheetbox .g99fc i{flex:none;font-style:normal;font-size:13px;color:#8
 html body #sheetbox .g99fc em{flex:none;font-style:normal;font-size:15px;font-weight:800;color:#837666}
 html body #sheetbox .g99fl{gap:8px}
 /* ② 너무 하얀 것 — 흰 창 위 카드는 옅은 판(테 · 그림자 없이) */
-html body #sheetbox .g99goal,html body #sheetbox .g99tile{background:#f6f1ea!important;border:0!important;box-shadow:none!important}
-html body #sheetbox .g99tile .g99ic.has{background:#fff}
+/* 22:46 대표 「색을 다 채우란 건 아니었어 · 아까 깔끔하고 좋았어」 → 판 칠하기 되돌림(흰 카드) */
+
 html body #sheetbox .g99fi{background:#fff;border:1px solid #e6ddd2}
 /* ③ 폰 높이에 맞춤 — 종목 창이 스크롤 없이 한 화면 (그림 · 간격을 높이에 따라 줄임) */
 html body #sheetbox .g99top img{width:clamp(96px,17vh,150px)!important}
 @media (max-height:760px){html body #sheetbox .g99goal{margin-top:12px!important;padding:12px!important}html body #sheetbox .g99two{margin-top:10px!important}html body #sheetbox .g99tile{padding:10px 8px!important}html body #sheetbox .g99tile .g99th>span{width:34px!important;height:34px!important}html body #sheetbox .g99v{font-size:20px!important}}
 @media (max-height:680px){html body #sheetbox .g99tile .g99th{display:none!important}html body #sheetbox .g99nm{font-size:18px!important}}
 @media (max-height:680px){html body #sheetbox .g99top{padding:0!important}html body #sheetbox .g99goal{margin-top:8px!important;padding:10px!important}html body #sheetbox .g99two{margin-top:8px!important}html body #sheetbox .g99top img{width:clamp(84px,15vh,120px)!important}}
+/* 22:47 대표 「운동 사진 좀 더 키워 · 너무 작다」 — 폰 높이에 맞춰 크게(스크롤 없이) */
+html body #sheetbox .g99top img{width:clamp(140px,26vh,220px)!important;max-width:70%!important}
+@media (max-height:760px){html body #sheetbox .g99top img{width:clamp(130px,23vh,180px)!important}}
+@media (max-height:680px){html body #sheetbox .g99top img{width:clamp(110px,20vh,140px)!important}}
+/* g99 종목 창 처음 열 때 파도 (11/26 22:51 대표 「카드들이 파도처럼 튀어오르는 효과」) = 효과 F 떠오름(아래서 14px · 0.35초 · 한 번) 을 차례로 — 통통 튐은 ✕ 라 넘침 없이 */
+@keyframes g99up{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+html body #sheetbox.g99in .g99nm{animation:g99up .35s cubic-bezier(.2,.7,.3,1) both}
+html body #sheetbox.g99in .g99goal{animation:g99up .35s cubic-bezier(.2,.7,.3,1) .07s both}
+html body #sheetbox.g99in .g99tile:nth-child(1){animation:g99up .35s cubic-bezier(.2,.7,.3,1) .14s both}
+html body #sheetbox.g99in .g99tile:nth-child(2){animation:g99up .35s cubic-bezier(.2,.7,.3,1) .21s both}
+@media (prefers-reduced-motion:reduce){html body #sheetbox.g99in *{animation:none!important}}
 </style></head>
 <body>
 <div class="pwabar" id="pwabar"></div>
@@ -21487,7 +21498,7 @@ new MutationObserver(() => { const r = document.querySelector('#sheetbox .g96row
   document.addEventListener('input', e => { if(e.target && e.target.matches && e.target.matches('#sheetbox textarea[data-k^="ask:"]')) 요청단추(); });
 
   /* ① 회원 종목 창 */
-  회원종목창 = function(i){ const w0 = live(), it0 = w0 && w0.items[i]; if(!it0) return; 앞 = null; 높이풀기();
+  회원종목창 = function(i, 돌아옴){ const w0 = live(), it0 = w0 && w0.items[i]; if(!it0) return; 앞 = null; 높이풀기();
     openSheet(() => { const w = live(), it = w && w.items[i]; if(!it) return '<div class="g99empty">종목이 없어요</div>';
       const wmid = w.mid || S.mid, e = exOf(it.ex) || {}, 그림 = 종목그림주소(e);
       const r = rOf(w.rid), ri = r && (r.items || []).find(x => x.ex === it.ex && x.va === it.va), 추 = ri ? 루틴줄(ri, e) : '';
@@ -21502,7 +21513,7 @@ new MutationObserver(() => { const r = document.querySelector('#sheetbox .g96row
         ${추있 ? `<div class="g99card g99goal"><div class="g99k">트레이너 추천</div><div class="g99v">${esc(큰)}</div>${작.length ? `<div class="g99vs">${esc(작.join(' · '))}</div>` : ''}</div>` : ''}
         <div class="g99two">
           <button class="g99tile" data-act="g99past:${i}"><span class="g99th"><span class="g99ic has">${달}</span></span><b>지난 기록<i>›</i></b><small>최근 3번</small></button>
-          <button class="g99tile${cms.length ? '' : ' no'}" data-act="g99fb:${i}"><span class="g99th">${표지}</span><b>${cms.length ? '<i class="g99ping"></i>' : ''}피드백<i>›</i></b><small>${cms.length ? '보기 · 요청' : '아직 없어요 · 요청'}</small></button></div>`; }); };
+          <button class="g99tile${cms.length ? '' : ' no'}" data-act="g99fb:${i}"><span class="g99th">${표지}</span><b>${cms.length ? '<i class="g99ping"></i>' : ''}피드백<i>›</i></b><small>${cms.length ? '보기 · 요청' : '아직 없어요 · 요청'}</small></button></div>`; }); if(!돌아옴){ const sb = document.getElementById('sheetbox'); if(sb){ sb.classList.remove('g99in'); void sb.offsetWidth; sb.classList.add('g99in'); setTimeout(() => sb.classList.remove('g99in'), 1100); } } };
 
   window.addEventListener('click', e => { const b = e.target.closest && e.target.closest('[data-act]'); if(!b) return; const a = b.getAttribute('data-act');
     if(a.startsWith('g99past:')){ e.preventDefault(); e.stopImmediatePropagation(); const i = +a.slice(8), w = live(), it = w && w.items[i]; if(it) g99지난(it.ex, it.va, w.mid || S.mid, 'mx:' + i); return; }
@@ -21511,7 +21522,7 @@ new MutationObserver(() => { const r = document.querySelector('#sheetbox .g96row
     if(a.startsWith('g99req:')){ e.preventDefault(); e.stopImmediatePropagation(); 요청창(+a.slice(7)); return; }
     if(a.startsWith('ask:')){ const ta = document.querySelector('#sheetbox textarea[data-k^="ask:"]'); if(ta && !ta.value.trim()){ e.preventDefault(); e.stopImmediatePropagation(); toast('궁금한 점을 입력해 주세요'); return; } }
     if(a === 'g99back'){ e.preventDefault(); e.stopImmediatePropagation(); 높이풀기(); const 갈 = 앞; 앞 = null; 요청앞 = null; { const sb = document.getElementById('sheetbox'); if(sb) sb.classList.remove('g99req'); }
-      if(갈 && 갈.startsWith('mx:')) 회원종목창(+갈.slice(3));
+      if(갈 && 갈.startsWith('mx:')) 회원종목창(+갈.slice(3), true);
       else if(갈){ const t = document.createElement('button'); t.setAttribute('data-act', 갈); t.style.display = 'none'; document.body.appendChild(t); t.click(); t.remove(); }
       return; }
     if(a.startsWith('exd:') && b.classList.contains('g99ask') && 지금fb != null){ 요청앞 = 'g99fb:' + 지금fb; 높이재기(); [30, 200].forEach(t => setTimeout(요청뒤로, t)); return; }
