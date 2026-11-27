@@ -21672,7 +21672,7 @@ new MutationObserver(() => { const r = document.querySelector('#sheetbox .g96row
 
 <script>
 /* 60 11/27 11:34 대표 「쿠팡이츠 검색창처럼 검색어가 계속 바뀌게 · 회원 검색 · 종목 검색 · 검색창 규칙 = 가이드가 뜨게」
-   검색창이 비어 있고 누르지 않았을 때 = 안내 글이 아래에서 위로 2.6초마다 바뀜(계속) · 누르거나 글을 쓰면 바로 멈춤 · 비우고 나가면 다시
+   검색창이 비어 있으면(눌러도) 안내 글이 아래에서 위로 2.6초마다 바뀜(계속) · 글을 쓰면 바로 멈춤 · 비우고 나가면 다시
    회원 검색은 실명 예시 없음(안내만) · 동작 줄이기 설정이면 첫 줄만 그대로 · 효과 I(테 두 번)는 그대로 */
 (() => {
   const 고르개 = 'input[type=search], input.search, input[placeholder*="검색"]';
@@ -21687,7 +21687,7 @@ new MutationObserver(() => { const r = document.querySelector('#sheetbox .g96row
     const 앞 = 원.replace(/\s*·?\s*예\).*$/, '') || '검색';
     판.innerHTML = `<i class="g108t">${다[0]}</i>`; const p = inp.offsetParent || inp.parentElement; if(getComputedStyle(p).position === 'static') p.style.position = 'relative'; p.appendChild(판);
     inp.setAttribute('aria-label', 앞); let k = 0, t = null;
-    const 보임 = () => { if(!inp.isConnected){ 판.remove(); clearInterval(t); return false; } const 켬 = !inp.value && document.activeElement !== inp; 판.style.display = 켬 ? '' : 'none'; inp.setAttribute('placeholder', 켬 ? '' : 앞); return 켬; };
+    const 보임 = () => { if(!inp.isConnected){ 판.remove(); clearInterval(t); return false; } const 켬 = !inp.value;      /* 11/27 11:53 대표 「회원 찾기 창에서 고정이고 안 움직여」 → 눌러도(자판 올라와도) 비어 있으면 계속 · 글을 쓰면 멈춤 */ 판.style.display = 켬 ? '' : 'none'; inp.setAttribute('placeholder', 켬 ? '' : 앞); return 켬; };
     const 돌기 = () => { if(!inp.isConnected){ clearInterval(t); 판.remove(); return; } if(!보임() || 줄임()) return; k = (k + 1) % 다.length;
       const 옛 = 판.querySelector('.g108t'); 옛.classList.add('out'); const 새 = document.createElement('i'); 새.className = 'g108t in'; 새.textContent = 다[k]; 판.appendChild(새); setTimeout(() => 옛.remove(), 450); };
     ['focus', 'blur', 'input'].forEach(e => inp.addEventListener(e, 보임)); 보임(); t = setInterval(돌기, 2600); };
