@@ -5718,6 +5718,7 @@ if(샘플판){
   const 거르기 = (rows, q) => { q.forEach((v, k) => { if(['select', 'order', 'limit', 'offset', 'or'].includes(k)) return; const g = r => String(r[k] == null ? '' : r[k]);
       if(v.startsWith('eq.')) rows = rows.filter(r => g(r) === v.slice(3)); else if(v.startsWith('neq.')) rows = rows.filter(r => g(r) !== v.slice(4));
       else if(v.startsWith('in.(')){ const s = new Set(v.slice(4, -1).split(',').map(x => x.replace(/"/g, ''))); rows = rows.filter(r => s.has(g(r))); }
+      else if(v.startsWith('not.in.(')){ const s = new Set(v.slice(8, -1).split(',').map(x => x.replace(/"/g, ''))); rows = rows.filter(r => !s.has(g(r))); }      /* 진짜 서버처럼 — 세트 저장 「새로 넣고 → 나머지 지움」 (2026-11-27) · 없으면 새 세트까지 지웠다 */
       else if(v.startsWith('gte.')) rows = rows.filter(r => g(r) >= v.slice(4)); else if(v.startsWith('lte.')) rows = rows.filter(r => g(r) <= v.slice(4));
       else if(v.startsWith('gt.')) rows = rows.filter(r => g(r) > v.slice(3)); else if(v.startsWith('lt.')) rows = rows.filter(r => g(r) < v.slice(3));
       else if(v === 'is.null') rows = rows.filter(r => r[k] == null); });
@@ -9527,23 +9528,42 @@ async function svNewItem(i){
   if(back && back[0]) it._id = back[0].id;
   save();
 }
-async function svItem(i){
-  const w=D.live; if(!w) return; const it=w.items[i]; if(!it) return;
+/* 2026-11-27 데스크 버그 e9565b1f(「운동 마치기 눌렀는데 나중에 기록이 없음」) — 저장이 되었는지 알 수 있게 (sv 는 돌려주는 값을 쓰는 곳이 있어 그대로 둠) */
+function sv되나(promise, what){
+  return Promise.resolve(promise).then(() => true, e => { netBad++; console.error(what, e); toast('반영하지 못했어요\n「' + 을를(what) + '」 다시 해 주세요'); return false; });
+}
+/* 한 종목 저장은 한 줄로 — 세트 체크 때 저장과 「마치기」 저장이 겹치면 서로의 세트를 지울 수 있어 차례로만 */
+const 종목저장줄 = new WeakMap();
+function svItem(i){
+  const w = D.live, it = w && w.items[i]; if(!it) return Promise.resolve(false);
+  const 앞 = 종목저장줄.get(it) || Promise.resolve();
+  const 이번 = 앞.then(() => svItem하나(it), () => svItem하나(it));
+  종목저장줄.set(it, 이번.catch(() => {}));
+  return 이번;
+}
+async function svItem하나(it){      /* 돌려줌 : 서버에 다 들어갔으면 true */
+  const w=D.live; if(!w) return false; const i = w.items.indexOf(it); if(i < 0) return true;
   /* 서버 자동 종료(중앙 운동_자동종료.py · 10분마다)는 max(시작, workouts.updated_at) + 3시간으로 닫는다 — 저장할 때 「마지막 활동」을 남겨 긴 운동이 도중에 닫히지 않게 (2026-10-20 · 1분에 한 번만) */
   if(!w.done && Date.now() - (w.활동보냄 || 0) > 60000){ w.활동보냄 = Date.now(); spatch('workouts','id=eq.'+w.id, { updated_at:new Date().toISOString() }).catch(() => {}); }
   if(!it._id) await svNewItem(i);
-  if(!it._id) return;
-  await sv(spatch('workout_items','id=eq.'+it._id,
-    Object.assign({ sec:Math.round(it.sec||0), locked:!!it.locked, sort:i }, it.memo != null ? { memo: String(it.memo || '').slice(0, 300) || null } : {})), '종목 저장');      /* 수업 메모 = workout_items.memo (2026-10-23) */
-  await sv(sdel('workout_sets','item_id=eq.'+it._id), '세트 정리');
+  if(!it._id) return false;
+  let 됨 = true;
+  if(!await sv되나(spatch('workout_items','id=eq.'+it._id,
+    Object.assign({ sec:Math.round(it.sec||0), locked:!!it.locked, sort:i }, it.memo != null ? { memo: String(it.memo || '').slice(0, 300) || null } : {})), '종목 저장')) 됨 = false;      /* 수업 메모 = workout_items.memo (2026-10-23) */
   const rows = it.sets.filter(x=>x.done).map((x,k)=>Object.assign({ item_id:it._id, sort:k,
     kg:x.kg, reps:x.reps, spd: x.spd==null ? null : x.spd, done:true }, 유산소칸있나 && x.dist != null ? { dist:x.dist } : {}, 유산소칸있나 && x.feel ? { feel:x.feel, src:x.src||'직접' } : {}));
-  if(rows.length) await sv(spost('workout_sets', rows), '세트 저장');
+  /* 새 세트를 먼저 넣고 → 옛 세트를 지운다 (옛 : 지우고 → 넣기 — 넣기가 끊기면 그 종목 세트가 통째로 사라졌다 · 2026-11-27 e9565b1f) */
+  if(rows.length){ let 새 = null, 넣음 = false;
+    try{ 새 = await spost('workout_sets', rows, { ret:true }); 넣음 = true; }catch(e){ netBad++; console.error('세트 저장', e); toast('반영하지 못했어요\n「세트 저장」 다시 해 주세요'); 됨 = false; }
+    const ids = Array.isArray(새) ? 새.map(r => r && r.id).filter(x => x != null) : [];
+    if(넣음 && ids.length === rows.length){ if(!await sv되나(sdel('workout_sets','item_id=eq.'+it._id+'&id=not.in.('+ids.join(',')+')'), '세트 정리')) 됨 = false; } }      /* 번호를 못 받으면(시험용 가짜 저장 등) 옛 세트는 그대로 둔다 — 지우지 않는 쪽이 안전 */
+  else if(!await sv되나(sdel('workout_sets','item_id=eq.'+it._id), '세트 정리')) 됨 = false;
   const sw = D.workouts.find(x=>x.id===w.id);
   if(sw){ const si = sw.items.find(x=>x._id===it._id);
     if(si){ si.sec=Math.round(it.sec||0); si.locked=!!it.locked;
       si.sets = it.sets.filter(x=>x.done).map(x=>({kg:x.kg,reps:x.reps,spd:x.spd,dist:x.dist,feel:x.feel,done:true})); } }
   save();
+  return 됨;
 }
 /* 지난 기록으로 시작 — 종목·순서는 그대로, 세트는 그날 마지막 세트의 무게·횟수를 첫 세트 목표로 (2026-10-02 대표
    「정해진 루틴 선택 외에도 지난 수업기록에서 바로 선택할 수 있게 · 최근 5~8개 · 수업이든 개인운동이든」) */
@@ -18841,8 +18861,14 @@ async function finish(){
   /* 직접 누른 「마치기」는 누른 그 시각이 끝이다. 다만 8시간은 못 넘는다 */
   const dur=capSec(w.startAt ? 흐른초(w)
     : w.items.reduce((a,it)=>a+(Number(it.sec)||0), 0), CAP_W);
-  for(let i=0;i<w.items.length;i++) await svItem(i);
-  await sv(spatch('workouts','id=eq.'+w.id, Object.assign({ done:true, dur, kind:w.kind }, w.기록날 ? { on_date:w.기록날 } : {})), '운동 저장');
+  /* 서버에 다 들어갔을 때만 마친다 — 하나라도 안 들어가면 기록 화면 그대로 + 「다시 저장」 (2026-11-27 데스크 버그 e9565b1f 장O훈 트레이너
+     「운동 마치기 눌렀는데 나중에 기록이 없음」 · 옛 : 저장이 끊겨도 알림만 띄우고 마쳐서 폰에서만 보이고 서버엔 없었다 → 3시간 뒤 서버 자동 종료가 빈 운동으로 지움) */
+  let 다됨 = true;
+  for(let i=0;i<w.items.length;i++){ let r = false; try{ r = await svItem(i); }catch(e){ console.error('종목 저장', e); } if(r === false) 다됨 = false; }      /* 뜻밖의 오류도 「못 올림」 으로 — 멈춘 채 두지 않는다 */
+  if(다됨 && !await sv되나(spatch('workouts','id=eq.'+w.id, Object.assign({ done:true, dur, kind:w.kind }, w.기록날 ? { on_date:w.기록날 } : {})), '운동 저장')) 다됨 = false;
+  if(!다됨){ save();
+    if(await 물어('기록을 서버에 올리지 못했어요' + String.fromCharCode(10) + '인터넷을 확인하고 다시 저장해 주세요 · 기록은 이 폰에 그대로 있어요', '다시 저장')) return finish();
+    render(); return; }
   const rec={ id:w.id, mid:w.mid, date:w.기록날||w.date||TODAY, kind:w.kind, rid:w.rid, title:w.title, dur, done:true,
     items: w.items.filter(it=>it.sets.some(s=>s.done)).map(it=>({ _id:it._id, ex:it.ex, va:it.va, locked:true, memo: it.memo || '',
       sec:Math.round(it.sec), sets: it.sets.filter(s=>s.done).map(s=>({kg:s.kg, reps:s.reps, spd:s.spd})) })) };
@@ -22065,6 +22091,132 @@ function g118하던(){ const w = liveOf(S.mid); if(!w){ go('workout'); return; }
     if(k === 'Escape'){ e.preventDefault(); e.stopImmediatePropagation(); 누름(p + 'kpok'); } }, true);
 })();
 </script>
+
+<script>
+/* g120 (11/27 20:44 ~ 21:17 대표)
+   「달력 복잡 · 탭마다 다르게 보이면 안 된다 · 지난 기록 팝업 꼴로 · 개인운동은 피드백 요청 안 함 · 지난 수업 피드백 요청하기 ·
+    돌고 돌지 않게 — 날짜 누르면 종목별 그림 보고 바로 요청 · 무게 · 횟수는 초보자가 신경 안 씀 · 왼쪽 초록불 깜빡 · 아래 날짜 + ?」
+   ① 「지난 수업 피드백 요청하기」 = 지난 기록 창 꼴(g99list) · 수업만 최근 10번
+      줄 = 왼쪽 수업 점(녹색 · 맨 위 하나만 1.4초마다 퍼짐 — 효과 B · 반복 효과 둘 이상 금지) · 날짜(요일) · 아래 = 종목 그림 넷 + 「+n」 (?안=2 면 「스쿼트 외 n종목」)
+   ② 날짜 누름 = 그날 종목 그림 목록(번호 30 · 그림 72 · 이름 · › — 준비운동 목록 꼴) · 무게 · 횟수 없음
+   ③ 종목 누름 = 바로 「피드백 요청하기」 창(g99 요청창) · ‹ 뒤로 = ② · ②의 ‹ 뒤로 = ① */
+(function(){
+  const 안2 = /[?&]안=2/.test(location.search);
+  const 수업들 = () => (D.workouts || []).filter(w => w.mid === S.mid && w.done && w.kind === '수업' && w.date <= TODAY && w.items.some(i => i.sets && i.sets.some(x => x.done)))
+    .sort((a, b) => (b.date + (b.id || '')).localeCompare(a.date + (a.id || ''))).slice(0, 10);
+  const 한종목들 = w => w.items.filter(i => i.sets && i.sets.some(x => x.done));
+  const 날 = ds => (+ds.slice(5, 7)) + '월 ' + (+ds.slice(8, 10)) + '일 (' + DOW[new Date(ds + 'T00:00:00').getDay()] + ')';
+  const 이름 = it => (exOf(it.ex) || {}).n || exName(it.ex, it.va);
+  const 그림 = (it, cls) => { const u = 종목그림주소(exOf(it.ex)); return u ? `<img class="${cls}" src="${esc(u)}" alt="" loading="lazy">` : `<span class="${cls} g120no">${esc(이름(it).slice(0, 1))}</span>`; };
+
+  /* ① 지난 수업 목록 */
+  sheetAskCal = function(){
+    S.g120wid = null; S.g120req = null;
+    openSheet(() => {
+      const 줄 = 수업들().map((w, n) => { const its = 한종목들(w);
+        const 아래 = 안2 ? `<span class="g120sub"><b>${esc(이름(its[0] || {}))}</b>${its.length > 1 ? ` 외 ${its.length - 1}종목` : ''}</span>`
+          : `<span class="g120pics">${its.slice(0, 4).map(it => 그림(it, 'g120p')).join('')}${its.length > 4 ? `<span class="g120more">+${its.length - 4}</span>` : ''}</span>`;
+        return `<button class="g99it g120row" data-act="g120day:${esc(w.id)}"><i class="g120dot${n === 0 ? ' on' : ''}"></i><span class="g120tx"><b class="g120d">${날(w.date)}</b>${아래}</span><i class="g111ar">›</i></button>`; }).join('');
+      return `<div class="h2 g99h">지난 수업 피드백 요청하기</div>
+        <div class="g99card g99list g120list">${줄 || '<div class="g99empty">아직 받은 수업이 없어요</div>'}</div>`;
+    });
+  };
+
+  /* ② 그날 종목 그림 목록 */
+  const 그날 = wid => { const w = (D.workouts || []).find(x => x.id === wid); if(!w) return; S.g120wid = wid; S.g120req = null;
+    openSheet(() => `<div class="h2 g99h g120hd"><span>${날(w.date)} 수업<small>종목을 누르세요</small></span><button class="g120top" data-act="g120list">‹ 뒤로</button></div>
+      <div class="g99card g120ex">${한종목들(w).map((it, i) => `<button class="g120er" data-act="g120ex:${esc(it.ex)}~${esc(it.va)}">
+        <span class="no">${i + 1}</span>${그림(it, 'g120big')}<span class="nm">${esc(이름(it))}</span><i class="g111ar">›</i></button>`).join('')}</div>
+`); };      /* ‹ 뒤로 = 오른쪽 위 (21:28 대표 「스크롤 내려야 하니 우측 상단」) */
+
+  window.addEventListener('click', e => {
+    const b = e.target.closest && e.target.closest('[data-act]'); if(!b) return; const a = b.getAttribute('data-act');
+    const 막 = () => { e.preventDefault(); e.stopImmediatePropagation(); };
+    if(a.startsWith('g120day:')){ 막(); 그날(a.slice(8)); return; }
+    if(a === 'g120list'){ 막(); sheetAskCal(); return; }
+    if(a.startsWith('g120ex:')){ 막(); S.g120req = S.g120wid;      /* ③ 바로 요청 창 — g99 요청창 그대로 */
+      const t = document.createElement('button'); t.dataset.act = 'g99req:' + a.slice(7) + '~'; t.hidden = true; document.body.appendChild(t); t.click(); t.remove(); return; }
+    if(a === 'g120back'){ 막(); const wid = S.g120req; S.g120req = null; const sb = document.getElementById('sheetbox'); if(sb){ sb.style.minHeight = ''; sb.classList.remove('g99fix', 'g99req'); } 그날(wid); return; }
+  }, true);
+  /* ③ 요청 창의 ‹ 뒤로 = ② (보낸 뒤 다시 그려져도) */
+  new MutationObserver(() => {
+    if(!S.g120req) return; const sb = document.getElementById('sheetbox'); if(!sb) return;
+    const bk = sb.querySelector('[data-act="g99back"]'); if(bk && (sb.querySelector('.g99send, .g99done, textarea[data-k^="ask:"]'))) bk.setAttribute('data-act', 'g120back');
+  }).observe(document.body, { childList:true, subtree:true });
+})();
+
+/* g120 뒤로 위로 (21:34 대표 「다른 창 대표적인 거 하나 띄워 봐」 — 시안) : g99 창(종목 · 지난 기록 · 피드백 · 요청 · 그날 운동)의 맨 아래 ‹ 뒤로를 제목 줄 오른쪽 위로 */
+(function(){
+  const 옮김 = () => { const sb = document.getElementById('sheetbox'); if(!sb) return; const bk = sb.querySelector(':scope > .g99back'); const h = sb.querySelector(':scope > .g99h');
+    if(bk && !h && sb.querySelector(':scope > .g99top')){ bk.classList.add('g120top', 'g120abs'); sb.classList.add('g120rel'); return; }      /* 종목 창 = 제목 줄 없음 → 그림 오른쪽 위 */
+    if(!bk || !h || h.querySelector('.g99back')) return;
+    if(!h.classList.contains('g120hd')){ const sp = document.createElement('span'); while(h.firstChild) sp.appendChild(h.firstChild); h.appendChild(sp); h.classList.add('g120hd'); }
+    bk.classList.add('g120top'); h.appendChild(bk); };
+  new MutationObserver(옮김).observe(document.body, { childList:true, subtree:true });
+})();
+
+/* 시안 모아보기용 — ?창=… 이면 그 창을 열어 둠 (시안_뒤로위.html) */
+(function(){
+  const 창 = new URLSearchParams(location.search).get('창'); if(!창) return;
+  const 잠 = ms => new Promise(r => setTimeout(r, ms));
+  const 누름 = a => { const t = document.createElement('button'); t.dataset.act = a; t.hidden = true; document.body.appendChild(t); t.click(); t.remove(); };
+  const 클릭 = sel => { const b = document.querySelector(sel); if(b) b.click(); };
+  addEventListener('load', async () => { await 잠(1600); go('feedback'); await 잠(300);
+    const exs = EX.filter(e => !e.cardio && !isMemo(e.id) && 종목그림주소(e)).slice(0, 8);
+    if(['그림목록', '그날'].includes(창)) D.workouts.push({ id:'zz8', mid:S.mid, date:'2026-11-25', kind:'수업', done:true, dur:3000, items:exs.map(e => ({ ex:e.id, va:'a', sets:[{ kg:20, reps:10, done:true }, { kg:20, reps:10, done:true }, { kg:20, reps:12, done:true }] })) });
+    const 종목창 = async () => { 누름('g111day:w_demo01'); await 잠(350); 클릭('#sheetbox [data-act^="g111ex:sq~a"]'); await 잠(350); };
+    if(창 === '지난수업'){ sheetAskCal(); }
+    if(창 === '그림목록'){ sheetAskCal(); await 잠(200); 누름('g120day:zz8'); }
+    if(창 === '요청1'){ sheetAskCal(); await 잠(200); 누름('g120day:w_demo01'); await 잠(300); 누름('g120ex:rdl~a'); }
+    if(창 === '그날'){ window.g111종목('sq', 'a', ''); await 잠(350); 클릭('#sheetbox [data-act^="g99past:"]'); await 잠(350); 누름('g111dayr:zz8:sq~a~'); }
+    if(창 === '종목'){ await 종목창(); }
+    if(창 === '지난'){ await 종목창(); 클릭('#sheetbox [data-act^="g99past:"]'); }
+    if(창 === '피드백'){ await 종목창(); 클릭('#sheetbox [data-act^="g99fb:"]'); }
+    if(창 === '요청2'){ await 종목창(); 클릭('#sheetbox [data-act^="g99fb:"]'); await 잠(350); 클릭('#sheetbox [data-act^="g99req:"]'); }
+  });
+})();
+
+/* 입구 = 출구 (21:42 대표 「입구랑 출구가 달라」) : 피드백 탭 종목 줄(fxo)로 바로 연 피드백 창 = 첫 창 → ‹ 뒤로 없음(안 거친 종목 창으로 가지 않게)
+   ‹ 뒤로는 「왔던 창」 으로만 · 첫 창엔 없음 */
+(function(){
+  let 첫fb = null;
+  document.addEventListener('pointerdown', e => { const b = e.target.closest && e.target.closest('[data-act]'); if(!b) return; const a = b.getAttribute('data-act') || '';
+    if(a.startsWith('fxo:') && !b.closest('#sheetbox')) 첫fb = a.split(':').slice(2).join(':');
+    else if(!b.closest('#sheetbox')) 첫fb = null; }, true);
+  new MutationObserver(() => { if(!첫fb) return; const sb = document.getElementById('sheetbox'), sh = document.getElementById('sheet'); if(!sb) return;
+    if(sh && !sh.classList.contains('open')){ 첫fb = null; return; }
+    const h = sb.querySelector('.g99h'); if(!h || !/^트레이너 피드백/.test(h.innerText)) return;
+    const 이름 = (exOf(첫fb.split(':')[0]) || {}).n || exName(첫fb.split(':')[0], 첫fb.split(':')[1] || 'a'); if(!h.innerText.includes(이름)) return;
+    const bk = sb.querySelector('[data-act="g99back"]'); if(bk) bk.remove(); }).observe(document.body, { childList:true, subtree:true });
+})();
+</script>
+<style>
+/* g120 — 지난 수업 줄 */
+#sheetbox .g120row{display:grid;grid-template-columns:10px minmax(0,1fr) 14px;align-items:center;column-gap:12px;width:100%;text-align:left;background:none;border:0;font:inherit;color:inherit;padding:14px 16px}
+#sheetbox .g120dot{width:9px;height:9px;border-radius:50%;background:#447382;display:block;position:relative;align-self:start;margin-top:7px}
+#sheetbox .g120dot.on::after{content:"";position:absolute;inset:0;border-radius:50%;background:#447382;animation:g120퍼짐 1.4s ease-out infinite}
+@keyframes g120퍼짐{0%{transform:scale(1);opacity:.55}100%{transform:scale(3);opacity:0}}
+#sheetbox .g120tx{display:flex;flex-direction:column;gap:8px;min-width:0}
+#sheetbox .g120d{font-size:16px;font-weight:800;color:#b5442f}
+#sheetbox .g120pics{display:flex;gap:6px;align-items:center}
+#sheetbox .g120p{width:44px;height:44px;border-radius:10px;border:1px solid #b89a7e;background:#ffffff;object-fit:contain;display:grid;place-items:center;font-size:15px;font-weight:800;color:#837666}
+#sheetbox .g120more{font-size:13px;font-weight:800;color:#837666;margin-left:2px}
+#sheetbox .g120sub{font-size:14px;color:#837666}#sheetbox .g120sub b{color:#b5442f;font-weight:800}
+/* g120 — 그날 종목 그림 목록 (준비운동 목록 꼴 : 번호 30 · 그림 72 · 이름 · ›) */
+#sheetbox .g120ex{padding:0}
+#sheetbox .g120er{display:grid;grid-template-columns:30px 72px minmax(0,1fr) 14px;align-items:center;column-gap:14px;width:100%;padding:12px 14px;background:none;border:0;border-top:1px solid #b89a7e;font:inherit;color:inherit;text-align:left}
+#sheetbox .g120er:first-child{border-top:0}
+#sheetbox .g120er .no{font-size:15px;font-weight:800;color:#837666;text-align:center}
+#sheetbox .g120big{width:72px;height:72px;border-radius:14px;border:1px solid #b89a7e;background:#ffffff;object-fit:contain;display:grid;place-items:center;font-size:24px;font-weight:800;color:#837666}
+#sheetbox .g120er .nm{font-size:16px;font-weight:800;color:#b5442f;min-width:0}
+#sheetbox .g120hd{display:flex;align-items:center;justify-content:space-between;gap:10px}
+#sheetbox .g120hd>span{min-width:0;white-space:nowrap}#sheetbox .g120hd>span small{display:block;margin:4px 0 0}
+#sheetbox .g120top{flex:none;border:1px solid #b89a7e;background:#ffffff;color:#6f4a2f;border-radius:999px;padding:7px 14px;font:inherit;font-size:14px;font-weight:700;cursor:pointer}
+#sheetbox .g120hd .g99back.g120top{width:auto;margin:0;flex:none;border:1px solid #b89a7e;background:#ffffff;color:#6f4a2f;border-radius:999px;padding:7px 14px;font-size:14px;font-weight:700;min-height:0;height:auto;position:static}
+#sheetbox.g120rel{position:relative}
+#sheetbox .g99back.g120top.g120abs{position:absolute;top:22px;right:16px;width:auto;margin:0;border:1px solid #b89a7e;background:#ffffff;color:#6f4a2f;border-radius:999px;padding:7px 14px;font-size:14px;font-weight:700;min-height:0;height:auto;z-index:2}
+@media (prefers-reduced-motion: reduce){ #sheetbox .g120dot.on::after{animation:none} }
+</style>
 
 </body>
 </html>
