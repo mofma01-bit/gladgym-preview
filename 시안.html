@@ -5074,6 +5074,43 @@ html body #main .rp3mv .b2w,html body #sheetbox .rp3mv .b2w{margin-left:auto!imp
 html body #main .tmrc .tmfig.tmfig2{margin-left:auto!important;margin-right:auto!important;justify-content:center}
 /* 11/27 끝 화면 · 기록 카드 표도 좁은 폰에서 숫자가 붙던 것 — #main .tmrc .plc(14px) 가 400px 규칙을 이겨서 · 같은 규칙을 id 로 */
 @media (max-width:400px){html body #main .pltb .plg>.plc,html body #sheetbox .pltb .plg>.plc{font-size:13px!important;letter-spacing:-.6px!important;overflow:hidden}}
+
+/* g104 트레이너 회원 카드 (11/27 대표 「정보가 너무 많아 · 시선 뺏김 · 체크도 빼자」) — 수업 시작 하나만 크게 · 나머지 셋 작은 한 줄 */
+html body #main .tmhead .tmb{display:block!important}
+html body #main .tmhead .tmb .g104go{display:block;width:100%;height:50px;border-radius:999px}
+html body #main .tmhead .g104three{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px}
+html body #main .tmhead .g104three button{height:40px;border:1px solid #e6ddd2;border-radius:12px;background:#fff;font:inherit;font-size:13.5px;font-weight:700;color:#5d5249;padding:0 4px;white-space:nowrap;box-shadow:none}
+/* g104 지정 창 — 날짜 한 줄 · 고른 날만 브라운 · 금색 테 없음 · 달력 창 안 */
+html body #sheetbox .g104h{font-size:20px;font-weight:900}html body #sheetbox .g104h small{font-size:13px;font-weight:600;color:#837666;margin-left:6px}
+html body #sheetbox .rjw4{display:flex!important;gap:6px!important}
+html body #sheetbox .rjw4>button{flex:1;height:44px!important;min-height:0!important;border:1px solid #e6ddd2!important;border-radius:12px!important;background:#fff!important;color:#5d5249!important;font-size:14px!important;font-weight:700!important;box-shadow:none!important;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.2;padding:0!important}
+html body #sheetbox .rjw4>button small{font-size:12px!important;font-weight:600;color:#837666!important}
+html body #sheetbox .rjw4>button.on{background:#6f4a2f!important;border-color:#6f4a2f!important;color:#fff!important}
+html body #sheetbox .rjw4>button.on small{color:#eadccb!important}
+html body #sheetbox .rjw4>button.g104cal{flex:0 0 44px}
+html body #sheetbox .g104cal svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round}
+html body #sheetbox .zjseg{display:flex!important;background:#f6f1ea!important;border:0!important;border-radius:999px!important;padding:3px!important;gap:0!important;margin-top:16px}
+html body #sheetbox .zjseg button{flex:1;height:38px!important;border:0!important;border-radius:999px!important;background:transparent!important;color:#837666!important;font-size:14px!important;font-weight:700!important;box-shadow:none!important}
+html body #sheetbox .zjseg button.on{background:#fff!important;color:#1f1813!important;box-shadow:0 1px 3px rgba(70,45,25,.12)!important}
+html body #sheetbox .g104sh{display:flex!important;flex-wrap:wrap;gap:6px!important;overflow:visible!important}
+html body #sheetbox .g104sh>button{width:auto!important;height:34px!important;min-height:0!important;padding:0 13px!important;border-radius:999px!important;border:1px solid #e6ddd2!important;background:#fff!important;color:#5d5249!important;font-size:14px!important;font-weight:700!important;box-shadow:none!important}
+html body #sheetbox .g104sh>button.on{border:1.5px solid #6f4a2f!important;color:#6f4a2f!important}
+html body #sheetbox .g104mon{border:1px solid #e6ddd2;border-radius:16px;padding:12px;margin-top:10px}
+html body #sheetbox .g104mh{display:flex;align-items:center;justify-content:space-between;font-size:15px}
+html body #sheetbox .g104mh b{font-weight:800;color:#1f1813}
+html body #sheetbox .g104mh button{width:32px;height:32px;border-radius:50%;border:1px solid #e6ddd2;background:#fff;font:inherit;font-size:16px;color:#5d5249}
+html body #sheetbox .g104mh button:disabled{color:#cdc3b7}
+html body #sheetbox .g104wk,html body #sheetbox .g104dd{display:grid;grid-template-columns:repeat(7,1fr);text-align:center;gap:2px}
+html body #sheetbox .g104wk{font-size:12px;color:#837666;font-weight:700;margin:10px 0 4px}
+html body #sheetbox .g104dd>*{height:36px;display:grid;place-items:center;font-size:14px;font-weight:600;color:#5d5249;border-radius:50%;position:relative;border:0;background:transparent;font-family:inherit;padding:0}
+html body #sheetbox .g104dd>.x{color:#cdc3b7}
+html body #sheetbox .g104dd>.on{background:#6f4a2f;color:#fff}
+html body #sheetbox .g104dd>.td::after{content:"";position:absolute;bottom:3px;width:4px;height:4px;border-radius:50%;background:#e8b04b}
+html body #sheetbox .g104dd>.as::before{content:"";position:absolute;top:4px;right:6px;width:5px;height:5px;border-radius:50%;background:#447382}
+html body #sheetbox .g104lg{display:flex;gap:12px;font-size:12px;color:#837666;margin-top:8px;justify-content:center}
+html body #sheetbox .g104lg i{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:4px;vertical-align:1px}
+html body #sheetbox .g104lg i.td{background:#e8b04b}html body #sheetbox .g104lg i.as{background:#447382}
+html body #sheetbox .g104sh>button::before,html body #sheetbox .g104sh>button::after{display:none!important}
 </style></head>
 <body>
 <div class="pwabar" id="pwabar"></div>
@@ -9642,24 +9679,33 @@ const 받은표A = mid => (D.gives || []).filter(g => g.member_id === mid).sort(
   .map(g => (D.sheets || []).find(x => x.id === g.sheet_id)).filter(x => x && !x.hidden && x.kind !== '스트레칭' && 표루틴(x.id).length);
 function 지정판열기(mid, 갈){ const 수 = 갈 === '수업', 예 = 수 && 오늘기록전().some(z => z.m && z.m.id === mid), 표 = 받은표A(mid);
   S.rj = { mid, 판:갈, 종류:갈, 날: 수 ? (예 ? TODAY : 날뒤(TODAY, 1)) : TODAY, 보기:'표', sid:(표[0] || {}).id || '', rid:'', 고침:'' }; openSheet(지정판그림); }
+function g104달력(o){ const 기 = o.달 || o.날.slice(0, 7), [y, mo] = 기.split('-').map(Number), 첫 = new Date(y, mo - 1, 1).getDay(), 끝 = new Date(y, mo, 0).getDate();
+  const 지정 = new Set((D.asgAll || []).filter(a => a.mid === o.mid).map(a => a.on)), p = n => String(n).padStart(2, '0');
+  const 앞달 = mo === 1 ? (y - 1) + '-12' : y + '-' + p(mo - 1), 뒷달 = mo === 12 ? (y + 1) + '-01' : y + '-' + p(mo + 1);
+  let c = ''; for(let i = 0; i < 첫; i++) c += '<span></span>';
+  for(let d = 1; d <= 끝; d++){ const ds = y + '-' + p(mo) + '-' + p(d), 지 = ds < TODAY;
+    c += 지 ? `<span class="x">${d}</span>` : `<button class="${ds === o.날 ? 'on' : ''}${ds === TODAY ? ' td' : ''}${지정.has(ds) ? ' as' : ''}" data-act="g104day:${ds}">${d}</button>`; }
+  return `<div class="g104mon"><div class="g104mh"><button data-act="g104mo:${앞달}"${앞달 < TODAY.slice(0, 7) ? ' disabled' : ''}>‹</button><b>${y}년 ${mo}월</b><button data-act="g104mo:${뒷달}">›</button></div>
+    <div class="g104wk"><span>일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span></div><div class="g104dd">${c}</div>
+    <div class="g104lg"><span><i class="td"></i>오늘</span><span><i class="as"></i>지정된 날</span></div></div>`; }
 function 지정판그림(){ const o = S.rj; if(!o || !o.판) return 루틴주기그림(); const m = MEMBERS.find(x => x.id === o.mid) || { n:'' }, 수 = o.판 === '수업';
   const 날들 = [[TODAY, '오늘'], [날뒤(TODAY, 1), '내일'], [날뒤(TODAY, 2), '모레']], 예 = 수 && 오늘기록전().some(z => z.m && z.m.id === o.mid);
   const 그림 = r => `<span class="rjx4">${(r.items || []).map(it => `<span><i>${종목그림(exOf(it.ex))}</i><small>${esc(exName(it.ex, it.va))}</small></span>`).join('')}</span>`;      /* 종목 칸 = 루틴표 화면처럼 큰 그림 + 종목 이름 · 다 보임 (2026-11-13 19:32 대표 「그림만 보고 잘못 볼 수 있어」) */
   const 딴날 = !날들.some(z => z[0] === o.날);
-  let h = `<div class="h2">${esc(m.n)} · ${수 ? '다음 수업 루틴 <small>미리 지정하기</small>' : '개인운동 지정 <small>혼자 할 운동</small>'}</div>
-    <span class="lbl">날짜</span><div class="rjw4">${날들.map(([d, t]) => `<button class="${o.날 === d ? 'on' : ''}" data-act="rjday:${d}">${t}<small>${짧은날(d)}${예 && d === TODAY ? ' · 예약' : ''}</small></button>`).join('')}<label class="${딴날 ? 'on' : ''}">📅 다른 날<small>${딴날 ? 짧은날(o.날) : '달력'}</small><input type="date" id="rjdate" min="${TODAY}" value="${esc(o.날)}"></label></div>
-    <div class="zjseg"><button class="${o.보기 !== '기록' ? 'on' : ''}" data-act="zjv:표">📋 루틴표</button><button class="${o.보기 === '기록' ? 'on' : ''}" data-act="zjv:기록">🗓 지난 기록</button></div>`;
+  let h = `<div class="h2 g104h">${수 ? '다음 수업 루틴' : '개인운동 지정'} <small>${esc(m.n)}</small></div>
+    <span class="lbl">날짜</span><div class="rjw4">${날들.map(([d, t]) => `<button class="${o.날 === d && !o.달력 ? 'on' : ''}" data-act="rjday:${d}">${t}<small>${+d.slice(8)}일${예 && d === TODAY ? ' · 예약' : ''}</small></button>`).join('')}<button class="g104cal${딴날 || o.달력 ? ' on' : ''}" data-act="g104cal" aria-label="다른 날">${딴날 && !o.달력 ? `<small>${+o.날.slice(5, 7)}/${+o.날.slice(8)}</small>` : '<svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg>'}</button></div>${o.달력 ? g104달력(o) : ''}
+    <div class="zjseg"><button class="${o.보기 !== '기록' ? 'on' : ''}" data-act="zjv:표">루틴표</button><button class="${o.보기 === '기록' ? 'on' : ''}" data-act="zjv:기록">지난 기록</button></div>`;
   if(o.보기 === '기록'){ const ws = D.workouts.filter(w => w.mid === o.mid && w.done && w.items.some(i => i.sets.length)).sort(byDateDesc).slice(0, 12);
     h += ws.length ? `<span class="lbl">지난 기록</span><div class="tmrs zjrecs">${ws.map(w => 지난기록한장(w, { pick:['zjrec:' + w.id, '이 기록으로 지정'] })).join('')}</div>`      /* 지난 기록 = 회원 화면 지난 기록 카드 그대로 · 카드 안 맨 아래 「이 기록으로 지정」 (2026-11-13 19:32 · 19:40 대표) */
       : `<div class="fe">아직 마친 기록이 없습니다<br>「📋 루틴표」에서 운동을 지정해 주세요</div>`;
   } else { const 표 = 받은표A(o.mid);
     if(!표.length) h += `<div class="fe">받은 루틴표가 없습니다<br>데스크 회원 루틴 탭에서 「📋 루틴표 주기」를 먼저 해 주세요</div>`;
     else { if(!표.some(x => x.id === o.sid)) o.sid = 표[0].id;
-      h += `<span class="lbl">루틴표 <small>눌러서 바꿔 보기</small></span><div class="zjsh">${표.map((x, i) => `<button class="${x.id === o.sid ? 'on' : ''}" data-act="zjsid:${x.id}">${지정표지(x)}${i === 0 ? '<span class="st">★ 메인</span>' : ''}<small>${esc(x.title || '루틴표')}</small></button>`).join('')}</div>
+      h += `<span class="lbl">루틴표</span><div class="zjsh g104sh">${표.map((x, i) => `<button class="${x.id === o.sid ? 'on' : ''}" data-act="zjsid:${x.id}">${i === 0 ? '★ ' : ''}${esc(x.title || '루틴표')}</button>`).join('')}</div>
         <span class="lbl">운동 <small>두 번 누르면 ${수 ? '수업' : '개인운동'}으로 지정</small></span>
         ${표루틴(o.sid).map(r => { const a = (D.asgAll || []).find(z => z.mid === o.mid && String(z.rid) === String(r.id) && (z.on >= TODAY || !지정했나A(z))), 못 = a && a.on < TODAY;
           return `<button class="rjex${a ? (a.kind === '수업' ? ' cl' : ' pe') : ''}" data-act="zjpick:${r.id}">${a ? `<span class="bar ${a.kind === '수업' ? 'cl' : 'pe'}${못 ? ' ms' : ''}">📅 ${짧은날(a.on)} ${esc(a.kind)}${못 ? ' · 못함' : '으로 지정'}</span>` : '<span class="bar no">지정 안 함</span>'}<span class="bd"><b><em>운동 ${r.no}</em>${esc(r.n)}</b>${그림(r)}</span></button>`; }).join('')}`; } }
-  return h + `<button class="btn ghost" data-act="close">닫기</button>`; }
+  return h; }
 const 지정표지 = x => { const c = x.cover || {}; return c.img ? `<img class="rjcv" src="img/cover/${encodeURIComponent(c.img)}.jpg" alt="">` : `<span class="rjcv nm" style="background:${esc(c.color || '#6f4a2f')}${c.color === '#ffffff' ? ';color:#f7eee8' : ''}">${esc(x.title || '루틴표')}</span>`; };      /* 데스크 루틴표표지와 같은 색 (2026-11-13) */
 async function 기록지정A(wid){ const o = S.rj, w = D.workouts.find(x => x.id === wid); if(!o || !w) return; if(!o.날 || o.날 < TODAY) return toast('오늘이나 앞날만 지정할 수 있어요');
   const m = MEMBERS.find(x => x.id === o.mid) || { n:'' }, 있 = w.rid != null ? rOf(w.rid) : null;
@@ -15807,8 +15853,8 @@ function tMember(){
           <i><b>${이번주}${목 ? `<u>/${목}회</u>` : ''}</b><small>이번 주 운동</small></i></span>      <!-- 2026-11-24 대표 「이 도넛은 무슨 의미」 — 이번 주 운동한 날 / 목표 주 n회 -->
         <div class="tmb${lv ? '' : ' z4'}">${lv
           ? `<button class="g" data-act="tgo:${m.id}">이어서 기록하기</button><button class="t" data-act="tlive:${m.id}">종목별 피드백</button>`
-          : `<button class="g" data-act="tstartask:${m.id}">수업 시작</button><button class="r" data-act="rmstart:${m.id}">1RM 측정</button><button class="t tasg2" data-act="zjopen:${m.id}:개인운동">개인운동 지정<small>혼자 할 운동</small></button><button class="t tasg2 lsn" data-act="zjopen:${m.id}:수업">다음 수업 루틴<small>미리 지정하기</small></button>`}</div>
-        <div class="tmf">${lv ? `지금 운동 중 · ${esc(lv.title||'')}` : 지정두줄(m.id)}</div>
+          : `<button class="g g104go" data-act="tstartask:${m.id}">수업 시작</button><div class="g104three"><button data-act="rmstart:${m.id}">1RM 측정</button><button data-act="zjopen:${m.id}:개인운동">개인운동 지정</button><button data-act="zjopen:${m.id}:수업">다음 수업</button></div>`}</div>
+        ${lv ? `<div class="tmf">지금 운동 중 · ${esc(lv.title||'')}</div>` : ''}
       </div>`; })()}
     ${지난기록카드(m, ws.concat(D.workouts.filter(w => w.mid === m.id && !w.done && w.date < TODAY && !세트있나(w))).sort(byDateDesc))}
     ${(() => { const 켬 = 요청켬(m.id), v = D.fbask && D.fbask.get(m.id);      /* 회원 피드백 요청 켜기 · 끄기 (2026-11-24 대표 「선택적으로 켜는 것으로」 · 141단계 members.fb_ask) */
@@ -18548,7 +18594,10 @@ document.addEventListener('click', async ev=>{
     case 'rj1': if(S.rj){ S.rj.sid = rest[0]; S.rj.단계 = 2; drawSheet(); } return;
     case 'rj2': if(S.rj){ S.rj.rid = rest[0]; S.rj.단계 = 3; drawSheet(); } return;
     case 'rjback': if(S.rj){ S.rj.단계 = +rest[0]; drawSheet(); } return;
-    case 'rjday': if(S.rj){ S.rj.날 = rest[0]; drawSheet(); } return;
+    case 'rjday': if(S.rj){ S.rj.날 = rest[0]; S.rj.달력 = false; drawSheet(); } return;
+    case 'g104cal': if(S.rj){ S.rj.달력 = !S.rj.달력; S.rj.달 = S.rj.날.slice(0, 7); drawSheet(); } return;      /* 11/27 달력 = 창 안에 펼침 */
+    case 'g104day': if(S.rj){ S.rj.날 = rest[0]; S.rj.달력 = false; drawSheet(); } return;
+    case 'g104mo': if(S.rj){ S.rj.달 = rest[0]; drawSheet(); } return;
     case 'rjkind': if(S.rj){ S.rj.종류 = rest[0]; drawSheet(); } return;
     case 'rjsave': await 루틴주기저장A(); return;
     case 'rjgive': if(S.rj){ const o = S.rj; S.rj = null; closeSheet(); 루틴표보내기창(o.mid); } return;
