@@ -5160,6 +5160,11 @@ html body .g108r .g108t.out{animation:g108out .45s cubic-bezier(.4,0,.6,1) both}
 @keyframes g108out{from{opacity:1;transform:translateY(-50%)}to{opacity:0;transform:translateY(-140%)}}
 @media (prefers-reduced-motion:reduce){html body .g108r .g108t{animation:none!important}}
 html body .g108r .g108t{color:#837666!important}  /* 대비 3 이상(밝은 칸 위 #9a8d7e 는 2.7) */
+/* g109 회원 찾기 창 — 결과 없을 때 한 줄 · 검색칸 눌림 테 = 브라운(금색은 「지금」 전용) */
+html body #sheetbox .g109none{display:block;width:100%;height:50px;margin-top:8px;border:1px dashed #cdb79e;border-radius:14px;background:#fff;font:inherit;font-size:14px;font-weight:600;color:#837666;cursor:pointer}
+html body #sheetbox .g109none[hidden]{display:none}
+html body #sheetbox .g109none b{color:#6f4a2f;font-weight:800}
+html body #sheetbox input.search:focus,html body #main input.search:focus{outline:none!important;border-color:#6f4a2f!important;box-shadow:0 0 0 1px #6f4a2f!important}
 </style></head>
 <body>
 <div class="pwabar" id="pwabar"></div>
@@ -20511,12 +20516,15 @@ new MutationObserver(() => { document.querySelectorAll('#sheetbox .g39n:not([dat
 function g40찾기(){
   openSheet(() => `<div class="h2">회원 찾기 <small>이름을 입력해 주세요</small></div>
     <input class="search" id="g40q" type="text" data-filter="1" placeholder="회원 이름으로 검색" autocomplete="off">
-    <div class="pkmems">${MEMBERS.map(m => { const lv = liveOf(m.id), t = D.today[m.id] && rOf(D.today[m.id].rid);
+    <div class="pkmems g109list">${MEMBERS.map(m => { const lv = liveOf(m.id), t = D.today[m.id] && rOf(D.today[m.id].rid);
       return `<button class="mrow2 pkmem" data-nm="${esc(m.n)}" data-act="g40go:${m.id}">${얼굴갈래(m.id)}<span class="mt"><b>${esc(m.n)}</b><small>${lv ? '운동 중' : t ? 지정이름(D.today[m.id].kind) + ' · 루틴 ' + t.no : '오늘 지정 없음'}</small></span><em class="go">보기 ›</em></button>`; }).join('')}</div>
-    <button class="btn sub" data-act="g40new">＋ 앱에 없는 회원 · 전산에서 검색해 추가</button>
-    <button class="btn ghost sm" data-act="close">닫기</button>`);
-  setTimeout(() => { const q = document.getElementById('g40q'); if(q) q.focus(); }, 120);
+    <button class="g109none" data-act="g40new" hidden>앱에 없어요 · <b>전산에서 찾기 ›</b></button>`);
+  setTimeout(() => { const q = document.getElementById('g40q'); if(q){ q.focus(); g109거름(); } }, 120);
 }
+function g109거름(){ const q = document.getElementById('g40q'); if(!q) return; const v = q.value.trim(); let n = 0;
+  document.querySelectorAll('#sheetbox .g109list .pkmem').forEach(b => { const 맞 = !!v && (b.dataset.nm || '').includes(v); b.style.display = 맞 ? '' : 'none'; if(맞) n++; });
+  const 없 = document.querySelector('#sheetbox .g109none'); if(없) 없.hidden = !(v && !n); }      /* 11/27 글을 쓰기 전엔 목록 없음 · 없으면 전산 한 줄 */
+document.addEventListener('input', e => { if(e.target && e.target.id === 'g40q') setTimeout(g109거름, 0); }, true);
 window.addEventListener('focusin', e => { if(S.who === 'tr' && S.screen === 't_members' && e.target.matches && e.target.matches('#main [data-tmq]')){ e.target.blur(); g40찾기(); } }, true);
 window.addEventListener('click', e => { const b = e.target.closest && e.target.closest('[data-act^="g40"]'); if(!b) return; e.preventDefault(); e.stopImmediatePropagation();
   const [a, id] = b.getAttribute('data-act').split(':'); closeSheet();
