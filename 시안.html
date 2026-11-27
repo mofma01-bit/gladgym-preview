@@ -8764,7 +8764,7 @@ function vStart733(){ const ws = lastRealWorkouts();
     ${(() => { const 루없 = !오늘추천(S.mid) && !myRoutines(S.mid).length, 수 = ws.find(w => w.kind === '수업');
       if(루없 && 수) return 칸('again', 'again:' + 수.id, '지난 수업 그대로 시작', dateTxt(수.date) + ' 수업' + (rOf(수.rid) ? ' · 루틴 ' + rOf(수.rid).no : '') + ' · 무게 그대로', '#3a2a20', '#15110d').replace('hero2 half wide2', 'hero2 half wide2 ggpulse');      /* 루틴표 없음 → 지난 수업 카드에 광택 · 누르면 그 수업 그대로 */
       return 칸('again', ws[0] ? 'myrecs' : 'noprev', '지난 기록으로 시작', ws[0] ? dateTxt(ws[0].date) + ' 그대로 다시' : '한 번 하고 나면 여기서', '#3a2a20', '#15110d'); })()}
-    ${칸('pickex', 'empty', '자유 선택', '원하는 종목을 골라서', '#4a3b1c', '#17130b')}
+    ${칸('pickex', 'empty', '종목 골라서 하기', '원하는 종목을 골라서', '#4a3b1c', '#17130b')}
     ${칸('cardio', 'cardio', '유산소만 하기', '런닝머신 · 사이클 · 천국의계단 · 야외', '#20403a', '#0e1513')}</div>` }; }
 function 지난운동띠(mid){ const w = lastRealWorkouts()[0]; if(!w) return '';
   const 부 = [...new Set(w.items.filter(i => (i.sets || []).length).map(i => (exOf(i.ex) || {}).p).filter(Boolean))], r = rOf(w.rid);
@@ -21918,8 +21918,8 @@ new MutationObserver(() => { const r = document.querySelector('#sheetbox .g96row
     const rid = a.split(':')[1], r = rOf(rid), x = r && r.prep && (D.psets || []).find(z => z.id === r.prep);
     if(!x || !(x.items || []).length) return;
     e.preventDefault(); e.stopImmediatePropagation();
-    openSheet(() => `<div class="g31out"><div class="h2">준비운동 먼저 할까요?</div><p>${esc(x.n || '준비운동')} · ${x.items.length}동작</p>
-      <button class="btn main" data-act="g115:prep:${esc(rid)}">준비운동 먼저</button><button class="btn sub" data-act="g115:go:${esc(rid)}">바로 시작</button></div>`); }, true);
+    openSheet(() => `<div class="g31out"><div class="h2">바로 시작할까요?</div><p>몸이 안 풀렸다면 준비운동부터</p>
+      <button class="btn main" data-act="g115:go:${esc(rid)}">근력 운동 시작</button><button class="btn sub" data-act="g115:prep:${esc(rid)}">준비운동 보러 가기</button></div>`); }, true);
   /* 준비운동이 묶인 루틴 카드는 「한 번 더 누르면 시작」 (누르면 위 창이 뜬다) */
   const 표시 = () => { if(S.who === 'tr') return; document.querySelectorAll('#main .card.g25[data-act^="rt:"]').forEach(c => { const r = rOf(c.getAttribute('data-act').slice(3)); c.classList.toggle('g115p', !!(r && r.prep && (D.psets || []).some(z => z.id === r.prep && (z.items || []).length))); }); };
   const 지켜 = () => { const m = document.getElementById('main'); if(!m){ setTimeout(지켜, 300); return; } new MutationObserver(표시).observe(m, { childList:true, subtree:true }); 표시(); };
@@ -22216,6 +22216,24 @@ function g118하던(){ const w = liveOf(S.mid); if(!w){ go('workout'); return; }
 #sheetbox.g120rel{position:relative}
 #sheetbox .g99back.g120top.g120abs{position:absolute;top:22px;right:16px;width:auto;margin:0;border:1px solid #b89a7e;background:#ffffff;color:#6f4a2f;border-radius:999px;padding:7px 14px;font-size:14px;font-weight:700;min-height:0;height:auto;z-index:2}
 @media (prefers-reduced-motion: reduce){ #sheetbox .g120dot.on::after{animation:none} }
+</style>
+
+<style>
+/* g122 (11/28 07:53 대표 「루틴 두 번 누르면 하단 팝업 올라올 때 카드가 사라져」)
+   원인 : 아래 창이 열리면 뒤 화면 움직임을 모두 멈춤(body:has(#sheet.open) #main * paused) —
+          두 번째 누름에 루틴 카드가 다시 그려지며 「떠오름」(투명 → 보임) 이 막 시작한 순간 멈춰 투명한 채로 남음
+   고침 : 들어오는 움직임(떠오름)은 창이 열려도 끝까지 돈다 · 반짝임(ggpulse · g29now)은 그대로 멈춤 */
+body:has(#sheet.open) #main .card:not(.ggpulse):not(.g29now),
+body:has(#sheet.open) #main.anim > *:not(.ggpulse):not(.g29now){animation-play-state:running!important}
+</style>
+
+<style>
+/* g121 (11/28 07:51 대표 「만들어」) 운동 시작 카드 넷 — 설명 줄 없앰 · 제목 크게
+   「이미 반짝이고 있으니까 눌러서 들어가서 보면 좋지 않나 · 사람들이 설명을 읽지 않을 거 같아」
+   · 설명(.dd) 글자만 지움 — 유산소 카드의 심장 아이콘(.dd::after)은 남김
+   · 제목 22px 굵게 · 「자유 선택」 → 「종목 골라서 하기」(g44 rep) */
+#main .hero2.wide2>span.dd{font-size:0!important;line-height:0!important;margin:0!important}
+#main .hero2.wide2>span.tt,#main .hero2.wide2[data-act="cardio"]>span.tt{font-size:22px!important;font-weight:800!important;line-height:1.25!important;letter-spacing:-.02em}
 </style>
 
 </body>
