@@ -5111,6 +5111,25 @@ html body #sheetbox .g104lg{display:flex;gap:12px;font-size:12px;color:#837666;m
 html body #sheetbox .g104lg i{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:4px;vertical-align:1px}
 html body #sheetbox .g104lg i.td{background:#e8b04b}html body #sheetbox .g104lg i.as{background:#447382}
 html body #sheetbox .g104sh>button::before,html body #sheetbox .g104sh>button::after{display:none!important}
+
+/* g105 수업 시작 창 — 지정 창과 같은 탭(옅은 판 · 금 테 없음) */
+html body #sheetbox .sstab{display:flex!important;background:#f6f1ea!important;border:0!important;border-radius:999px!important;padding:3px!important;gap:0!important}
+html body #sheetbox .sstab button{flex:1;height:38px!important;min-height:0!important;border:0!important;border-radius:999px!important;background:transparent!important;color:#837666!important;font-size:14px!important;font-weight:700!important;box-shadow:none!important}
+html body #sheetbox .sstab button.on{background:#fff!important;color:#1f1813!important;box-shadow:0 1px 3px rgba(70,45,25,.12)!important}
+html body #sheetbox .sstab button::before,html body #sheetbox .sstab button::after{display:none!important}
+/* g105 1RM 창 — 흰 줄 · 고른 것 = 브라운 테 + 동그라미 체크 · 청록(유산소 전용) 안 씀 */
+html body #sheetbox .g105rm{display:flex;flex-direction:column;gap:8px;max-height:46vh;overflow:auto}
+html body #sheetbox .g105rm>button{display:flex;align-items:center;gap:12px;width:100%;min-height:60px;padding:10px 14px;border:1px solid #e6ddd2;border-radius:16px;background:#fff;font:inherit;text-align:left;cursor:pointer;flex-shrink:0}
+html body #sheetbox .g105rm>button.on{border:1.5px solid #6f4a2f}
+html body #sheetbox .g105rm .ck{flex:none;width:22px;height:22px;border-radius:50%;border:1.5px solid #cdb79e;background:#fff;position:relative}
+html body #sheetbox .g105rm button.on .ck{background:#6f4a2f;border-color:#6f4a2f}
+html body #sheetbox .g105rm button.on .ck::after{content:"";position:absolute;left:7px;top:3px;width:5px;height:10px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
+html body #sheetbox .g105rm .t{flex:1;min-width:0}html body #sheetbox .g105rm .t b{display:block;font-size:15px;font-weight:800;color:#1f1813}html body #sheetbox .g105rm .t small{font-size:13px;font-weight:600;color:#837666}
+html body #sheetbox .g105rm .r{flex:none;font-size:13px;font-weight:600;color:#837666}html body #sheetbox .g105rm .r b{font-size:16px;font-weight:900;color:#1f1813;margin-right:1px}
+html body #sheetbox .g105go{margin-top:16px;width:100%}
+html body #sheetbox .g105go:disabled{background:#f6f1ea!important;color:#9a8d7e!important;border:1.5px solid #e6ddd2!important}
+html body #sheetbox .g105sub{font-size:13px;color:#837666;text-align:center;margin-top:6px}
+html body #sheetbox .g105dir{margin-top:12px;width:100%}
 </style></head>
 <body>
 <div class="pwabar" id="pwabar"></div>
@@ -9455,7 +9474,7 @@ function 옛운동화면(w){
   if(!w.items.length) return {
     top: bar('운동 중', 윗시계(w), 'go:home'),
     body:`<div class="empty">아직 종목이 없습니다<small class="e2">아래 「＋ 운동 추가」를 눌러 주세요</small></div>
-      <button class="dngr" data-act="askcancel">기록 삭제</button>`,
+      <button class="dngr" data-act="askcancel">운동 취소</button>`,
     foot: 발판(w) };
   const cur=w.items[w.cur]||w.items[0], e=exOf(cur.ex), v=varOf(cur.ex,cur.va);
   const wmid = w.mid || S.mid, tr = (S.who==='tr');
@@ -9515,7 +9534,7 @@ function 옛운동화면(w){
       </div>${(on && !S.fold) ? 펼침() : ''}`;
     }).join('')}
     ${/* 담고 끝내는 건 아래 고정바로 갔다. 여기엔 되돌릴 수 없는 것만 작게 남긴다 */''}
-    ${유만733(w) ? '' : '<button class="dngr" data-act="askcancel">기록 삭제</button>'}`,
+    ${유만733(w) ? '' : '<button class="dngr" data-act="askcancel">운동 취소</button>'}`,
     notabs: 유만733(w), foot: 유만733(w) ? undefined : 발판(w) };
 }
 
@@ -9776,7 +9795,7 @@ function 플래너화면(w){
     ${tr ? `${수업 ? '<span class="lbl g89lb">수업 마무리</span>' : ''}<div class="g89list">${수업 ? `<button class="g89r" data-act="rtrest"><span class="g89i"><svg viewBox="0 0 24 24"><rect x="6" y="4" width="12" height="17" rx="2"/><path d="M9 9h6M9 13h6M9 17h3"/></svg></span><span class="g89t"><b>나머지 운동 지정</b><small>오늘 루틴에서 · 검색해서 추가</small></span><i>›</i></button>` : ''}<button class="g89r" data-act="bulkopen:${w.id}"><span class="g89i"><svg viewBox="0 0 24 24"><path d="M12 16V5M7.5 9.5 12 5l4.5 4.5"/><path d="M5 15v3a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-3"/></svg></span><span class="g89t"><b>피드백 몰아서 올리기</b><small>사진 · 영상 여러 개 → 종목마다</small></span><i>›</i></button></div>` : ''}
     ${수업 && tr ? 지정카드들(w.id) : ''}
     ${수업 && tr ? `<span class="lbl">수업 메모 <small style="font-weight:600">이 수업에만 · 지난 수업 기록 맨 아래에 보여요</small></span><textarea class="pl-memo" data-k="wmemo" placeholder="오늘 컨디션 · 다음 수업에 할 것">${esc(w.trmemo || '')}</textarea>` : ''}
-    ${tr ? '<button class="dngr" data-act="askcancel">기록 삭제</button>' : ''}`,
+    ${tr ? '<button class="dngr" data-act="askcancel">운동 취소</button>' : ''}`,
     foot: (tr || w.lock) ? 발판(w) : `<button class="btn sub ic" data-act="pladdsheet"><b class="pl">＋</b>운동 추가</button><button class="btn finx" data-act="askfin" style="flex:1.4">운동 마치기</button>` };
 }
 /* ── 수업 메모 ── 2026-10-23 23:01~03 대표 「그립도 언더 · 오버는 그냥 메모 · 칩으로 하지 말고 · 지저분하게 입력할 게 많아지게 하지 말고」
@@ -10207,7 +10226,7 @@ function sheetLeave(nextTab){
       기록하는 동안에는 다른 화면으로 갈 수 없어요.<br>마치면 오늘 기록이 저장됩니다.</p>
     <button class="btn finx" data-act="askfin">오늘 운동 마치기</button>
     <button class="btn ghost" data-act="close">계속 운동하기</button>
-    <button class="dngr" data-act="askcancel">기록 삭제</button>`);
+    <button class="dngr" data-act="askcancel">운동 취소</button>`);
 }
 function sheetRest(){
   const w=live(), cur=w.items[w.cur], preset=[30,60,90,120];
@@ -10283,7 +10302,7 @@ function sheetFinish(){
       <button class="btn sub" style="flex:1" data-act="morego">운동 이어서 하기</button>
       <button class="btn finx" style="flex:1" data-act="dofin">운동 종료</button></div>
     <div class="cyfoot" style="justify-content:center"><span>종료한 뒤에도 「운동 이어서 하기」로 되돌릴 수 있어요</span></div>
-    <button class="btn ghost" style="width:100%;margin-top:12px" data-act="g9del">기록 삭제</button>`);
+    <button class="btn ghost" style="width:100%;margin-top:12px" data-act="g9del">운동 취소</button>`);
 }
 
 /* 지난 기록으로 시작 — 최근 기록 목록에서 골라 그날 종목 · 무게 그대로 (2026-10-08 대표 「홈화면에서 지난 기록 루틴으로 시작하기가 없음」). 고르면 `again:<id>` */
@@ -10299,7 +10318,7 @@ function sheetCancel(){
   openSheet(()=>`<div class="h2" style="text-align:center;line-height:1.5;padding:6px 0 4px">운동 기록을 정말로<br>삭제하시겠습니까?</div>
     <div style="display:flex;gap:9px">
       <button class="btn main" style="flex:1" data-act="close">계속 운동하기</button>
-      <button class="btn ghost" style="flex:1;color:#b5442f;border-color:#cdaaa2" data-act="cancel">기록 삭제</button></div>`);
+      <button class="btn ghost" style="flex:1;color:#b5442f;border-color:#cdaaa2" data-act="cancel">운동 취소</button></div>`);
 }
 /* ── 종목 보완 요청 ── (2026-10-13 대표 「하는 법을 트레이너가 아무거나 막 추가하는 게 아니라 기본 설명 수정 요청 혹은 덧붙이기 요청 · 상부 하부 이거는 버튼으로 누르게 하고 설명을 보완할 수 있게 요청하는 걸로」)
    전에는 「＋ 하는 법」이 이름을 지어 variants 에 바로 넣었다 → 이제 ex_requests 에 **요청 한 줄**만 넣는다. 반영은 대시보드 「종목 사전」에서 관리자 등급이 한다(`28단계_SQL_종목요청.sql`).
@@ -12545,14 +12564,13 @@ function sheetRMStart(mid, 추가){
   S.rmPick = S.rmPick || ['sq','bp','dl'];
   const 있는 = RM순서.filter(e => exOf(e));
   openSheet(()=>`
-    <div class="h2">1RM 측정 <small>${esc(m.n)} 회원 · 잴 종목을 선택하세요</small></div>
-    <div class="pickbox">${있는.map(e=>{ const b = rm최고(mid, e), on = S.rmPick.includes(e);
-      return `<button class="card rowc ${on?'teal':''}" data-act="rmpk:${mid}:${e}"><div><div class="nm ${on?'t':''}">${on?'☑':'☐'} ${esc(exOf(e).n)}</div>
-        <div class="sm">${RM종목[e]} · ${b ? '최고 '+kg표(b.kg)+'kg ('+b.kind+')' : '기록 없음'}</div></div></button>`; }).join('')}</div>
-    <button class="btn main" data-act="rmgo:${mid}">1RM 측정 루틴으로 시작 <small style="opacity:.75;font-weight:500">· 워밍업부터 자동</small></button>
-    <button class="btn sub" data-act="rmdirect:${mid}">1RM 기록 직접 입력하기 <small style="opacity:.75;font-weight:500">· 이미 잰 무게</small></button>
-    <button class="btn ghost sm" data-act="close">닫기</button>
-    <div class="cyfoot"><span>목표를 입력하면 세트가 만들어집니다</span></div>`);
+    <div class="h2 g104h">1RM 측정 <small>${esc(m.n)}</small></div>
+    <span class="lbl">잴 종목</span>
+    <div class="g105rm">${있는.map(e=>{ const b = rm최고(mid, e), on = S.rmPick.includes(e);
+      return `<button class="${on?'on':''}" data-act="rmpk:${mid}:${e}"><i class="ck"></i><span class="t"><b>${esc(exOf(e).n)}</b><small>${RM종목[e]}</small></span><span class="r">${b ? '<b>'+kg표(b.kg)+'</b>kg' : '기록 없음'}</span></button>`; }).join('')}</div>
+    <button class="btn main g105go" data-act="rmgo:${mid}"${S.rmPick.length ? '' : ' disabled'}>${S.rmPick.length}종목 1RM 측정 시작</button>
+    <div class="g105sub">워밍업부터 세트가 자동으로 만들어져요</div>
+    <button class="btn sub g105dir" data-act="rmdirect:${mid}">이미 잰 무게 입력</button>`);
 }
 
 function rm목표묻기(){ const w = live(); if(!w) return; const i = w.items.findIndex(it => it.rm && !it.rmPlan); if(i < 0) return; w.cur = i; S.rmGoal = 0; S.rmMode = '루틴'; save(); sheetRM(); }      /* 기록 없는 1RM 종목 = 목표부터 */
@@ -16282,17 +16300,17 @@ function 시작창그림(mid){ const m = MEMBERS.find(x => x.id === mid) || { n:
   const 날글 = S.recDay ? dateTxt(S.recDay) : '오늘 ' + 짧은날(TODAY), 고 = 고침기록(mid), 고요 = 고 ? '일월화수목금토'[new Date(고.date + 'T12:00:00').getDay()] || '' : '';
   const 같은날 = (() => { const 날 = (S.recDay && S.recDay < 오늘날() ? S.recDay : null) || TODAY, 있 = D.workouts.filter(w => w.mid === mid && w.done && w.kind === '수업' && w.date === 날 && 세트있나(w)).sort(byDateDesc)[0]; return 있 && S.sameNew !== 있.id ? `<div class="zsame"><b>${날 === TODAY ? '오늘' : dateTxt(날)} 수업 기록이 이미 있어요</b><small>${esc(수업제목(있))} · ${있.items.filter(it => it.sets.length).length}종목 · 같은 수업이면 이어서 기록해 주세요(리포트가 두 번 나가지 않게)</small><div class="zsb"><button class="btn main sm" data-act="resume:${있.id}">이어서 기록</button><button class="btn ghost sm" data-act="samenew:${있.id}">새로 기록</button></div></div>` : ''; })();
   const 유산 = (() => { const 지난 = D.workouts.filter(w => w.mid === mid && w.done && w.kind === '수업').sort(byDateDesc)[0]; return 지난 && 팁of(지난.id).length ? `<div class="ctlast"><b>지난 수업(${dateTxt(지난.date)}) 유산소</b>${팁줄들(지난.id)}</div>` : ''; })();
-  let h = `<div class="h2">${esc(m.n)} 회원 <small>무엇으로 시작할까요</small></div>`
+  let h = `<div class="h2 g104h">수업 시작 <small>${esc(m.n)}</small></div>`
     + (고 ? `<div class="ssday fix"><span>수업 날짜</span><b>${esc(dateTxt(고.date))}(${고요}) · 지난 기록 수정 중</b></div>` : o.날열림 ? 수업날줄(mid) : `<div class="ssday"><span>수업 날짜</span><b>${esc(날글)}</b><button class="btn sub sm" data-act="ssday">수정</button></div>`)
     + (고 ? '' : 같은날 + 유산) + 주기줄(mid, 'tsub:cycle:' + mid)
     + (고 ? (세트있나(고) ? `<div class="sssec"><span class="ssno">1</span>지금 기록된 운동</div><div class="sstoday"><div class="rjex"><span class="bd"><b>${esc(dateTxt(고.date))} ${esc(고.kind || '수업')}</b><small class="rjsub">${esc(고.items.filter(it => it.sets && it.sets.length).map(it => exName(it.ex, it.va)).join(' · '))} · ${고.items.filter(it => it.sets && it.sets.length).length}종목</small></span></div><button class="btn main ssgo" data-act="resume:${고.id}">이대로 이어서 수정</button></div><div class="sssec"><span class="ssno">2</span>다른 운동으로 다시 기록</div>` : '')
       : tr ? `<div class="sssec"><span class="ssno">1</span>${t.kind === '수업' ? '오늘 지정한 수업 루틴' : '오늘 지정한 개인운동'}</div><div class="sstoday">${카드(tr)}<button class="btn main ssgo" data-act="tstart:${mid}:${tr.id}:${t.kind}">이대로 시작</button></div><div class="sssec"><span class="ssno">2</span>다른 운동으로 시작</div>` : '')
-    + `<div class="sspan"><div class="sstab"><button class="${o.보기 !== '기록' ? 'on' : ''}" data-act="ssv:표">📋 루틴</button><button class="${o.보기 === '기록' ? 'on' : ''}" data-act="ssv:기록">🗓 지난 기록</button></div><div class="sspb">`;
+    + `<div class="sspan"><div class="sstab"><button class="${o.보기 !== '기록' ? 'on' : ''}" data-act="ssv:표">루틴</button><button class="${o.보기 === '기록' ? 'on' : ''}" data-act="ssv:기록">지난 기록</button></div><div class="sspb">`;
   if(o.보기 === '기록'){ const ws = workoutsOf(mid).filter(w => 세트있나(w) && !(고 && w.id === 고.id)).slice(0, 12);
     h += ws.length ? `<div class="tmrs zjrecs">${ws.map(w => 지난기록한장(w, { pick:[`tstartrec:${mid}:${w.id}:수업`, '이 기록으로 시작'] })).join('')}</div>` : `<div class="fe">아직 마친 기록이 없습니다</div>`; }
-  else h += 묶음.length ? `<span class="lbl">루틴표</span><div class="zjsh">${묶음.map(z => `<button class="${z.id === o.sid ? 'on' : ''}" data-act="sssid:${z.id}">${표지(z)}${z.s && (z.s.cover || {}).img ? `<small>${esc(z.title)}</small>` : ''}</button>`).join('')}</div>
+  else h += 묶음.length ? `<span class="lbl">루틴표</span><div class="zjsh g104sh">${묶음.map(z => `<button class="${z.id === o.sid ? 'on' : ''}" data-act="sssid:${z.id}">${esc(z.title || '루틴표')}</button>`).join('')}</div>
       <span class="lbl">루틴</span>${g.rs.map(카드).join('')}` : `<div class="fe">만들어 둔 루틴이 없습니다<br>아래 「빈 운동으로 시작」으로 시작할 수 있어요</div>`;
-  return h + `</div></div><button class="btn sub ssblank" data-act="tstart:${mid}:0:수업">📝 빈 운동으로 시작</button><button class="btn ghost sm" data-act="close">닫기</button>`; }
+  return h + `</div></div><button class="btn sub ssblank" data-act="tstart:${mid}:0:수업">빈 운동으로 시작</button>`; }
 
 /* 지난 기록 고르기 — 시트 안에서 스크롤 (2026-10-02 대표 「쭉 나열 말고 창 선택하고 스크롤로」) */
 function sheetRecentPick(mid){
@@ -18179,14 +18197,14 @@ document.addEventListener('click', async ev=>{
         <button class="btn sub" data-act="wrestpick" style="margin-bottom:8px">휴식 시간 설정</button>
         <button class="btn sub" data-act="plmore2:plnew" style="margin-bottom:8px">새로 기록하기 <small style="font-weight:600;opacity:.75">· 채워진 숫자 비우기</small></button>
         <button class="btn sub" data-act="plmore2:wlock" style="margin-bottom:8px">화면 잠금</button>
-        <button class="btn ghost" data-act="plmore2:askcancel" style="color:#b5442f">기록 삭제</button>`); return;
+        <button class="btn ghost" data-act="plmore2:askcancel" style="color:#b5442f">운동 취소</button>`); return;
     case 'plmore2': closeSheet(); setTimeout(() => { const b = document.createElement('button'); b.dataset.act = rest.join(':'); b.hidden = true; document.body.appendChild(b); b.click(); b.remove(); }, 60); return;
     case 'pladdsheet': openSheet(() => `<div class="h2">운동 추가</div><div class="home2 st3">
         <button class="hero2 half ${사진있나('pickex')}" data-act="plmore2:go:pick" style="${사진꾸밈('pickex','#4a3b1c','#17130b')}"><span class="tt">웨이트 종목</span><span class="dd">부위별로 선택</span></button>
         <button class="hero2 half" data-act="plmore2:plcardio" style="${사진꾸밈('cardio','#20403a','#0e1513')}"><span class="tt">유산소</span><span class="dd">런닝머신 · 사이클 · 천국의계단</span></button></div>`); return;
     case 'afterpt': 열기수업후(); return;
     case 'g9go': { S.ctab = '직접'; S.cprog = null; S.cpick = rest[0]; S.cgoal = g9지난(rest[0], S.mid) || 0; g9누('cstart'); return; }
-    case 'g9del': 확인창('운동 기록을 삭제할까요?<br><small style="font-weight:600;color:#73695f">삭제하면 되돌릴 수 없어요</small>', '기록 삭제', () => { const lw = live(); if(lw) lw.lock = false; g9누('cancel'); }); return;
+    case 'g9del': 확인창('운동을 취소할까요?<br><small style="font-weight:600;color:#73695f">오늘 기록한 세트가 모두 지워지고 되돌릴 수 없어요</small>', '운동 취소', () => { const lw = live(); if(lw) lw.lock = false; g9누('cancel'); }); return;
     case 'g9pd': S.g9pd = rest[0] || null; drawSheet(); return;
     case 'g9pg': { const p = 유샘플.find(x => x.id === rest[0]), e = p && 유샘플기구(p); if(!e) return; S.ctab = '샘플'; S.cprog = p.id; S.cpick = e.id; S.cgoal = 유샘플분(p); g9누('cstart'); return; }
     case 'czmore': openSheet(() => `<div class="h2">더 보기</div><button class="btn sub" data-act="plmore2:wlock" style="margin-bottom:8px">화면 잠금</button><button class="btn ghost" data-act="plmore2:askcancel" style="color:#b5442f">이 기록 지우기</button>`); return;
@@ -19048,7 +19066,7 @@ const g9옛판 = 유산소판;
       ${줄.length > 1 ? `<div class="g9ch"><div class="g9k">최근 ${줄.length}번 · 운동 시간(분)</div><div class="g9bars g33">${줄.map((v, i, L) => `<span class="${i === L.length - 1 ? 'on' : ''}"><em>${v}</em><i style="height:${Math.max(8, v / 큰 * 100)}%"></i><u>${i === L.length - 1 ? '오늘' : (L.length - 1 - i) + '번 전'}</u></span>`).join('')}</div></div>` : ''}`)
     .replace(/<details class="czopt"><summary>[\s\S]*?<\/summary>/, `<details class="g9det"><summary><span class="t">속도 · 경사<small>선택 · 다음 운동 때 비교해 드려요</small></span><span class="go">＋ 입력</span></summary>${시간칸}`)
     .replace(/<button class="czbig" data-act="(cz:save|czsavefin)">[^<]*<\/button>/, (m, a) => `<button class="g9fin" data-act="${a}">저장</button>`)
-    .replace(/<button class="czback" data-act="cz:resume">[^<]*<\/button>/, `<div class="g9two"><button data-act="cz:resume">운동 이어서 하기</button>${유만733(live()) ? '<button class="g9x" data-act="g9del">기록 삭제</button>' : ''}</div>`);
+    .replace(/<button class="czback" data-act="cz:resume">[^<]*<\/button>/, `<div class="g9two"><button data-act="cz:resume">운동 이어서 하기</button>${유만733(live()) ? '<button class="g9x" data-act="g9del">운동 취소</button>' : ''}</div>`);
   return h.replace('<div class="czbox">', '<div class="czbox g9">'); };
 setInterval(() => { const w0 = live(), it0 = w0 && w0.items[w0.cur], c0 = it0 && it0.cs, 그칸 = document.getElementById('g9pgr'); if(그칸 && c0 && c0.prog && c0.on){ const 프 = 유샘플.find(x => x.id === c0.prog); if(프) 그칸.innerHTML = g9그래프(프, 유초(c0) / (유샘플분(프) * 60)); }
   const 막 = document.getElementById('g9bar'), w = live(); if(!막 || !w) return; const it = w.items[w.cur], c = it && it.cs; if(!c || c.ph !== 'go' || !c.goal) return;
@@ -20224,9 +20242,9 @@ window.addEventListener('click', e => { if(g31통과 || S.screen !== 'workout' |
   const a = el.getAttribute('data-act') || ''; if(a === 'go:workout' || a === 'go:pick') return;      /* 11/26 16:38 대표 「종목 추가 누르니까 나갈 거냐고 묻는데 왜 이래」 — 종목 고르기(pick)는 기록 흐름 안의 이동 */
   e.preventDefault(); e.stopImmediatePropagation(); window.__g31갈곳 = el;
   openSheet(() => `<div class="g31out"><div class="h2">기록 중이에요</div><p>나가도 기록은 그대로 남아요<br>홈의 「이어서 기록」으로 돌아올 수 있어요</p>
-    <button class="btn main" data-act="g31out:stay">운동 이어서 하기</button><button class="btn sub" data-act="g31out:go">나가기</button><button class="g31del" data-act="g31out:del">기록 삭제</button></div>`); }, true);
+    <button class="btn main" data-act="g31out:stay">운동 이어서 하기</button><button class="btn sub" data-act="g31out:go">나가기</button><button class="g31del" data-act="g31out:del">운동 취소</button></div>`); }, true);
 function g31물음(){ openSheet(() => `<div class="g31out"><div class="h2">기록 중이에요</div><p>나가도 기록은 그대로 남아요<br>홈의 「이어서 기록」으로 돌아올 수 있어요</p>
-    <button class="btn main" data-act="g31out:stay">운동 이어서 하기</button><button class="btn sub" data-act="g31out:go">나가기</button><button class="g31del" data-act="g31out:del">기록 삭제</button></div>`); }
+    <button class="btn main" data-act="g31out:stay">운동 이어서 하기</button><button class="btn sub" data-act="g31out:go">나가기</button><button class="g31del" data-act="g31out:del">운동 취소</button></div>`); }
 /* 폰 「뒤로」(기록 뒤로) — 앱의 popstate 보다 먼저 받는다(같은 window 의 capture 가 먼저 돈다) · 11/24 대표 「1RM 에서 뒤로가기 해도 물음 팝업이 하단에서 안 뜨고」 */
 window.g31뒤로 = () => { if(window.__g31넘김){ window.__g31넘김 = false; return false; }      /* 11/26 대표 「기록 중 뒤로 → 나가기 누르면 같은 창이 한 번 더」 — 「나가기」 가 누른 뒤로 단추의 history.back 이 늦게 돌아와 또 물었다 → 한 번 넘김 */
   if(g31통과 || S.screen !== 'workout' || !live()) return false; window.__g31갈곳 = 'back'; g31물음(); return true; };
