@@ -5147,6 +5147,10 @@ html body #main .g106ch .chip.on{background:#6f4a2f!important;border-color:#6f4a
 html body #main .g106ch .chip.on small{color:#eadccb}
 html body #main .g106add{display:block;width:100%;height:48px;margin-top:12px;border:1.5px dashed #cdb79e;border-radius:14px;background:#fff;font:inherit;font-size:15px;font-weight:700;color:#6f4a2f;cursor:pointer}
 html body #main .g106ch .chip.on small{color:#f1e6d8!important;background:none!important}
+/* g107 지난 기록 삭제 — 작은 글 단추(주 단추 아래 · 그날 운동 창) */
+html body #sheetbox .g107del{display:block;margin:12px auto 0;height:34px;padding:0 14px;border:1px solid #e6ddd2;border-radius:999px;background:#fff;font:inherit;font-size:13px;font-weight:600;color:#837666;cursor:pointer}
+/* 11/27 11:28 대표 「버튼이 잘리고 · 다른 탭에서도 저렇게 해? 톤을 맞춰」 → 칩 한 줄 밀기 철회 · 다른 화면처럼 줄 바꿈(잘림 없음) */
+html body #main .g106ch{flex-wrap:wrap!important;overflow:visible!important;row-gap:6px!important}
 </style></head>
 <body>
 <div class="pwabar" id="pwabar"></div>
@@ -21288,11 +21292,14 @@ g85창 = function(d){ const ws = g86날(d); if(!ws.length) return; S.g85열 = d;
   let c = 지난기록한장(w, { start:true });
   if(수 && w !== 수 && 이0[i] === '나머지') c = c.replace(/(<span class="g76k[^"]*">[^<]*<\/span>)/, '$1<span class="g75tag">수업 후 나머지</span>');
   if(ws.length > 1) c = c.replace(/<button class="btn main sm tlgo" data-act="again:[^"]*">[^<]*<\/button>/, '');
-  const 뒤 = S.g86from === 'myrecs' ? '<button class="btn ghost sm" data-act="myrecs">‹ 목록으로</button>' : '<button class="btn ghost sm" data-act="close">닫기</button>';
+  const 뒤 = (S.who !== 'tr' && w.kind !== '수업' && w.date >= 날뒤(TODAY, -7) ? `<button class="g107del" data-act="g107del:${w.id}">이 기록 삭제</button>` : '') + (S.g86from === 'myrecs' ? '<button class="btn ghost sm" data-act="myrecs">‹ 목록으로</button>' : '');      /* 11/27 대표 「개인운동 여러 번 찍힘 · 지울 수 있어야 · 기간 제한」 → 회원 본인 개인운동만 · 7일 안 · 닫기는 뺌(빈 곳 · 끌어내리기 · 폰 뒤로) */
   openSheet(() => `<div class="h2">${esc(dateTxt(d))} (${요})${ws.length > 1 ? ` <small>운동 ${ws.length}</small>` : ''}</div>
     ${ws.length > 1 ? `<div class="g86seg">${ws.map((x, k) => `<button class="${k === i ? 'on ' : ''}${이0[k] === 'PT 수업' ? 'su' : 'pe'}" data-act="g86t:${d}:${k}">${이[k]} · ${g86종(x).length}종목</button>`).join('')}</div>` : ''}
     <div class="tmrs g77sh g82sh g85sh">${c}</div>
     ${ws.length > 1 ? `<button class="btn main" data-act="g86p:${d}">이 기록으로 시작</button>` : ''}${뒤}`); };
+/* 지난 기록 지우기 — 확인 창 한 번 */
+window.addEventListener('click', e => { const b = e.target.closest && e.target.closest('[data-act^="g107del:"]'); if(!b) return; e.preventDefault(); e.stopImmediatePropagation(); const id = b.getAttribute('data-act').slice(8), w = D.workouts.find(x => x.id === id); if(!w) return;
+  확인창('이 기록을 삭제할까요?<br><small style="font-weight:600;color:#73695f">' + esc(dateTxt(w.date)) + ' 개인운동 · 되돌릴 수 없어요</small>', '삭제', () => { D.workouts = D.workouts.filter(x => x.id !== id); sv(sdel('workouts', 'id=eq.' + id), '지난 기록 삭제'); save(); closeSheet(); render(); toast('삭제했어요'); }); }, true);
 /* 시작 고르기 */
 function g86고르기(d){ const ws = g86날(d); if(ws.length < 2) return; const 이 = ws.map(x => g86이름(x, ws)), 골 = S.g86골 && S.g86골.d === d ? S.g86골.k : '0';
   const 줄 = (k, 제목, 설명) => `<button class="g86op${골 === k ? ' on' : ''}" data-act="g86o:${d}:${k}"><b>${제목}</b><small>${설명}</small></button>`;
