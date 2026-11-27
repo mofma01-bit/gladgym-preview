@@ -1,7 +1,7 @@
 name: expire
 on:
   schedule:
-    - cron: '5 15 27 11 *'   # 2026-11-28 00:05 KST — 열람 기한(11/27 금) 지나면 파일을 지움
+    - cron: '5 15 29 11 *'   # 2026-11-30 00:05 KST — 열람 기한(11/29 일) 지나면 파일을 지움
   workflow_dispatch:
 permissions:
   contents: write

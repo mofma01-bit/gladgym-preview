@@ -2,9 +2,9 @@
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow">
 <title>글래드짐 앱 시안 · 회원 · 트레이너</title>
 <script>
-/* 열람 기한 — 2026-11-27(금) 23:59 (한국 시각)까지. 그 뒤엔 열리지 않음 */
-window.__끝 = Date.parse('2026-11-27T23:59:59+09:00');
-if(Date.now() > window.__끝){ document.documentElement.innerHTML = '<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>열람 기간이 끝났어요</title></head><body style="margin:0;min-height:100vh;display:grid;place-items:center;background:#efe8df;font-family:system-ui,-apple-system,\'Malgun Gothic\',sans-serif;color:#1f1813"><div style="text-align:center;padding:24px"><b style="font-size:20px">열람 기간이 끝났어요</b><p style="color:#5d5249">이 시안은 11월 27일(금)까지만 볼 수 있었어요</p></div></body>'; throw new Error('끝남'); }
+/* 열람 기한 — 2026-11-29(일) 23:59 (한국 시각)까지. 그 뒤엔 열리지 않음 */
+window.__끝 = Date.parse('2026-11-29T23:59:59+09:00');
+if(Date.now() > window.__끝){ document.documentElement.innerHTML = '<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>열람 기간이 끝났어요</title></head><body style="margin:0;min-height:100vh;display:grid;place-items:center;background:#efe8df;font-family:system-ui,-apple-system,\'Malgun Gothic\',sans-serif;color:#1f1813"><div style="text-align:center;padding:24px"><b style="font-size:20px">열람 기간이 끝났어요</b><p style="color:#5d5249">이 시안은 11월 29일(일)까지만 볼 수 있었어요</p></div></body>'; throw new Error('끝남'); }
 </script>
 <style>
 :root{--bg:#2a211b;--fg:#f4ece3;--sub:#cdbfae}
@@ -22,10 +22,10 @@ header .vw{display:flex;gap:6px}header .vw button.on{background:var(--fg);color:
 @media (max-width:700px){ header{height:auto;flex-wrap:wrap;padding-block:8px;row-gap:8px} header small{display:none} main{height:auto} }
 body.one .col.hide{display:none}
 </style></head><body>
-<header><b>글래드짐 앱 시안</b><small>샘플 자료(실제 회원 아님) · 11월 27일(금)까지</small><span class="sp"></span><span class="vw"><button data-v="m">회원</button><button data-v="t">트레이너</button><button data-v="둘">나란히</button></span><button onclick="다시()">처음 상태로 (쌓인 시험 기록 지움)</button></header>
+<header><b>글래드짐 앱 시안</b><small>샘플 자료(실제 회원 아님) · 11월 29일(일)까지</small><span class="sp"></span><span class="vw"><button data-v="m">회원</button><button data-v="t">트레이너</button><button data-v="둘">나란히</button></span><button onclick="다시()">처음 상태로 (쌓인 시험 기록 지움)</button></header>
 <main>
-  <div class="col"><b>회원<small>윤서아(샘플)</small></b><div class="ph"><iframe id="m" data-src="시안.html?sample=1&v=p1127k" title="회원 화면"></iframe></div></div>
-  <div class="col t"><b>트레이너<small>샘플 트레이너</small></b><div class="ph"><iframe id="t" data-src="시안.html?sample=1&who=tr&v=p1127k" title="트레이너 화면"></iframe></div></div>
+  <div class="col"><b>회원<small>윤서아(샘플)</small></b><div class="ph"><iframe id="m" data-src="시안.html?sample=1&v=p1127kp" title="회원 화면"></iframe></div></div>
+  <div class="col t"><b>트레이너<small>샘플 트레이너</small></b><div class="ph"><iframe id="t" data-src="시안.html?sample=1&who=tr&v=p1127kp" title="트레이너 화면"></iframe></div></div>
 </main>
 <script>
 /* 화면 크기에 맞춰 두 폰을 줄임 — 높이 · 너비 둘 다 맞춤(노트북 · 태블릿 · 큰 모니터) */
