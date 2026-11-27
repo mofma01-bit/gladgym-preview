@@ -5165,6 +5165,11 @@ html body #sheetbox .g109none{display:block;width:100%;height:50px;margin-top:8p
 html body #sheetbox .g109none[hidden]{display:none}
 html body #sheetbox .g109none b{color:#6f4a2f;font-weight:800}
 html body #sheetbox input.search:focus,html body #main input.search:focus{outline:none!important;border-color:#6f4a2f!important;box-shadow:0 0 0 1px #6f4a2f!important}
+/* g110 수업 시작 회원 고르기 — 오늘 예약 줄 왼쪽 = 시각(홈 오늘 수업 예약과 같은 꼴) */
+html body #sheetbox .g110t{flex:none;width:44px;font-size:14px;font-weight:800;color:#1f1813;font-variant-numeric:tabular-nums;text-align:left}
+html body #sheetbox .g110e,html body #sheetbox .g110none{font-size:14px;color:#837666;text-align:center;padding:14px 0;background:#fff;border:1px dashed #e6ddd2;border-radius:14px}
+html body #sheetbox .g110none[hidden]{display:none}
+html body #sheetbox #g110q{margin-bottom:8px}
 </style></head>
 <body>
 <div class="pwabar" id="pwabar"></div>
@@ -16239,16 +16244,23 @@ function sheetAssign(rid, kind){
 
 /* ── 트레이너: 수업 시작 ── */
 function sheetPickMember(){
-  openSheet(()=>`
-    <div class="h2">오늘 수업 <small>누구와 하시나요</small></div>
-    <input class="search" type="text" data-filter="1" placeholder="회원 이름으로 검색">
-    <div class="pkmems">${MEMBERS.map(m=>{ const lv=liveOf(m.id);
-      return `<button class="mrow2 pkmem ${lv?'lvrow':''}" data-nm="${esc(m.n)}" data-act="${lv?'tgo:'+m.id:'tstartask:'+m.id}">${얼굴갈래(m.id)}      <!-- 갈래 원(PT · TG · 체험 · FC) — 오늘 화면 줄과 같은 꼴 (2026-11-24 대표 「원래 TG · PT 딱지 붙지 않았나」) -->
-        <span class="mt"><b>${esc(m.n)}</b><small>${lv?'진행 중 · 이어서 기록':(D.today[m.id]&&rOf(D.today[m.id].rid)?`${지정이름(D.today[m.id].kind)} · 루틴 ${rOf(D.today[m.id].rid).no}`:'지정된 루틴 없음')}</small></span>
-        <em class="go">${lv?'이어서 ›':'시작 ›'}</em></button>`; }).join('')
-      || '<div class="empty">담당 회원이 없습니다<small class="e2">대시보드 「회원」에서 추가해 주세요</small></div>'}</div>
-    <button class="btn ghost sm" data-act="close">닫기</button>`);
-}
+  openSheet(()=>{ const 진 = MEMBERS.filter(m => liveOf(m.id)), 예 = 오늘예약줄().filter(o => o.m && o.x['상태'] !== '노쇼' && !liveOf(o.m.id));
+    const 줄 = (m, 위, 아래, act, go) => `<button class="mrow2 pkmem" data-nm="${esc(m.n)}" data-act="${act}">${위 ? `<span class="g110t">${위}</span>` : 얼굴갈래(m.id)}<span class="mt"><b>${esc(m.n)}</b><small>${아래}</small></span><em class="go">${go}</em></button>`;
+    const 지 = m => D.today[m.id] && rOf(D.today[m.id].rid) ? `${지정이름(D.today[m.id].kind)} · 루틴 ${rOf(D.today[m.id].rid).no}` : '지정된 루틴 없음';
+    return `<div class="h2 g104h">수업 시작 <small>누구와 할까요</small></div>
+    ${진.length ? `<span class="lbl">진행 중</span><div class="pkmems">${진.map(m => 줄(m, '', '이어서 기록', 'tgo:' + m.id, '이어서 ›')).join('')}</div>` : ''}
+    <span class="lbl">오늘 예약 <small>${예.length}명</small></span>
+    ${예.length ? `<div class="pkmems">${예.map(o => 줄(o.m, esc(String(o.x['시각'] || '').slice(0, 5)), esc(예약종류(o.x)) + ' · ' + 지(o.m), 'tstartask:' + o.m.id, '시작 ›')).join('')}</div>` : '<div class="g110e">오늘 예약된 수업이 없어요</div>'}
+    <span class="lbl">다른 회원</span>
+    <input class="search" id="g110q" type="text" placeholder="회원 이름으로 검색" autocomplete="off">
+    <div class="pkmems g110list">${MEMBERS.map(m => 줄(m, '', 지(m), 'tstartask:' + m.id, '시작 ›')).join('')}</div>
+    <div class="g110none" hidden>찾는 회원이 없어요</div>`; });
+  setTimeout(g110거름, 0); }
+function g110거름(){ const q = document.getElementById('g110q'); if(!q) return; const v = q.value.trim(); let n = 0;
+  document.querySelectorAll('#sheetbox .g110list .pkmem').forEach(b => { const 맞 = !!v && (b.dataset.nm || '').includes(v); b.style.display = 맞 ? '' : 'none'; if(맞) n++; });
+  const L = document.querySelector('#sheetbox .g110list'); if(L) L.style.display = n ? '' : 'none';
+  const 없 = document.querySelector('#sheetbox .g110none'); if(없) 없.hidden = !(v && !n); }
+document.addEventListener('input', e => { if(e.target && e.target.id === 'g110q') setTimeout(g110거름, 0); }, true);
 
 function sheetPickAssign(){
   openSheet(()=>`
@@ -21684,7 +21696,7 @@ new MutationObserver(() => { const r = document.querySelector('#sheetbox .g96row
    회원 검색은 실명 예시 없음(안내만) · 동작 줄이기 설정이면 첫 줄만 그대로 · 효과 I(테 두 번)는 그대로 */
 (() => {
   const 고르개 = 'input[type=search], input.search, input[placeholder*="검색"]';
-  const 안내 = ph => /회원|이름/.test(ph) ? ['이름 한 글자로도 찾아요', '성만 써도 돼요 · 예) 김', '담당 아닌 회원도 찾아져요']
+  const 안내 = ph => /회원|이름/.test(ph) ? ['이름 한 글자로도 찾아요', '담당 아닌 회원도 찾아져요', '전화 뒷자리는 전산 찾기에서']
     : /종목|동작/.test(ph) ? ['스쿼트', 'bp · 영어 줄임말도 돼요', '가슴 · 부위로도 찾아요', '덤벨 · 기구로도 찾아요']
     : /루틴/.test(ph) ? ['하체', '루틴 이름으로 찾아요'] : [];
   const 줄임 = () => { try{ return matchMedia('(prefers-reduced-motion: reduce)').matches; }catch(e){ return false; } };
