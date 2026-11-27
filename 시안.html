@@ -5130,6 +5130,22 @@ html body #sheetbox .g105go{margin-top:16px;width:100%}
 html body #sheetbox .g105go:disabled{background:#f6f1ea!important;color:#9a8d7e!important;border:1.5px solid #e6ddd2!important}
 html body #sheetbox .g105sub{font-size:13px;color:#837666;text-align:center;margin-top:6px}
 html body #sheetbox .g105dir{margin-top:12px;width:100%}
+
+/* g106 트레이너 회원 목록 (11/27 대표 「여기도 디자인 다시」) — 숫자 셋 한 카드 · 칩 한 줄 · 청록 띠 없앰 */
+html body #main .g106sum{display:grid!important;grid-template-columns:repeat(3,1fr)!important;gap:0!important;background:#fff!important;border:1px solid #e6ddd2!important;border-radius:20px!important;box-shadow:0 1px 2px rgba(70,45,25,.04),0 6px 18px -10px rgba(70,45,25,.14)!important;padding:12px 4px!important}
+html body #main .g106sum>div{background:none!important;border:0!important;box-shadow:none!important;padding:2px 10px!important;border-radius:0!important;text-align:center}
+html body #main .g106sum>div+div{border-left:1px solid #eee6dc!important}
+html body #main .g106sum small{display:block;font-size:13px!important;font-weight:600!important;color:#837666!important}
+html body #main .g106sum b{font-size:22px!important;font-weight:900!important;color:#1f1813!important}
+html body #main .g106sum b i{font-size:13px!important;font-weight:600!important;color:#837666!important;font-style:normal}
+html body #main .g106q{background:#fff!important;border:1px solid #e6ddd2!important;border-radius:14px!important}
+html body #main .g106ch{display:flex!important;flex-wrap:nowrap!important;overflow-x:auto!important;gap:6px!important;scrollbar-width:none;padding-bottom:2px}
+html body #main .g106ch::-webkit-scrollbar{display:none}
+html body #main .g106ch .chip{flex:none!important;height:34px!important;padding:0 12px!important;border-radius:999px!important;border:1px solid #e6ddd2!important;background:#fff!important;color:#5d5249!important;font-size:14px!important;font-weight:700!important;box-shadow:none!important;display:inline-flex;align-items:center;gap:4px}
+html body #main .g106ch .chip small{font-size:13px;font-weight:600;color:#9a8d7e}
+html body #main .g106ch .chip.on{background:#6f4a2f!important;border-color:#6f4a2f!important;color:#fff!important}
+html body #main .g106ch .chip.on small{color:#eadccb}
+html body #main .g106add{display:block;width:100%;height:48px;margin-top:12px;border:1.5px dashed #cdb79e;border-radius:14px;background:#fff;font:inherit;font-size:15px;font-weight:700;color:#6f4a2f;cursor:pointer}
 </style></head>
 <body>
 <div class="pwabar" id="pwabar"></div>
@@ -15822,7 +15838,6 @@ function 회원목록글(){
   const 한줄 = ({m,last,lv,nofb,fav,담}) => `<div class="mrow2 favrow">
           <button class="favbtn ${fav?'on':''}" data-act="tmfav:${m.id}" aria-label="${fav?'즐겨찾기 해제':'즐겨찾기'}">${별(fav)}</button>
           <button class="tmgo" data-act="tm:${m.id}">
-          ${갈래원(m.id)}
           <span class="mt"><b>${esc(m.n)}</b><small>${lv?`지금 운동 중 · ${esc((it0=>it0?exName(it0.ex,it0.va):'')(lv.items[lv.cur]||lv.items[0]))}`
             :(last?`${dateTxt(last.date)} · ${esc(last.kind||'')}`:'기록 없음')}${!담 && m.tr ? ' · 담당 ' + esc(m.tr) : ''}</small></span>
           ${lv?'<span class="pill t">진행 중</span>':(nofb?'<span class="nbdot" title="안 본 기록"></span>':'')}<i>›</i></button></div>`;
@@ -15838,14 +15853,14 @@ function tMembers(){
   const 거름 = S.tmreg || '담별', 다 = 회원줄들(), 수 = k => 다.filter(x => k === '담별' ? (x.담 || x.fav) : k === '담당' ? x.담 : k === '★' ? x.fav : k === '안봄' ? (!x.lv && x.nofb) : x.m.reg === k).length;
   const 안본수 = 수('안봄');
   return { top: bar('회원', `<span class="sub">담당 ${수('담당')}명</span>`), body:
-    `<div class="tmsum">
+    `<div class="tmsum g106sum">
           <div><small>담당 회원</small><b>${수('담당')}<i>명</i></b></div>
           <div class="t"><small>지금 운동 중</small><b>${다.filter(x=>x.lv).length}<i>명</i></b></div>
           <div><small>안 본 기록</small><b>${안본수}<i>명</i></b></div></div>
-        <input class="search" type="text" data-tmq="1" placeholder="전체 회원에서 이름으로 검색" autocomplete="off" value="${esc(S.tmq || '')}">
-        <div class="chips">${[['담별','담당 + ★'],['담당','담당'],['★','★ 즐겨찾기'],['신규','신규'],['재등록','재등록'],['안봄','안 본 기록']].map(k=>`<button class="chip ${k[0]==='★'?'fav':''} ${거름===k[0]?'on':''}" data-act="tmreg:${k[0]}">${k[1]} ${수(k[0])}</button>`).join('')}</div>
+        <input class="search g106q" type="text" data-tmq="1" placeholder="회원 이름으로 검색" autocomplete="off" value="${esc(S.tmq || '')}">
+        <div class="chips g106ch">${[['담별','담당 + ★'],['담당','담당'],['★','★ 즐겨찾기'],['신규','신규'],['재등록','재등록'],['안봄','안 본 기록']].map(k=>`<button class="chip ${k[0]==='★'?'fav':''} ${거름===k[0]?'on':''}" data-act="tmreg:${k[0]}">${k[1]}<small>${수(k[0])}</small></button>`).join('')}</div>
         <div id="tmlist">${회원목록글()}</div>
-        <button class="hline" data-act="newmem">${svg('h_user',18)}<b>전산에서 검색해 추가</b><small>앱에 없는 회원 · 이름이나 전화 뒷자리</small></button>` };
+        <button class="g106add" data-act="newmem">＋ 전산에서 회원 추가</button>` };
 }
 document.addEventListener('input', ev => { const f = ev.target.closest && ev.target.closest('[data-tmq]'); if(!f) return; S.tmq = f.value; S.tmPg = 10; const el = document.getElementById('tmlist'); if(el) el.innerHTML = 회원목록글(); });      /* 다시 그리지 않고 목록만 — 치는 중 글자칸이 안 끊긴다 */
 function tMember(){
