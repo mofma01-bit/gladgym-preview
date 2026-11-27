@@ -20094,8 +20094,7 @@ vHome = function(){ const o = g29옛홈(); if(S.who === 'tr' || !o || !o.body) r
 /* 11/24 13:04 대표 「오운완 찍기 하면 수업 후 개인운동처럼 하단에 사진 촬영 · 갤러리 두 개가 뜨게」 — 바로 사진기 → 아래 창(촬영 · 갤러리) */
 const g29옛오운 = ootdPick;
 ootdPick = function(wid, 갈){
-  if(!갈){ openSheet(() => `<div class="h2">오늘 오운완</div><p class="g29sub">사진 한 장으로 오늘 운동을 남겨요</p>
-    <div class="g29pick"><button data-act="g29oo:${wid}:cam"><i class="g19svg">${B2아.camera}</i>촬영</button><button data-act="g29oo:${wid}:gal"><i class="g19svg">${B2아.image}</i>갤러리</button></div>`); return; }
+  if(!갈 || 갈 === 'gal') 갈 = 'cam';      /* 11/27 대표 「오운완 촬영만」 — 고르는 창 · 갤러리 없음 */
   const 옛 = Element.prototype.setAttribute;
   if(갈 === 'gal') Element.prototype.setAttribute = function(k, v){ if(k === 'capture') return; return 옛.call(this, k, v); };      /* 갤러리 = 사진기 고정(capture)만 빼고 같은 길 */
   try{ g29옛오운(wid); } finally { Element.prototype.setAttribute = 옛; } };
