@@ -5151,6 +5151,15 @@ html body #main .g106ch .chip.on small{color:#f1e6d8!important;background:none!i
 html body #sheetbox .g107del{display:block;margin:12px auto 0;height:34px;padding:0 14px;border:1px solid #e6ddd2;border-radius:999px;background:#fff;font:inherit;font-size:13px;font-weight:600;color:#837666;cursor:pointer}
 /* 11/27 11:28 대표 「버튼이 잘리고 · 다른 탭에서도 저렇게 해? 톤을 맞춰」 → 칩 한 줄 밀기 철회 · 다른 화면처럼 줄 바꿈(잘림 없음) */
 html body #main .g106ch{flex-wrap:wrap!important;overflow:visible!important;row-gap:6px!important}
+/* g108 검색창 안내 글 — 아래에서 위로 바뀜 · 자리 글(placeholder)과 같은 색 · 누르면 숨김 */
+html body .g108r{position:absolute;display:block;overflow:hidden;pointer-events:none;z-index:2}
+html body .g108r .g108t{position:absolute;left:0;top:50%;transform:translateY(-50%);white-space:nowrap;font-style:normal;color:#9a8d7e;font-weight:500;line-height:1.3}
+html body .g108r .g108t.in{animation:g108in .45s cubic-bezier(.2,.7,.3,1) both}
+html body .g108r .g108t.out{animation:g108out .45s cubic-bezier(.4,0,.6,1) both}
+@keyframes g108in{from{opacity:0;transform:translateY(40%)}to{opacity:1;transform:translateY(-50%)}}
+@keyframes g108out{from{opacity:1;transform:translateY(-50%)}to{opacity:0;transform:translateY(-140%)}}
+@media (prefers-reduced-motion:reduce){html body .g108r .g108t{animation:none!important}}
+html body .g108r .g108t{color:#837666!important}  /* 대비 3 이상(밝은 칸 위 #9a8d7e 는 2.7) */
 </style></head>
 <body>
 <div class="pwabar" id="pwabar"></div>
@@ -21408,7 +21417,7 @@ if(/[?&]g90=1/.test(location.search)){
   const 돌리기 = inp => { const 원 = inp.getAttribute('placeholder') || '', 앞 = 원.replace(/\s*·?\s*예\).*$/, '').replace(/^🔍\s*/, ''), ex = 예시(원);
     inp.classList.remove('g92go'); void inp.offsetWidth; inp.classList.add('g92go');
     const 판 = inp.parentElement; if(판) 판.querySelectorAll(':scope > svg, :scope > .ic, :scope > i').forEach(x => { x.classList.remove('g92k'); void x.offsetWidth; x.classList.add('g92k'); });
-    if(!ex.length) return; let i = 0;
+    if(!ex.length || window.g108) return; let i = 0;      /* 11/27 안내 글 돌리기는 g108 이 계속 */
     const t = setInterval(() => { if(!inp.isConnected || document.activeElement === inp || inp.value){ clearInterval(t); if(inp.isConnected) inp.setAttribute('placeholder', 원); return; }
       if(i >= ex.length){ clearInterval(t); inp.setAttribute('placeholder', 원); return; }
       inp.setAttribute('placeholder', 앞 + ' · 예) ' + ex[i++]); }, 1100); };
@@ -21658,6 +21667,34 @@ new MutationObserver(() => { const r = document.querySelector('#sheetbox .g96row
     if(a.startsWith('g100past:')){ e.preventDefault(); e.stopImmediatePropagation(); const [, ex, va] = a.split(':'); g99지난(ex, va, 지금mid || S.mid, window.g97앞 ? window.g97앞() : null); return; }
     if(S.who === 'tr' && (a.startsWith('plnm:') || a.startsWith('exd:')) && !b.closest('#sheetbox .g99back'))      /* 처음 열 때 파도 (회원과 같게) */
       setTimeout(() => { const sb = document.getElementById('sheetbox'); if(!sb || !sb.querySelector('.g100two')) return; sb.classList.remove('g99in'); void sb.offsetWidth; sb.classList.add('g99in'); setTimeout(() => sb.classList.remove('g99in'), 1100); }, 20); }, true);
+})();
+</script>
+
+<script>
+/* 60 11/27 11:34 대표 「쿠팡이츠 검색창처럼 검색어가 계속 바뀌게 · 회원 검색 · 종목 검색 · 검색창 규칙 = 가이드가 뜨게」
+   검색창이 비어 있고 누르지 않았을 때 = 안내 글이 아래에서 위로 2.6초마다 바뀜(계속) · 누르거나 글을 쓰면 바로 멈춤 · 비우고 나가면 다시
+   회원 검색은 실명 예시 없음(안내만) · 동작 줄이기 설정이면 첫 줄만 그대로 · 효과 I(테 두 번)는 그대로 */
+(() => {
+  const 고르개 = 'input[type=search], input.search, input[placeholder*="검색"]';
+  const 안내 = ph => /회원|이름/.test(ph) ? ['이름 한 글자로도 찾아요', '성만 써도 돼요 · 예) 김', '담당 아닌 회원도 찾아져요']
+    : /종목|동작/.test(ph) ? ['스쿼트', 'bp · 영어 줄임말도 돼요', '가슴 · 부위로도 찾아요', '덤벨 · 기구로도 찾아요']
+    : /루틴/.test(ph) ? ['하체', '루틴 이름으로 찾아요'] : [];
+  const 줄임 = () => { try{ return matchMedia('(prefers-reduced-motion: reduce)').matches; }catch(e){ return false; } };
+  window.g108 = true;
+  const 달기 = inp => { if(inp.dataset.g108) return; const 원 = inp.getAttribute('placeholder') || '', 다 = 안내(원); if(!다.length) return; inp.dataset.g108 = '1';
+    const s = getComputedStyle(inp), 판 = document.createElement('span'); 판.className = 'g108r'; 판.setAttribute('aria-hidden', 'true'); 판._inp = inp;
+    판.style.cssText = `left:${inp.offsetLeft + parseFloat(s.paddingLeft) + parseFloat(s.borderLeftWidth)}px;top:${inp.offsetTop}px;height:${inp.offsetHeight}px;width:${Math.max(40, inp.offsetWidth - parseFloat(s.paddingLeft) - 16)}px;font-size:${s.fontSize}`;
+    const 앞 = 원.replace(/\s*·?\s*예\).*$/, '') || '검색';
+    판.innerHTML = `<i class="g108t">${다[0]}</i>`; const p = inp.offsetParent || inp.parentElement; if(getComputedStyle(p).position === 'static') p.style.position = 'relative'; p.appendChild(판);
+    inp.setAttribute('aria-label', 앞); let k = 0, t = null;
+    const 보임 = () => { if(!inp.isConnected){ 판.remove(); clearInterval(t); return false; } const 켬 = !inp.value && document.activeElement !== inp; 판.style.display = 켬 ? '' : 'none'; inp.setAttribute('placeholder', 켬 ? '' : 앞); return 켬; };
+    const 돌기 = () => { if(!inp.isConnected){ clearInterval(t); 판.remove(); return; } if(!보임() || 줄임()) return; k = (k + 1) % 다.length;
+      const 옛 = 판.querySelector('.g108t'); 옛.classList.add('out'); const 새 = document.createElement('i'); 새.className = 'g108t in'; 새.textContent = 다[k]; 판.appendChild(새); setTimeout(() => 옛.remove(), 450); };
+    ['focus', 'blur', 'input'].forEach(e => inp.addEventListener(e, 보임)); 보임(); t = setInterval(돌기, 2600); };
+  const 살피기 = () => { document.querySelectorAll('.g108r').forEach(p => { if(!p._inp || !p._inp.isConnected) p.remove(); }); document.querySelectorAll('#main ' + 고르개.split(', ').join(', #main ') + ', #sheetbox ' + 고르개.split(', ').join(', #sheetbox ')).forEach(i => { if(i.offsetWidth) 달기(i); }); };
+  const 시작 = () => { const m = document.getElementById('main'), sb = document.getElementById('sheetbox'); if(!m){ setTimeout(시작, 300); return; }
+    new MutationObserver(() => setTimeout(살피기, 60)).observe(m, { childList:true, subtree:true }); if(sb) new MutationObserver(() => setTimeout(살피기, 60)).observe(sb, { childList:true, subtree:true }); 살피기(); };
+  setTimeout(시작, 0);
 })();
 </script>
 
