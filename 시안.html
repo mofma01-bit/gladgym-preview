@@ -5067,6 +5067,13 @@ html body #sheetbox.g99in .g100two .g99tile:nth-child(1){animation:g99up .35s cu
 html body #sheetbox.g99in .g100two .g99tile:nth-child(2){animation:g99up .35s cubic-bezier(.2,.7,.3,1) .21s both}
 /* g101 세트 − 꺼짐(세트 하나) — 테는 남기고 글만 옅게 */
 html body .plmenu.g80 button.mi:disabled{color:#b3a596!important;border-color:#e6ddd2!important;background:#fff!important;cursor:default}
+/* 11/27 몸 그림 묶음 가운데 — 끝 화면 「오늘은 여기까지」 카드 등 .rp3mv 가 왼쪽으로 쏠림 · 누르면 크게(g88) */
+html body #main .rp3mv,html body #sheetbox .rp3mv{display:flex!important;flex-direction:column;align-items:center!important;cursor:zoom-in}
+html body #main .rp3mv .b2w,html body #sheetbox .rp3mv .b2w{margin-left:auto!important;margin-right:auto!important}
+/* 11/27 끝 화면 몸 그림 칸 가운데 — .tmrc .tmfig2 의 margin auto 가 다른 꼴에 눌려 왼쪽에 붙던 것 */
+html body #main .tmrc .tmfig.tmfig2{margin-left:auto!important;margin-right:auto!important;justify-content:center}
+/* 11/27 끝 화면 · 기록 카드 표도 좁은 폰에서 숫자가 붙던 것 — #main .tmrc .plc(14px) 가 400px 규칙을 이겨서 · 같은 규칙을 id 로 */
+@media (max-width:400px){html body #main .pltb .plg>.plc,html body #sheetbox .pltb .plg>.plc{font-size:13px!important;letter-spacing:-.6px!important;overflow:hidden}}
 </style></head>
 <body>
 <div class="pwabar" id="pwabar"></div>
@@ -10224,10 +10231,6 @@ function sheetFinish(){
   const left=items.filter(it=>!it.locked && !it.sets.some(x=>x.done));
   openSheet(()=>`
     <div class="h2">운동을 마칠까요?</div>
-    <div class="sstat3 fin2">
-      <div><span class="k">오늘 한 운동</span><span class="v">${items.filter(it=>it.locked||it.sets.some(x=>x.done)).length}<small>개</small></span></div>
-      <div><span class="k">세트</span><span class="v">${sets}<small>개</small></span></div>
-    </div>
     ${w.lock ? `<div class="finlock">🔒 잠겨 있습니다<br><small>「운동 종료」를 누르면 잠금을 풀고 종료합니다</small></div>` : ''}
     ${left.length ? `<div class="agbody finleft"><b>아직 안 한 운동 ${left.length}개</b><br>${esc(left.map(it=>exOf(it.ex).n).join(' · '))}<br><span>종료하면 안 한 것으로 넘어갑니다</span></div>` : ''}
     <div style="display:flex;gap:9px">
@@ -18090,7 +18093,7 @@ document.addEventListener('click', async ev=>{
     case 'askfin': if(w && w.items.some(it => it.cs && it.cs.ph === 'go' && !it.locked)){ toast('유산소를 먼저 종료해 주세요'); return; }
       if(w && S.who === 'tr' && 안보낸것(w.mid) && !await 물어('보내지 않은 사진 · 영상이 ' + 안보낸것(w.mid) + '개 있어요\n종목을 눌러 보내거나 그대로 마칠 수 있어요', '그대로 마치기')) return;      /* 몰아서 올린 것 · 붙여 둔 것 (2026-11-03) */ 자판 = null; 자판그리기(); if(w) 플래너정리(w); sheetFinish(); return;
     case 'dofin': if(w && w.lock){ w.lock = false; save(); } if(w) 플래너정리(w); closeSheet(); finish(); return;
-    case 'morego': closeSheet(); go('pick'); return;      /* 「더 할래요」 = 바로 종목 추가 (2026-10-14 대표) */
+    case 'morego': closeSheet(); if(S.screen !== 'workout' && live()) go('workout'); return;      /* 11/27 대표 「운동 이어서 하기 하면 종목 추가 창이 떠」 → 기록 화면으로만 (옛 10/14 「더 할래요 = 종목 추가」 는 이름이 바뀌어 맞지 않음) */      /* 「더 할래요」 = 바로 종목 추가 (2026-10-14 대표) */
     case 'wrestpick': sheetRestPick(); return;
     case 'wrestset': { const n = +rest[0]; try{ localStorage.setItem('gg_rest_on', n ? '1' : '0'); if(n) localStorage.setItem('gg_rest_sec', String(n)); }catch(e){} if(!n) S.rest = null; closeSheet(); toast(n ? '휴식 ' + n + '초' : '휴식을 껐습니다'); render(); return; }
     case 'kp': 자판열기(rest[0], +rest[1]); return;
@@ -21277,9 +21280,9 @@ if(/[?&]seed87=1/.test(location.search)){
 <script>
 /* 53 11/26 16:03 대표 「(A안) 종목을 더 옅게 · 무게 횟수는 자세히 안 볼 듯 · 몸 그림 가운데 · 터치하면 크게 나오는지」
    기록 카드(g76)의 몸 그림을 누르면 화면 가운데 크게(빈 곳 · ✕ 누르면 닫힘) — 카드의 다른 길목(피드백 쓰기 등)으로 새지 않게 먼저 받는다 */
-window.addEventListener('click', e => { const f = e.target.closest && e.target.closest('.tmrc.g76 .tmfig');
+window.addEventListener('click', e => { const f = e.target.closest && (e.target.closest('.tmrc.g76 .tmfig') || e.target.closest('#main .rp3mv, #sheetbox .rp3mv'));      /* 11/27 대표 「몸 그림이 왼쪽으로 쏠리고 확대가 안 됨」(끝 화면) → 몸 그림 묶음이면 어디든 */
   if(!f || !f.querySelector('img, svg')) return; e.preventDefault(); e.stopImmediatePropagation();
-  const 판 = document.createElement('div'); 판.id = 'g88z'; 판.innerHTML = '<div class="g88b">' + f.innerHTML + '</div><button class="g88x" aria-label="닫기">✕</button>';
+  const 판 = document.createElement('div'); 판.id = 'g88z'; 판.innerHTML = '<div class="g88b">' + (f.classList.contains('rp3mv') ? f.outerHTML : f.innerHTML) + '</div><button class="g88x" aria-label="닫기">✕</button>';
   판.addEventListener('click', () => 판.remove()); document.body.appendChild(판); }, true);
 </script>
 
