@@ -22492,7 +22492,8 @@ html body .g125bulk{flex:none;height:34px;padding:0 14px;border-radius:999px;bor
    · 기록 탭에서 직접 들어오면 지금 그대로(모든 칸) */
 (() => {
   const 갈래들 = { '체형분석 사진': { 머리: '체형 사진', 표: 'AI 체형분석 장비 사진', 단추: '[data-act="bpadd:ai"]', 탭: 'anat:pose' },
-                  '비포애프터': { 머리: '비포 · 애프터', 표: '비포 · 애프터 비교', 단추: '[data-act^="bpadd:body"]', 탭: 'anat:body' } };
+                  '비포애프터': { 머리: '비포 · 애프터', 표: '비포 · 애프터 비교', 단추: '[data-act^="bpadd:body"]', 탭: 'anat:body' },
+                  '인바디': { 머리: '인바디', 표: '인바디', 단추: null, 탭: 'anat:inbody' } };      /* 21:21 대표 「인바디 탭 누르면 여전히 과거판 · 인바디만 보이게」 */
   let 고른 = null, 지금 = null;
   window.addEventListener('click', e => { const b = e.target.closest && e.target.closest('[data-act]'); if(!b) return; const a = b.getAttribute('data-act');
     if(a.startsWith('g35:')){ 고른 = a.slice(4); return; }
@@ -22501,13 +22502,16 @@ html body .g125bulk{flex:none;height:34px;padding:0 14px;border-radius:999px;bor
   const 맞춤 = () => { const m = document.getElementById('main'); if(!m) return;
     if(!지금 || S.screen !== 'records'){ if(S.screen !== 'records') 지금 = null; return; }
     const g = 갈래들[지금.갈], 자식 = [...m.children];
-    const 시작 = 자식.findIndex(e => e.classList.contains('lbl') && (e.textContent || '').includes(g.표)); if(시작 < 0) return;
+    const 시작 = 자식.findIndex(e => e.classList.contains('lbl') && (e.textContent || '').trim().startsWith(g.표)); if(시작 < 0) return;
     let 끝 = 자식.findIndex((e, i) => i > 시작 && e.classList.contains('hr')); if(끝 < 0) 끝 = 자식.length;
-    자식.forEach((e, i) => { const 남김 = (i >= 시작 && i < 끝) || e.classList.contains('g128hd'); if(!남김 && !e.classList.contains('g128hide')) e.classList.add('g128hide'); if(남김 && e.classList.contains('g128hide')) e.classList.remove('g128hide'); });
+    자식.forEach((e, i) => { const 남김 = (i > 시작 && i < 끝) || e.classList.contains('g128hd') || e.classList.contains('g128go'); if(!남김 && !e.classList.contains('g128hide')) e.classList.add('g128hide'); if(남김 && e.classList.contains('g128hide')) e.classList.remove('g128hide'); });
     if(!m.querySelector('.g128hd')){ const 회 = (typeof MEMBERS !== 'undefined' && MEMBERS.find(x => x.id === 지금.mid)) || {};
-      const h = document.createElement('div'); h.className = 'g128hd'; h.innerHTML = `<b>${esc(회.name || '')}</b><span>${g.머리}</span><small>올리면 회원 앱 기록 탭에도 보여요</small>`; m.insertBefore(h, 자식[시작]); }
+      const h = document.createElement('div'); h.className = 'g128hd'; h.innerHTML = `<b>${esc(회.n || 회.name || '')}</b><span>${g.머리}</span><small>올리면 회원 앱 기록 탭에도 보여요</small>`; m.insertBefore(h, 자식[시작]); }
     자식.slice(시작, 끝).forEach(e => e.querySelectorAll('.e2').forEach(x => x.classList.add('g128hide')));      /* 「오른쪽 위 ＋ …」 옛 안내 — 단추가 바로 위에 있어 뺌 */
-    const 단 = m.querySelector(g.단추); const 표 = 자식[시작];
+    const 표 = 자식[시작]; if(!표.classList.contains('g128hide')) 표.classList.add('g128hide');      /* 머리에 같은 이름이 있어 칸 제목은 숨김 */
+    const 회2 = (typeof MEMBERS !== 'undefined' && MEMBERS.find(x => x.id === 지금.mid)) || {}, 부 = document.querySelector('#top .sub'), 부글 = `${회2.n || 회2.name || ''} · ${g.머리}`;
+    if(부 && 부.textContent !== 부글) 부.textContent = 부글;      /* 위 부제 「윤서아 · 인바디 · 비포애프터」 → 고른 것 하나 */
+    const 단 = g.단추 && m.querySelector(g.단추);
     if(단 && !단.classList.contains('g128go')){ 단.classList.add('g128go'); 단.textContent = g.머리 === '체형 사진' ? '📷 체형 사진 올리기' : 단.textContent.replace('＋', '📷'); 표.after(단); } };
   const 지켜 = () => { const m = document.getElementById('main'); if(!m){ setTimeout(지켜, 300); return; } new MutationObserver(() => 맞춤()).observe(m, { childList:true }); };
   setTimeout(지켜, 0);
