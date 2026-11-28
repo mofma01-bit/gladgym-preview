@@ -3173,6 +3173,7 @@ body.kpon #main{padding-bottom:380px}
 /* ── 사진 꾸미기 창 (앱 · 데스크 같은 코드 · 2026-11-11) ── */
 #ggdz{position:fixed;inset:0;z-index:2147483600;background:#efe8df;display:flex;flex-direction:column;touch-action:none;user-select:none;-webkit-user-select:none;color:#1f1813;font-family:inherit}
 #ggdz .bar{display:flex;align-items:center;gap:4px;padding:calc(8px + env(safe-area-inset-top,0px)) max(10px,env(safe-area-inset-right,0px)) 8px max(10px,env(safe-area-inset-left,0px))}
+#ggdz .bar{height:auto;overflow:visible;border-radius:0;background:none}      /* 2026-11-28 고침 : 진행 막대용 .bar{height:9px;overflow:hidden} 이 꾸미기 윗줄에 겹쳐 ✕ · 되돌리기 · 완료가 화면 위로 잘림 */
 #ggdz .bar .sp{flex:1}
 #ggdz .tools{display:flex;justify-content:center;gap:4px;padding:8px 8px 0}
 #ggdz .tb{flex:1;max-width:76px;height:56px;border:0;border-radius:12px;background:transparent;color:#1f1813;font:inherit;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:0}
@@ -22364,6 +22365,7 @@ html body .g125bulk{flex:none;height:34px;padding:0 14px;border-radius:999px;bor
     for(let k = 0; k < 2; k++){ const n = [q[0]]; for(let i = 0; i < q.length - 1; i++){ const a = q[i], b = q[i + 1]; n.push([a[0] * .75 + b[0] * .25, a[1] * .75 + b[1] * .25], [a[0] * .25 + b[0] * .75, a[1] * .25 + b[1] * .75]); } n.push(q[q.length - 1]); q = n; }
     return q; };
   const 붙이기 = z => { if(z.dataset.g126) return; z.dataset.g126 = '1'; const 상 = 꾸밈; if(!상) return;
+    const 닫 = z.querySelector('.cx'); if(닫){ 닫.textContent = '‹ 뒤로'; 닫.setAttribute('aria-label', '뒤로'); }
     /* 도구 줄에 매직펜 (펜 다음) */
     const 펜 = z.querySelector('.tb[data-z="t:pen"]'); if(펜){ const b = document.createElement('button'); b.className = 'tb'; b.dataset.z = 't:magic'; b.innerHTML = '<i>〰</i><small>매직펜</small>'; 펜.after(b); }
     /* 초기화 */
@@ -22397,6 +22399,23 @@ html body .g125bulk{flex:none;height:34px;padding:0 14px;border-radius:999px;bor
 #ggdz .sz{transition:opacity .18s ease,transform .18s ease}
 #ggdz .g126rs{margin-right:4px}
 #ggdz .g126rs:disabled{opacity:.35}
+/* 20:22 대표 「버튼은 너무 상단 · 색은 너무 하단 · 화면에서 너무 벗어나면 안 돼 · 사용자들이 누를 수 있겠니」 → 위 · 아래 여백 · 단추 크게 */
+#ggdz .bar{padding-top:calc(18px + env(safe-area-inset-top,0px))!important;padding-bottom:10px!important;padding-left:max(16px,env(safe-area-inset-left,0px))!important;padding-right:max(16px,env(safe-area-inset-right,0px))!important;gap:8px!important}
+#ggdz .cx{width:44px!important;height:44px!important}
+#ggdz .un,#ggdz .ok{height:44px!important;padding:0 14px!important;font-size:15px!important;margin-right:0!important;white-space:nowrap}
+#ggdz .tools{padding:10px 12px 2px!important}
+#ggdz .tb{height:60px!important}
+#ggdz .cols{padding:10px max(16px,env(safe-area-inset-left,0px)) calc(28px + env(safe-area-inset-bottom,0px))!important;gap:12px!important}
+#ggdz .cl{width:34px!important;height:34px!important}
+#ggdz .hint{top:12px!important}
+/* 윗줄 · 도구 · 색 줄이 눌려 화면 밖으로 밀리던 것(flex 줄어듦) → 고정 · 가운데 그림만 줄어듦 */
+#ggdz .bar{height:auto!important;overflow:visible!important;border-radius:0!important;background:none!important}      /* 진행 막대용 .bar{height:9px;overflow:hidden} 이 꾸미기 윗줄에 겹쳐 단추가 잘렸음(20:2x 찾음) */
+#ggdz .bar,#ggdz .tools,#ggdz .cols{flex:none!important}
+#ggdz .st{min-height:0!important}
+#ggdz .cols{gap:10px!important;flex-wrap:nowrap!important}
+#ggdz .cl{width:32px!important;height:32px!important;flex:none}
+/* 20:23 대표 「뒤로가기나 창 닫기도 불편」 → ✕ 대신 앱 화면과 같은 「‹ 뒤로」 알약 단추 */
+#ggdz .cx{width:auto!important;height:44px!important;padding:0 16px!important;border-radius:999px!important;border:1.5px solid #b89a7e!important;font-size:15px!important;font-weight:800!important;display:flex;align-items:center;gap:4px}
 </style>
 
 </body>
