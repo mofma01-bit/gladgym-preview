@@ -22236,5 +22236,168 @@ body:has(#sheet.open) #main.anim > *:not(.ggpulse):not(.g29now){animation-play-s
 #main .hero2.wide2>span.tt,#main .hero2.wide2[data-act="cardio"]>span.tt{font-size:22px!important;font-weight:800!important;line-height:1.25!important;letter-spacing:-.02em}
 </style>
 
+<script>
+/* g124 (11/28 19:32 대표 「칼로리 설정해 주려면 간단한 정보는 있어야 · 주 몇 회 운동 · 끼니는 몇 끼 · 원하는 목적에 맞춰 ·
+   요청하기 누르면 하단 팝업으로 계산에 필요한 설문 입력」 · 19:41 「만들어서 가이드 영상에 포함」)
+   회원 「트레이너에게 (칼로리 · 식단표) 요청」(dreq:ask) → 아래 창 설문 4개(목적 · 주 운동 · 하루 끼니 · 활동량) → 「요청 보내기」 = 원래 요청 + 답(survey)
+   · 요청함 카드에 고른 답 한 줄 · ⚠ 진짜 앱으로 옮길 때 diet_reqs.survey(jsonb) 칸 SQL 필요 */
+(() => {
+  const 문 = [
+    ['goal', '목적', ['체중 감량', '근육 늘리기', '지금 유지']],
+    ['days', '주 몇 회 운동', ['1~2회', '3~4회', '5회 이상']],
+    ['meals', '하루 몇 끼', ['1끼', '2끼', '3끼', '4끼 이상']],
+    ['act', '평소 활동량', ['주로 앉아서', '조금 움직임', '많이 움직임']],
+  ];
+  let 답 = {}, 통과 = false;
+  window.__g124답 = null;
+  const 누르기 = a => { const t = document.createElement('button'); t.setAttribute('data-act', a); t.style.display = 'none'; document.body.appendChild(t); t.click(); t.remove(); };
+  const 다 = () => 문.every(([k]) => 답[k]);
+  const 창 = () => `<div class="g124"><div class="h2">칼로리 계산에 필요해요</div><p class="g124s">고르면 트레이너가 목적에 맞춰 하루 칼로리를 정해 드려요</p>
+    ${문.map(([k, 이름, 보기]) => `<div class="g124q"><b>${이름}</b><div class="g124c">${보기.map(v => `<button type="button" class="${답[k] === v ? 'on' : ''}" data-act="g124:${k}:${esc(v)}">${esc(v)}</button>`).join('')}</div></div>`).join('')}
+    <p class="g124n">키 · 몸무게는 인바디 기록에서 가져가요</p>
+    <button class="btn main${다() ? '' : ' off'}" data-act="g124:send">${다() ? '요청 보내기' : '네 가지를 골라 주세요'}</button></div>`;
+  window.addEventListener('click', e => { const b = e.target.closest && e.target.closest('[data-act]'); if(!b) return; const a = b.getAttribute('data-act');
+    if(a.startsWith('g124:')){ e.preventDefault(); e.stopImmediatePropagation(); const [, k, ...v] = a.split(':');
+      if(k === 'send'){ if(!다()) return; window.__g124답 = Object.assign({}, 답); 통과 = true; closeSheet(); setTimeout(() => 누르기('dreq:ask'), 120); return; }
+      답[k] = v.join(':'); drawSheet(); return; }
+    if(a !== 'dreq:ask' || S.who === 'tr') return;
+    if(통과){ 통과 = false; return; }
+    e.preventDefault(); e.stopImmediatePropagation(); 답 = {}; openSheet(창); }, true);
+  /* 요청 줄에 답을 같이 담는다 (원래 요청 코드는 그대로 · spost 만 감쌈) */
+  const 원post = spost;
+  spost = function(표, 줄들, ...나머지){ if(표 === 'diet_reqs' && window.__g124답 && Array.isArray(줄들) && 줄들[0]){ 줄들[0].survey = window.__g124답; try{ localStorage.setItem('g124:' + (줄들[0].member_id || ''), JSON.stringify(window.__g124답)); }catch(e){} window.__g124답 = null; } return 원post.call(this, 표, 줄들, ...나머지); };
+  /* 요청함 카드에 고른 답 한 줄 */
+  const 한줄 = mid => { try{ const q = JSON.parse(localStorage.getItem('g124:' + mid) || 'null'); return q ? [q.goal, '주 ' + q.days, '하루 ' + q.meals, q.act].join(' · ') : ''; }catch(e){ return ''; } };
+  const 붙이기 = () => { if(S.who === 'tr') return; const t = 한줄(S.mid); if(!t) return;
+    document.querySelectorAll('#main .g34rq, #main .dreq.on, #main .g58req').forEach(c => { if(c.querySelector('.g124a')) return; const s = c.querySelector('small'); if(!s) return; const i = document.createElement('i'); i.className = 'g124a'; i.textContent = t; s.after(i); }); };
+  const 지켜 = () => { const m = document.getElementById('main'); if(!m){ setTimeout(지켜, 300); return; } new MutationObserver(붙이기).observe(m, { childList:true, subtree:true }); 붙이기(); };
+  setTimeout(지켜, 0);
+})();
+</script>
+<style>
+.g124{display:flex;flex-direction:column;gap:12px}
+.g124 .h2{margin:0}
+.g124s{margin:-6px 0 2px;color:#5d5249;font-size:14px;font-weight:600}
+.g124q b{display:block;font-size:15px;font-weight:800;color:#b5442f!important;margin-bottom:8px}
+.g124c{display:flex;flex-wrap:wrap;gap:8px}
+.g124c button{flex:1 1 0;min-width:60px;height:44px;border-radius:12px;border:1.5px solid #b89a7e;background:#ffffff;color:#5d5249;font:inherit;font-size:15px;font-weight:700;cursor:pointer}
+.g124c button.on{background:#f7eee8!important;border-color:#b89a7e!important;color:#6f4a2f!important;box-shadow:inset 0 0 0 1.5px currentColor;font-weight:900}
+.g124n{margin:2px 0 0;color:#837666;font-size:13px;font-weight:600}
+.g124 .btn.main.off{opacity:.45;pointer-events:none}
+.g124a{display:block;font-style:normal;font-size:13px;font-weight:700;color:#6f4a2f;margin-top:2px}
+</style>
+
+<script>
+/* g125 (11/28 대표 19:48 ~ 20:00) 트레이너 피드백 = 누르면 바로 쓰기
+   19:48 「피드백 보내기 누르면 촬영 · 갤러리 · 같은 기능 반복 규칙인데 피드백 보내는 디자인이 다르다」
+   19:58 「지난 기록에서 종목을 누르면 종목 사진이랑 이런 게 뜰 필요가 있을까」 · 「트레이너가 종목명을 모를까?」
+   20:00 「사용자 입장 · 피드백 하나 남기려고 계속 타고 들어가야 · 종목 누르는 탭까지는 OK · 들어가서 또 선택 ✕ ·
+          한 번에 올리는 것도 · 하단에 있으면 못 보니까 「종목을 눌러 피드백 남기기」 우측에」
+   → 트레이너가 종목(피드백 쓰기 › · 수업 중 종목 이름)을 누르면 = 종목 창(사진 · 추천 · 타일) 없이 바로 쓰기 창
+      머리 = 종목 이름 + 그날 세트 · ‹ 뒤로 오른쪽 위(= 닫고 누른 자리로) · 글 칸 · [사진 촬영][갤러리] · 보내기 · 지난 피드백에서 인용
+   → 「피드백 남기기」 화면 머리 「종목을 눌러 피드백 남기기」 오른쪽에 「한 번에 올리기」(bulkopen = 사진 · 영상 몰아서) */
+(() => {
+  let 세트줄 = '';
+  window.addEventListener('pointerdown', e => { const b = e.target.closest && e.target.closest('[data-act^="exd:"], [data-act^="plnm:"]'); if(!b) return;
+    const 줄 = (b.innerText || '').split('\n').map(x => x.trim()).filter(Boolean); 세트줄 = 줄.find(x => /kg|회|분/.test(x)) || ''; }, true);
+  const 맞춤 = () => {
+    const box = document.querySelector('#sheet.open .g93box'); if(!box || S.who !== 'tr') return;
+    const 판 = box.parentElement, ta = box.querySelector('textarea'), K = (ta && ta.dataset.k || '').slice(3);
+    if(!판.classList.contains('g125w')) 판.classList.add('g125w');      /* 같은 값을 다시 넣으면 감시가 또 불려 멈춤 */
+    if(!판.querySelector('.g125hd')){ const 이름 = (판.querySelector('.g99nm') || {}).textContent || '';
+      const h = document.createElement('div'); h.className = 'g125hd'; h.innerHTML = `<div><b>${esc(이름)}</b>${세트줄 ? `<small>${esc(세트줄)}</small>` : ''}</div><button class="g125bk" data-act="g125:x">‹ 뒤로</button>`; 판.insertBefore(h, 판.firstChild.nextSibling); }
+    if(!box.querySelector('.g125up')){ const u = document.createElement('div'); u.className = 'g125up';
+      u.innerHTML = `<button data-act="attgo:pic:cam:${esc(K)}"><span>📷</span>사진 촬영</button><button data-act="attgo:pic:lib:${esc(K)}"><span>🖼️</span>갤러리</button>`; ta.after(u); }
+  };
+  /* 「피드백 남기기」 화면 머리에 「한 번에 올리기」 */
+  const 머리 = () => { if(S.who !== 'tr' || S.screen !== 't_write' || !S.twid) return;
+    const 글 = [...document.querySelectorAll('#main *')].find(e => e.children.length === 0 && (e.textContent || '').trim() === '종목을 눌러 피드백 남기기'); if(!글 || 글.parentElement.querySelector('.g125bulk')) return;
+    const 줄 = document.createElement('div'); 줄.className = 'g125row'; 글.parentElement.insertBefore(줄, 글); 줄.appendChild(글);
+    const b = document.createElement('button'); b.className = 'g125bulk'; b.setAttribute('data-act', 'bulkopen:' + S.twid); b.textContent = '한 번에 올리기 ›'; 줄.appendChild(b); };
+  window.addEventListener('click', e => { const b = e.target.closest && e.target.closest('[data-act]'); if(!b) return;
+    if(b.getAttribute('data-act') === 'g125:x'){ e.preventDefault(); e.stopImmediatePropagation(); closeSheet(); } }, true);
+  const 지켜 = () => { const s = document.getElementById('sheet'), m = document.getElementById('main'); if(!s || !m){ setTimeout(지켜, 300); return; }
+    new MutationObserver(맞춤).observe(s, { childList:true, subtree:true, attributes:true, attributeFilter:['class'] });      /* 맞춤은 바꿀 게 있을 때만 바꿈 */
+    new MutationObserver(머리).observe(m, { childList:true, subtree:true }); 머리(); };
+  setTimeout(지켜, 0);
+})();
+</script>
+<style>
+html body .g125w .g99delw, html body .g125w .g99top, html body .g125w .g99nm, html body .g125w .g99card, html body .g125w .g99two{display:none!important}
+html body .g125hd{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin:2px 0 12px}
+html body .g125hd b{display:block;font-size:16px;font-weight:700;color:#b5442f}
+html body .g125hd small{display:block;font-size:13px;font-weight:600;color:#837666;margin-top:2px}
+html body .g125bk{flex:none;height:34px;padding:0 14px;border-radius:999px;border:1.5px solid #b89a7e;background:#ffffff;color:#6f4a2f;font:inherit;font-weight:800;font-size:14px;cursor:pointer}
+html body .g125w .g93box{display:flex!important;flex-direction:column;gap:10px;border:0!important;background:none!important;padding:0!important}
+html body .g125w .g93box textarea{min-height:120px}
+html body .g125w .g93upl{display:none!important}
+html body .g125up{display:flex;gap:10px}
+html body .g125up button{flex:1;height:52px;border-radius:12px;border:1.5px solid #b89a7e;background:#ffffff;color:#5d5249;font:inherit;font-size:16px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px}
+html body .g125w .g93bt{display:block!important;background:none!important;padding:0!important;border:0!important;margin-top:2px}
+html body .g125w .g93go{display:block;width:100%;height:52px;border-radius:12px;font-size:16px;font-weight:800}
+html body .g125row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+html body .g125bulk{flex:none;height:34px;padding:0 14px;border-radius:999px;border:1.5px solid #b89a7e;background:#f7eee8;color:#6f4a2f;font:inherit;font-weight:800;font-size:14px;cursor:pointer}
+</style>
+
+<script>
+/* g126 (11/28 20:15 대표) ① 몰아서 올리기 「n개 올리기」 = 아래 고정 (「올리는 버튼이 내려야 보여서 하단에 고정」)
+   ② 꾸미기 「초기화」 · 「펜 굵기가 계속 떠 있다」 → 굵기 막대는 도구를 고를 때만(그리기 시작하면 숨김 · 고른 도구 한 번 더 = 다시 보임)
+   ③ 「곡선이나 운동의 궤적 · 몸의 자연스러운 곡선을 따라 그릴 수 있는 매직펜 · 아이패드에 그런 거」 →
+      매직펜 = 손으로 그린 선을 부드럽게 펴고(Procreate StreamLine 처럼) 끝에 화살촉 = 운동 궤적 화살표 */
+(() => {
+  /* 매직펜 그리기 — 원래 획그리기를 감싼다 */
+  const 원획 = 획그리기;
+  획그리기 = function(c, o, 비){ if(o.t !== 'magic') return 원획(c, o, 비);
+    const p = o.p; if(!p || p.length < 2) return; c.save(); c.lineCap = c.lineJoin = 'round'; c.strokeStyle = c.fillStyle = o.c; c.lineWidth = o.s;
+    c.beginPath(); c.moveTo(p[0][0], p[0][1]); for(let i = 1; i < p.length - 1; i++){ const m = [(p[i][0] + p[i + 1][0]) / 2, (p[i][1] + p[i + 1][1]) / 2]; c.quadraticCurveTo(p[i][0], p[i][1], m[0], m[1]); }
+    const L = p[p.length - 1]; c.lineTo(L[0], L[1]); c.stroke();
+    if(!o.그중){ let k = p.length - 2; while(k > 0 && Math.hypot(L[0] - p[k][0], L[1] - p[k][1]) < o.s * 3) k--;      /* 끝 방향 = 마지막 몇 점 */
+      const ang = Math.atan2(L[1] - p[k][1], L[0] - p[k][0]), h = Math.max(o.s * 4.5, 26);
+      c.beginPath(); c.moveTo(L[0], L[1]); c.lineTo(L[0] - h * Math.cos(ang - .45), L[1] - h * Math.sin(ang - .45)); c.lineTo(L[0] - h * Math.cos(ang + .45), L[1] - h * Math.sin(ang + .45)); c.closePath(); c.fill(); }
+    c.restore(); };
+  /* 손떨림 펴기 : 고른 간격으로 다시 찍고 → 이동 평균 → Chaikin 두 번 */
+  const 펴기 = (p, 간격) => { if(p.length < 3) return p; const r = [p[0]]; let 남 = 0;
+    for(let i = 1; i < p.length; i++){ let [x0, y0] = r[r.length - 1], [x1, y1] = p[i]; let d = Math.hypot(x1 - x0, y1 - y0);
+      while(d >= 간격){ const t = 간격 / d; x0 = x0 + (x1 - x0) * t; y0 = y0 + (y1 - y0) * t; r.push([x0, y0]); d = Math.hypot(x1 - x0, y1 - y0); } }
+    r.push(p[p.length - 1]);
+    let q = r.map((v, i) => { if(i === 0 || i === r.length - 1) return v; let sx = 0, sy = 0, n = 0; for(let j = Math.max(0, i - 3); j <= Math.min(r.length - 1, i + 3); j++){ sx += r[j][0]; sy += r[j][1]; n++; } return [sx / n, sy / n]; });
+    for(let k = 0; k < 2; k++){ const n = [q[0]]; for(let i = 0; i < q.length - 1; i++){ const a = q[i], b = q[i + 1]; n.push([a[0] * .75 + b[0] * .25, a[1] * .75 + b[1] * .25], [a[0] * .25 + b[0] * .75, a[1] * .25 + b[1] * .75]); } n.push(q[q.length - 1]); q = n; }
+    return q; };
+  const 붙이기 = z => { if(z.dataset.g126) return; z.dataset.g126 = '1'; const 상 = 꾸밈; if(!상) return;
+    /* 도구 줄에 매직펜 (펜 다음) */
+    const 펜 = z.querySelector('.tb[data-z="t:pen"]'); if(펜){ const b = document.createElement('button'); b.className = 'tb'; b.dataset.z = 't:magic'; b.innerHTML = '<i>〰</i><small>매직펜</small>'; 펜.after(b); }
+    /* 초기화 */
+    const 되 = z.querySelector('.bar .un'); const 초 = document.createElement('button'); 초.className = 'un g126rs'; 초.textContent = '초기화'; 되.before(초);
+    const 막대 = z.querySelector('.sz'), 힌트 = z.querySelector('.hint');
+    const 상태 = () => { 초.disabled = !상.획.length; z.querySelector('.tb[data-z="t:magic"]') && z.querySelector('.tb[data-z="t:magic"]').classList.toggle('on', 상.도구 === 'magic');
+      if(상.도구 === 'magic'){ 힌트.hidden = false; 힌트.textContent = '그리면 부드러운 곡선 화살표 · 운동 궤적'; } };
+    let 보임 = false; const 막대보임 = v => { 보임 = v; 막대.classList.toggle('g126hide', !v); };
+    막대보임(false);
+    z.addEventListener('click', e => { const b = e.target.closest('[data-z]'); if(b && b.dataset.z.startsWith('t:')){ const 같은 = b.classList.contains('on') || 상.도구 === b.dataset.z.slice(2); setTimeout(() => { 막대보임(b.dataset.z === 't:text' ? false : (같은 ? !보임 : true)); 상태(); }, 0); }
+      if(e.target === 초 && 상.획.length){ e.stopPropagation(); const a = document.createElement('div'); a.className = 'ask'; a.innerHTML = '<div><b>처음 사진으로 되돌릴까요?</b><small>그린 것이 모두 지워져요</small><div class="r"><button>취소</button><button class="y">초기화</button></div></div>'; z.appendChild(a);
+        const [n, y] = a.querySelectorAll('button'); n.onclick = () => a.remove(); y.onclick = () => { a.remove(); 상.획.length = 0; 상.x.marksDraft = []; z.querySelector('[data-z="undo"]').disabled = true; 상.그려(); 상태(); }; }
+      if(b && (b.dataset.z === 'undo' || b.dataset.z.startsWith('c:'))) setTimeout(상태, 0); }, true);
+    const cv = z.querySelector('canvas');
+    cv.addEventListener('pointerdown', () => { 막대보임(false); }, true);
+    cv.addEventListener('pointermove', e => { const 지 = 상.지금; if(!지 || 지.t !== 'magic') return; e.stopImmediatePropagation();
+      const r = cv.getBoundingClientRect(); 지.p.push([(e.clientX - r.left) * cv.width / r.width, (e.clientY - r.top) * cv.height / r.height]); 지.그중 = true; 상.그려(); }, true);
+    const 놓음 = () => { const 지 = 상.지금; if(!지 || 지.t !== 'magic') return; delete 지.그중; 지.p = 펴기(지.p, Math.max(6, 지.s * .8)); };
+    cv.addEventListener('pointerup', 놓음, true); cv.addEventListener('pointercancel', 놓음, true);
+    cv.addEventListener('pointerup', () => setTimeout(상태, 0)); cv.addEventListener('pointercancel', () => setTimeout(상태, 0));      /* 원래 뗌이 쓰는 그려는 감싼 것이 아니라서 여기서 초기화 단추를 켬 */
+    const 원그려 = 상.그려; 상.그려 = () => { 원그려(); 상태(); };
+    상태(); };
+  new MutationObserver(() => { const z = document.getElementById('ggdz'); if(z) 붙이기(z); }).observe(document.body, { childList:true });
+})();
+</script>
+<style>
+/* ① 몰아서 올리기 : 「n개 올리기」 아래 고정 */
+#sheet .vu-go{position:sticky;bottom:calc(-1px + env(safe-area-inset-bottom,0px));z-index:5;box-shadow:0 -14px 18px -6px rgba(255,255,255,0.60)}
+/* ② 굵기 막대 숨김 · 초기화 */
+#ggdz .sz.g126hide{opacity:0;pointer-events:none;transform:translateY(-50%) translateX(-12px)}
+#ggdz .sz{transition:opacity .18s ease,transform .18s ease}
+#ggdz .g126rs{margin-right:4px}
+#ggdz .g126rs:disabled{opacity:.35}
+</style>
+
 </body>
 </html>
