@@ -22011,6 +22011,17 @@ function g118하던(){ const w = liveOf(S.mid); if(!w){ go('workout'); return; }
     const s = 앞 || 지; return { 값:{ kg: s && s.kg ? kgfmt(s.kg) : '', reps: s && s.reps ? String(s.reps) : '' }, 말: 앞 ? '앞 세트' : '지난번' }; };
   const 끝칸W = () => { const w = live(); if(!w || 자판.it == null) return false; const it = w.items[자판.it];
     return 자판.i >= it.sets.length - 1 && 끝종목(w.items, 자판.it, k => !웨이트인가W(w.items[k])) < 0; };
+  /* 11/28 21:23 대표 「입력할 때 PC 든 모바일이든 다음 종목 기록하는데 화면에서 사라져 · 자동으로 맞춰서 화면 이동 · 기록 중인 표는 보이게 하고 숫자판을 누르게」
+     → 지금 칸(그 줄)이 숫자판 위 · 윗줄 아래에 오도록 스크롤 (숫자판에 가려지는 것까지 셈 · 숫자판 바로 위에 붙임) */
+  const 보이게 = b => { if(!b) return; b.scrollIntoView({ block:'nearest', inline:'nearest' });
+    const 맞추기 = () => { const kp = document.getElementById('kpad'), 줄 = b.closest('tr') || b, r = 줄.getBoundingClientRect();
+      const 탑 = document.getElementById('top'), 머 = 줄.closest('table') && 줄.closest('table').querySelector('thead');
+      const 위 = Math.max(탑 ? 탑.getBoundingClientRect().bottom : 0, 머 ? 머.getBoundingClientRect().bottom : 0, 0) + 8;
+      const 아래 = (kp ? kp.getBoundingClientRect().top : innerHeight) - 16; let d = 0;
+      if(r.bottom > 아래) d = r.bottom - 아래; else if(r.top < 위) d = r.top - 위; if(Math.abs(d) < 2) return;
+      let sc = b.parentElement; while(sc && sc !== document.body && sc !== document.documentElement){ const o = getComputedStyle(sc).overflowY; if(/(auto|scroll)/.test(o) && sc.scrollHeight > sc.clientHeight + 2) break; sc = sc.parentElement; }
+      if(sc && sc !== document.body && sc !== document.documentElement) sc.scrollBy({ top:d, behavior:'auto' }); else window.scrollBy({ top:d, behavior:'auto' }); };
+    requestAnimationFrame(맞추기); setTimeout(맞추기, 260); };
   자판그리기 = function(){ let el = document.getElementById('kpad');
     if(!자판 || S.screen !== 'workout'){ 자판 = null; 자리 = null; if(el && !el.dataset.g48) el.remove(); document.body.classList.remove('kpon'); return; }
     if(!el){ el = document.createElement('div'); el.id = 'kpad'; document.body.appendChild(el); } delete el.dataset.g48; document.body.classList.add('kpon');
@@ -22021,7 +22032,7 @@ function g118하던(){ const w = liveOf(S.mid); if(!w){ go('workout'); return; }
     if(!자리 || 자리 === 'kg' || 자리 === 'reps') 자리 = 자판.f;
     el.innerHTML = 판모양({ p:'', 이름: it ? exName(it.ex, it.va) : '', n: 자판.i + 1, N: Math.max(it ? it.sets.length : 1, 자판.i + 1), 값:{ kg: 값('kg'), reps: 값('reps') }, 옅: 옅.값, 옅말: 옅.말, f: 자판.f, 다음글, 다음꺼짐: 끝칸W(), 삭제: 판 && st ? 'kpdel' : '' });
     자리그리기();
-    setTimeout(() => { document.querySelectorAll('.plc.kp-on').forEach(b => b.classList.remove('kp-on')); if(자판 && 자판.it != null){ const b = document.querySelector('[data-act="plk:' + 자판.it + ':' + 자판.i + ':' + 자판.f + '"]'); if(b){ b.classList.add('kp-on'); if(자판.v !== '') b.textContent = 자판.v; b.scrollIntoView({ block:'nearest', inline:'nearest' }); } } }, 0); };
+    setTimeout(() => { document.querySelectorAll('.plc.kp-on').forEach(b => b.classList.remove('kp-on')); if(자판 && 자판.it != null){ const b = document.querySelector('[data-act="plk:' + 자판.it + ':' + 자판.i + ':' + 자판.f + '"]'); if(b){ b.classList.add('kp-on'); if(자판.v !== '') b.textContent = 자판.v; 보이게(b); } } }, 0); };
 
   /* ── 기록 수정 창 ── */
   const 유산소인가G = i => !!(exOf((고침줄(i) || {}).ex) || {}).cardio;
@@ -22041,7 +22052,7 @@ function g118하던(){ const w = liveOf(S.mid); if(!w){ go('workout'); return; }
     if(!자리 || 자리 === 'kg' || 자리 === 'reps') 자리 = 편판.f;
     el.innerHTML = 판모양({ p:'g48', 이름: exName(it.ex, it.va), n: 편판.j + 1, N: Math.max(ss.length, 편판.j + 1), 값:{ kg: 값('kg'), reps: 값('reps') }, 옅: 옅.값, 옅말: 옅.말, f: 편판.f, 다음글, 다음꺼짐: 끝칸G(), 삭제: ss[편판.j] && ss.length > 1 ? 'g48del' : '' });
     자리그리기();
-    setTimeout(() => { const b = document.querySelector('#sheetbox .kp-on'); if(b) b.scrollIntoView({ block:'nearest', inline:'nearest' }); }, 0); };
+    setTimeout(() => { const b = document.querySelector('#sheetbox .kp-on'); 보이게(b); }, 0); };
   const 유산소줄그리기 = (el, it, x) => { const 경 = 경사최대(it.ex), 칸 = [['reps', '시간', '분', 1], ['dist', '거리', 'km', .1], ['spd', '속도', 'km/h', .5]].concat(경 ? [['kg', '경사', '%', 1]] : []);
     const 계산 = () => x.reps && x.spd ? Math.round(x.reps / 60 * x.spd * 100) / 100 : '';
     el.innerHTML = `<div class="kp2 kp2cz"><div class="kp2hd"><b>${esc(exName(it.ex, it.va))}</b><span>기록 수정</span></div>
@@ -22552,6 +22563,8 @@ html body .g125bulk{flex:none;height:34px;padding:0 14px;border-radius:999px;bor
 </script>
 <style>
 #main .g129hide{display:none!important}
+/* 21:25 대표 「종이 상담지 올리기도 빼 · 회원이 특정이 안 되니까 눌러도 반응이 없다」 — 회원 고르기 창 맨 위 단추 숨김 (회원 상담지 화면 아래 📷 종이 상담지는 그대로) */
+#sheet [data-act="csscan"]{display:none!important}
 body.g129on #main{padding-bottom:96px!important}
 #g129bar{position:fixed;left:0;right:0;z-index:40;display:flex;gap:10px;padding:10px max(16px,env(safe-area-inset-left,0px)) 10px max(16px,env(safe-area-inset-right,0px))}
 #main .ikprog[data-g129]{cursor:pointer;display:flex;flex-direction:column;gap:10px;padding:16px 18px!important}
