@@ -4500,6 +4500,9 @@ body.g48on #sheetbox{padding-bottom:400px!important}
 #main .card.rowc.g25.g66jj::after,
 #sheetbox .g93upl::after,
 #sheetbox .vu-go::after,
+#main .g128go::after,
+#g129bar .g129go::after,
+[data-act^="saveintake:"]::after,
 #sheetbox.g125w .g93go::after{      /* 11/28 20:53 대표 「올리기에도 광택 · 왜 자꾸 톤을 다르게 가냐」 — 몰아서 올리기 · 피드백 보내기 */
   content:""!important;position:absolute!important;inset:0!important;border-radius:inherit!important;pointer-events:none!important;z-index:3!important;
   background-color:transparent!important;background-image:var(--G광택)!important;background-position:118% 0;background-size:260% 100%!important;background-repeat:no-repeat!important;
@@ -5282,6 +5285,18 @@ html body #kpad .kp2cz .kp2foot button:focus{outline:2.5px solid #b89a7e;outline
 html body #sheetbox .vu-go,html body #sheetbox.g125w .g93go{display:block!important;width:100%!important;height:52px!important;min-height:52px!important;border-radius:12px!important;border:0!important;background:#6f4a2f!important;color:#fbf8f4!important;font-size:16px!important;font-weight:800!important;position:relative;overflow:hidden;padding:0!important}
 html body #sheetbox .vu-go{position:sticky!important;bottom:calc(8px + env(safe-area-inset-bottom,0px))!important;z-index:5!important;box-shadow:0 -14px 0 0 #fff,0 -24px 16px -6px rgba(255,255,255,.95)!important}
 html body #sheetbox .vu-go:disabled{opacity:.45}
+
+/* 11/28 21:01 g128 회원 자료 → 체형 사진 · 비포애프터 = 「사진 올리기」 주 단추(52 · 16 800 · 12 · 브라운) + G광택 */
+html body #main .g128go{display:block!important;width:100%!important;height:52px!important;border-radius:12px!important;border:0!important;background:#6f4a2f!important;color:#fbf8f4!important;font-size:16px!important;font-weight:800!important;position:relative;overflow:hidden;margin:8px 0 14px!important;padding:0!important}
+html body #main .g128hd b{color:#1f1813!important}html body #main .g128hd span{color:#6f4a2f!important}html body #main .g128hd small{color:#837666!important}
+
+/* 11/28 21:04 g129 상담지 = 아래 고정 [📷 종이 상담지](보조) [상담지 수정](주 단추 + G광택) · 수정 화면 「수정 완료」 광택 */
+html body #g129bar{background:#efe8df!important;box-shadow:0 -10px 16px -8px rgba(31,24,19,.12)!important}
+html body #g129bar .g129go{flex:1.4;height:52px!important;border-radius:12px!important;border:0!important;background:#6f4a2f!important;color:#fbf8f4!important;font:inherit;font-size:16px!important;font-weight:800!important;position:relative;overflow:hidden}
+html body #g129bar .g129sub{flex:1;height:52px!important;border-radius:12px!important;border:1.5px solid #cdb79e!important;background:#fff!important;color:#6f4a2f!important;font:inherit;font-size:15px!important;font-weight:800!important}
+html body [data-act^="saveintake:"]{position:relative;overflow:hidden}
+html body .g129t b{color:#1f1813!important}html body .g129t span{color:#6f4a2f!important}html body .g129t em{color:#6f4a2f!important}
+html body .g129pb{background:#efe6dc!important}html body .g129pb i{background:#6f4a2f!important}
 </style></head>
 <body>
 <div class="pwabar" id="pwabar"></div>
@@ -22441,11 +22456,25 @@ html body .g125bulk{flex:none;height:34px;padding:0 14px;border-radius:999px;bor
    몸 파일 = 3D 해부학 창 11/28 확정 : 남 3d\남_칸_해부매끈.glb · 여 3d\여3c_칸_등풀기B5.glb (성별로 파일만 고름 · 3D시험 ?몸=여)
    ⚠ 새 3D 의 칸 색은 아직 시험 페이지 자료(회원 실제 세트 아님) — 진짜 앱 옮길 때 회원 주간 세트를 넘겨 칠하게 이어 붙일 것 */
 (() => {
+  /* 21:06 대표 「월 보기에서 40세트 이상이어야 칠해지는데 등이 40세트가 안 됐는데 칠해져 있네」 — 시험 페이지 예시 숫자가 칠하고 있었음
+     → 회원 실제 기록으로 칸(21칸 · 앱 근칸of 와 같은 이름)마다 세트를 세서 넘긴다 : 오늘 · 이번 주(월~일) · 이번 달 · 끝낸 세트만 */
+  const 회원 = w => (S.who === 'tr' ? (S.tmid || S.subj || S.mid) : S.mid);
+  const 세트세기 = (mid, 칸부위) => { const 오늘 = TODAY, d = new Date(오늘 + 'T00:00:00'), 월 = new Date(d); 월.setDate(d.getDate() - ((d.getDay() + 6) % 7));
+    const 주시작 = 월.toISOString().slice(0, 10), 달시작 = 오늘.slice(0, 8) + '01', 결과 = { 오늘: {}, 주: {}, 달: {} }, 부위합 = { 오늘: {}, 주: {}, 달: {} };
+    (typeof workoutsOf === 'function' ? workoutsOf(mid) : []).forEach(wk => { const 날 = String(wk.date || '').slice(0, 10); if(!날 || 날 > 오늘 || 날 < 달시작 && 날 < 주시작) return;
+      (wk.items || []).forEach(it => { const n = (it.sets || []).filter(x => x && (x.done || +x.reps > 0)).length; if(!n) return;
+        const 칸들 = 근칸of(it.ex) || [], 기간들 = [날 >= 달시작 && '달', 날 >= 주시작 && '주', 날 === 오늘 && '오늘'].filter(Boolean);
+        칸들.forEach(k => 기간들.forEach(g => { 결과[g][k] = (결과[g][k] || 0) + n; }));      /* 칸 = 세부 보기(그 근육 칸) */
+        [...new Set(칸들.map(k => 칸부위[k]).filter(Boolean))].forEach(부 => 기간들.forEach(g => { 부위합[g][부] = (부위합[g][부] || 0) + n; })); }); });      /* 부위 = 한 세트는 한 번만 (랫풀다운 1세트가 광배 · 회전근개 두 칸에 들어가도 등 1세트) */
+    return { 결과, 부위합 }; };
+  const 세트넣기 = (f, mid) => { let n = 0; const 한번 = () => { try{ const w = f.contentWindow; if(typeof w.칠하기 !== 'function' && !w.eval("typeof 칠하기 === 'function'")){ if(n++ < 40) setTimeout(한번, 250); return; }
+      const 칸부위 = w.eval('칸부위'), { 결과: v, 부위합 } = 세트세기(mid, 칸부위);
+      w.eval('((v, 합) => { 세트.오늘 = v.오늘; 세트.주 = v.주; 세트.달 = v.달; window.__부위합 = 합; 부위판정 = (vv, 선) => { const r = {}; Object.keys(부위).forEach(b => r[b] = ((window.__부위합[기간] || {})[b] || 0) >= 선); return r; }; 칠하기(); })')(v, 부위합); }catch(e){ if(n++ < 40) setTimeout(한번, 250); } }; 한번(); };
   const 갈아 = () => { document.querySelectorAll('#main .bwrap').forEach(w => { if(w.querySelector('.g127')) return; const b3 = w.querySelector('.b3'); if(!b3) return;
     const 성 = b3.dataset.sex === '여' ? '여' : '남';
     const f = document.createElement('iframe'); f.className = 'g127'; f.title = '부위별 운동량 3D'; f.loading = 'lazy';
     f.src = '작업판_해부/3D시험.html?몸=' + encodeURIComponent(성) + '&앱=1';
-    f.addEventListener('load', () => { try{ const d = f.contentDocument, st = d.createElement('style');
+    f.addEventListener('load', () => { 세트넣기(f, 회원(w)); try{ const d = f.contentDocument, st = d.createElement('style');
       st.textContent = '#wrap>h1,#wrap>p.s{display:none!important}#wrap{padding-top:6px!important;padding-bottom:6px!important}body{background:transparent!important}'; d.head.appendChild(st); }catch(e){} });
     b3.replaceWith(f); ['.blegend', '.b3cred'].forEach(q => { const e = w.querySelector(q); if(e) e.style.display = 'none'; }); }); };
   const 지켜 = () => { const m = document.getElementById('main'); if(!m){ setTimeout(지켜, 300); return; } new MutationObserver(갈아).observe(m, { childList:true, subtree:true }); 갈아(); };
@@ -22454,6 +22483,77 @@ html body .g125bulk{flex:none;height:34px;padding:0 14px;border-radius:999px;bor
 </script>
 <style>
 #main .bwrap iframe.g127{display:block;width:100%;height:480px;border:0;border-radius:16px;background:transparent}
+</style>
+
+<script>
+/* g128 (11/28 21:01 대표 「트레이너 회원 자료 · 체형분석 사진 올리려고 하니까 옛날 판 · 비포애프터도 · 탭을 눌러도 인바디가 첫 화면 ·
+   결국 회원의 기록 탭을 열어서 찾아다녀야 · 그럴 필요 없이 체형 사진을 올리고 올린 걸 볼 수만 있게 · 비포애프터도 아주 쉬운 길로 · 보기 편하게」)
+   회원 자료 → 체형분석 사진 / 비포애프터 → 회원 고르면 = 그 회원 기록 화면에서 **그 사진 칸만** (나머지 숨김) · 맨 위 머리 + 「사진 올리기」 주 단추
+   · 기록 탭에서 직접 들어오면 지금 그대로(모든 칸) */
+(() => {
+  const 갈래들 = { '체형분석 사진': { 머리: '체형 사진', 표: 'AI 체형분석 장비 사진', 단추: '[data-act="bpadd:ai"]', 탭: 'anat:pose' },
+                  '비포애프터': { 머리: '비포 · 애프터', 표: '비포 · 애프터 비교', 단추: '[data-act^="bpadd:body"]', 탭: 'anat:body' } };
+  let 고른 = null, 지금 = null;
+  window.addEventListener('click', e => { const b = e.target.closest && e.target.closest('[data-act]'); if(!b) return; const a = b.getAttribute('data-act');
+    if(a.startsWith('g35:')){ 고른 = a.slice(4); return; }
+    if(a.startsWith('g35m:') && 갈래들[고른]){ 지금 = { 갈: 고른, mid: a.slice(5) }; return; }
+    if(a.startsWith('anat:') || a.startsWith('ttab:')){ 지금 = null; document.querySelectorAll('#main .g128hide').forEach(x => x.classList.remove('g128hide')); } }, true);
+  const 맞춤 = () => { const m = document.getElementById('main'); if(!m) return;
+    if(!지금 || S.screen !== 'records'){ if(S.screen !== 'records') 지금 = null; return; }
+    const g = 갈래들[지금.갈], 자식 = [...m.children];
+    const 시작 = 자식.findIndex(e => e.classList.contains('lbl') && (e.textContent || '').includes(g.표)); if(시작 < 0) return;
+    let 끝 = 자식.findIndex((e, i) => i > 시작 && e.classList.contains('hr')); if(끝 < 0) 끝 = 자식.length;
+    자식.forEach((e, i) => { const 남김 = (i >= 시작 && i < 끝) || e.classList.contains('g128hd'); if(!남김 && !e.classList.contains('g128hide')) e.classList.add('g128hide'); if(남김 && e.classList.contains('g128hide')) e.classList.remove('g128hide'); });
+    if(!m.querySelector('.g128hd')){ const 회 = (typeof MEMBERS !== 'undefined' && MEMBERS.find(x => x.id === 지금.mid)) || {};
+      const h = document.createElement('div'); h.className = 'g128hd'; h.innerHTML = `<b>${esc(회.name || '')}</b><span>${g.머리}</span><small>올리면 회원 앱 기록 탭에도 보여요</small>`; m.insertBefore(h, 자식[시작]); }
+    자식.slice(시작, 끝).forEach(e => e.querySelectorAll('.e2').forEach(x => x.classList.add('g128hide')));      /* 「오른쪽 위 ＋ …」 옛 안내 — 단추가 바로 위에 있어 뺌 */
+    const 단 = m.querySelector(g.단추); const 표 = 자식[시작];
+    if(단 && !단.classList.contains('g128go')){ 단.classList.add('g128go'); 단.textContent = g.머리 === '체형 사진' ? '📷 체형 사진 올리기' : 단.textContent.replace('＋', '📷'); 표.after(단); } };
+  const 지켜 = () => { const m = document.getElementById('main'); if(!m){ setTimeout(지켜, 300); return; } new MutationObserver(() => 맞춤()).observe(m, { childList:true }); };
+  setTimeout(지켜, 0);
+})();
+</script>
+<style>
+#main .g128hide{display:none!important}
+#main .g128hd{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 8px;margin:6px 0 14px}
+#main .g128hd b{font-size:22px;font-weight:800}
+#main .g128hd span{font-size:16px;font-weight:700}
+#main .g128hd small{flex-basis:100%;font-size:13px;font-weight:600}
+</style>
+
+<script>
+/* g129 (11/28 21:03 · 21:04 대표 「상담지 수정도 버튼이 저기 있는 것보다 하단에 고정 · 규칙 맞추기 · 상담지 찍기/올리기 · 상담 수정 등 부연 설명이 너무 길어 ·
+   앱 텍스트 규칙 톤에 맞춰 다시 디자인 · 하단에 항상 상담지 수정 / 수정 완료로 언제든 수정하고 저장할 수 있게 간편한 UI」)
+   상담지 보기(intake) : 진행 카드 = 「상담지 · 5 / 17」 + 막대 (설명 문장 없음 · 누르면 수정) · 가운데 큰 단추 둘 · 「입력 안 한 항목」 줄 숨김 ·
+                        맨 아래 고정 [📷 종이 상담지](보조) [상담지 수정](주 단추 · 광택) · 「데스크와 같은 상담지예요」 숨김
+   상담지 수정(intake_edit) : 아래 고정 「저장」 → 「수정 완료」 (광택) */
+(() => {
+  const 맞춤 = () => { const m = document.getElementById('main'); let 줄 = document.getElementById('g129bar');
+    if(!m || S.screen !== 'intake'){ if(줄) 줄.remove(); document.body.classList.remove('g129on');
+      if(S.screen === 'intake_edit'){ document.querySelectorAll('[data-act^="saveintake:"]').forEach(b => { if(b.textContent.trim() === '저장') b.textContent = '수정 완료'; });
+        if(m) m.querySelectorAll('*').forEach(e => { if(e.children.length === 0 && (e.textContent || '').trim() === '데스크와 같은 상담지예요') e.classList.add('g129hide'); }); }
+      return; }
+    const 수 = m.querySelector('[data-act^="editintake:"]'), 종 = m.querySelector('[data-act^="scanpaper:"]'); if(!수) return;
+    const 수act = 수.getAttribute('data-act'), 종act = 종 && 종.getAttribute('data-act');
+    m.querySelectorAll('.hline[data-act^="editintake:"], .hline[data-act^="scanpaper:"]').forEach(b => b.classList.add('g129hide'));
+    const 노트 = m.querySelector('.pzbar'); if(노트) [...노트.childNodes].forEach(n => { if(n.nodeType === 3 || (n.tagName && !n.matches('button,[data-act]'))) { if(n.nodeType === 3) n.textContent = ''; else n.classList.add('g129hide'); } });
+    const 카 = m.querySelector('.ikprog'); if(카 && !카.dataset.g129){ const t = 카.innerText, 맞 = t.match(/(\d+)\s*\/\s*(\d+)/); const 됨 = 맞 ? +맞[1] : 0, 전 = 맞 ? +맞[2] : 0, 퍼 = 전 ? Math.round(됨 / 전 * 100) : 0;
+      카.dataset.g129 = '1'; 카.setAttribute('data-act', 수act); 카.innerHTML = `<div class="g129t"><b>상담지</b><span>${됨} / ${전}</span><em>${됨 >= 전 && 전 ? '다 채움' : '수정 ›'}</em></div><div class="g129pb"><i style="width:${퍼}%"></i></div>`; }
+    if(!줄){ 줄 = document.createElement('div'); 줄.id = 'g129bar'; document.body.appendChild(줄); }
+    줄.innerHTML = `${종act ? `<button class="g129sub" data-act="${종act}">📷 종이 상담지</button>` : ''}<button class="g129go" data-act="${수act}">상담지 수정</button>`;
+    const 탭 = document.getElementById('tabs'); 줄.style.bottom = (탭 ? Math.round(innerHeight - 탭.getBoundingClientRect().top) : 0) + 'px'; document.body.classList.add('g129on'); };
+  const 지켜 = () => { const m = document.getElementById('main'); if(!m){ setTimeout(지켜, 300); return; } new MutationObserver(맞춤).observe(m, { childList:true }); new MutationObserver(맞춤).observe(document.getElementById('foot') || document.body, { childList:true, subtree:true }); 맞춤(); };
+  setTimeout(지켜, 0); addEventListener('resize', 맞춤);
+})();
+</script>
+<style>
+#main .g129hide{display:none!important}
+body.g129on #main{padding-bottom:96px!important}
+#g129bar{position:fixed;left:0;right:0;z-index:40;display:flex;gap:10px;padding:10px max(16px,env(safe-area-inset-left,0px)) 10px max(16px,env(safe-area-inset-right,0px))}
+#main .ikprog[data-g129]{cursor:pointer;display:flex;flex-direction:column;gap:10px;padding:16px 18px!important}
+.g129t{display:flex;align-items:baseline;gap:8px}
+.g129t b{font-size:16px;font-weight:800}.g129t span{font-size:16px;font-weight:800;font-variant-numeric:tabular-nums}.g129t em{margin-left:auto;font-style:normal;font-size:14px;font-weight:700}
+.g129pb{height:8px;border-radius:999px;overflow:hidden}.g129pb i{display:block;height:100%;border-radius:999px}
 </style>
 
 </body>
