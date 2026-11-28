@@ -4498,7 +4498,9 @@ body.g48on #sheetbox{padding-bottom:400px!important}
 #main .btn.mx-ask::after,
 #main .btn[data-act^="ask:"]::after,
 #main .card.rowc.g25.g66jj::after,
-#sheetbox .g93upl::after{
+#sheetbox .g93upl::after,
+#sheetbox .vu-go::after,
+#sheetbox.g125w .g93go::after{      /* 11/28 20:53 대표 「올리기에도 광택 · 왜 자꾸 톤을 다르게 가냐」 — 몰아서 올리기 · 피드백 보내기 */
   content:""!important;position:absolute!important;inset:0!important;border-radius:inherit!important;pointer-events:none!important;z-index:3!important;
   background-color:transparent!important;background-image:var(--G광택)!important;background-position:118% 0;background-size:260% 100%!important;background-repeat:no-repeat!important;
   mix-blend-mode:normal!important;opacity:1!important;animation:G광택 2.4s cubic-bezier(.45,.05,.55,.95) infinite!important}
@@ -5274,6 +5276,12 @@ html body #kpad .kp2row .v.calc .vin{color:#447382}
 html body #kpad .kp2row .v em{font-style:normal;font-size:13px;color:#837666;margin-left:3px}
 html body #kpad .kp2say{font-size:13px;color:#837666;margin:8px 0 0}
 html body #kpad .kp2cz .kp2foot button:focus{outline:2.5px solid #b89a7e;outline-offset:2px}
+
+/* ━━ 11/28 20:53 대표 「버튼 규칙 안 봤어? 어떤 규칙에서 올리기 버튼이 저렇게 생겼고 · 올리기에도 광택 · 왜 자꾸 톤을 다르게 가냐」 ━━
+   주 단추 한 벌(디자인 지침 v2 5장 · 높이 52 · 16px 800 · 둥글기 12 · 브라운 꽉 참) — 몰아서 올리기 「n개 올리기」 · 피드백 쓰기 창 「보내기」 · 광택은 위 G광택 목록 */
+html body #sheetbox .vu-go,html body #sheetbox.g125w .g93go{display:block!important;width:100%!important;height:52px!important;min-height:52px!important;border-radius:12px!important;border:0!important;background:#6f4a2f!important;color:#fbf8f4!important;font-size:16px!important;font-weight:800!important;position:relative;overflow:hidden;padding:0!important}
+html body #sheetbox .vu-go{position:sticky!important;bottom:calc(8px + env(safe-area-inset-bottom,0px))!important;z-index:5!important;box-shadow:0 -14px 0 0 #fff,0 -24px 16px -6px rgba(255,255,255,.95)!important}
+html body #sheetbox .vu-go:disabled{opacity:.45}
 </style></head>
 <body>
 <div class="pwabar" id="pwabar"></div>
@@ -22399,7 +22407,7 @@ html body .g125bulk{flex:none;height:34px;padding:0 14px;border-radius:999px;bor
 </script>
 <style>
 /* ① 몰아서 올리기 : 「n개 올리기」 아래 고정 */
-#sheet .vu-go{position:sticky;bottom:calc(-1px + env(safe-area-inset-bottom,0px));z-index:5;box-shadow:0 -14px 18px -6px rgba(255,255,255,0.60)}
+#sheet .vu-go{position:sticky;bottom:calc(8px + env(safe-area-inset-bottom,0px));z-index:5}      /* 단추 꼴(52 · 16 · 800 · 12 · 브라운) + 광택은 덧칠(밝은톤_덧칠.css) — g 블록 안 색은 색 맞춤이 옅게 바꿈 */
 /* ② 굵기 막대 숨김 · 초기화 */
 #ggdz .sz.g126hide{opacity:0;pointer-events:none;transform:translateY(-50%) translateX(-12px)}
 #ggdz .sz{transition:opacity .18s ease,transform .18s ease}
@@ -22426,6 +22434,26 @@ html body .g125bulk{flex:none;height:34px;padding:0 14px;border-radius:999px;bor
 #ggdz .cl.on{outline:none!important;box-shadow:0 0 0 2.5px rgba(65,41,33,.08),inset 0 0 0 1.5px rgba(65,41,33,0.05)}
 /* 20:23 대표 「뒤로가기나 창 닫기도 불편」 → ✕ 대신 앱 화면과 같은 「‹ 뒤로」 알약 단추 */
 #ggdz .cx{width:auto!important;height:44px!important;padding:0 16px!important;border-radius:999px!important;border:1.5px solid #b89a7e!important;font-size:15px!important;font-weight:800!important;display:flex;align-items:center;gap:4px}
+</style>
+
+<script>
+/* g127 (11/28 20:54 대표 「여기 옛날 버전이잖아 아직」 — 기록 탭 운동 균형 3D) 옛 3D(Z-Anatomy 8조각 캔버스) → 새 매쉬 3D(작업판_해부\3D시험.html · 21칸)
+   몸 파일 = 3D 해부학 창 11/28 확정 : 남 3d\남_칸_해부매끈.glb · 여 3d\여3c_칸_등풀기B5.glb (성별로 파일만 고름 · 3D시험 ?몸=여)
+   ⚠ 새 3D 의 칸 색은 아직 시험 페이지 자료(회원 실제 세트 아님) — 진짜 앱 옮길 때 회원 주간 세트를 넘겨 칠하게 이어 붙일 것 */
+(() => {
+  const 갈아 = () => { document.querySelectorAll('#main .bwrap').forEach(w => { if(w.querySelector('.g127')) return; const b3 = w.querySelector('.b3'); if(!b3) return;
+    const 성 = b3.dataset.sex === '여' ? '여' : '남';
+    const f = document.createElement('iframe'); f.className = 'g127'; f.title = '부위별 운동량 3D'; f.loading = 'lazy';
+    f.src = '작업판_해부/3D시험.html?몸=' + encodeURIComponent(성) + '&앱=1';
+    f.addEventListener('load', () => { try{ const d = f.contentDocument, st = d.createElement('style');
+      st.textContent = '#wrap>h1,#wrap>p.s{display:none!important}#wrap{padding-top:6px!important;padding-bottom:6px!important}body{background:transparent!important}'; d.head.appendChild(st); }catch(e){} });
+    b3.replaceWith(f); ['.blegend', '.b3cred'].forEach(q => { const e = w.querySelector(q); if(e) e.style.display = 'none'; }); }); };
+  const 지켜 = () => { const m = document.getElementById('main'); if(!m){ setTimeout(지켜, 300); return; } new MutationObserver(갈아).observe(m, { childList:true, subtree:true }); 갈아(); };
+  setTimeout(지켜, 0);
+})();
+</script>
+<style>
+#main .bwrap iframe.g127{display:block;width:100%;height:480px;border:0;border-radius:16px;background:transparent}
 </style>
 
 </body>

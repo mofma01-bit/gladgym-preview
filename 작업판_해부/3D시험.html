@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>3D 근육 시험 — 워너비 남성 21칸</title>
+<style>
+:root{--bg:#efe8df;--br:#6f4a2f;--tx:#1f1813;--s2:#5d5249;--s3:#837666;--line:#e6ddd2}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--bg);color:var(--tx);font-family:'Pretendard',system-ui,-apple-system,'Apple SD Gothic Neo','Malgun Gothic',sans-serif}
+#wrap{display:flex;flex-direction:column;max-width:560px;margin:0 auto;padding:12px max(16px,env(safe-area-inset-left,0px)) 24px}
+h1{font-size:18px;margin:0}p.s{font-size:13px;font-weight:500;color:var(--s3);margin:4px 0 8px;line-height:1.5}
+.an{display:flex;gap:6px;margin-bottom:8px}
+.an button{flex:1;height:40px;border-radius:12px;border:1px solid var(--line);background:#fff;font:inherit;font-size:14px;font-weight:800;color:#5d5249;cursor:pointer}
+.an button.on{background:var(--br);border-color:var(--br);color:#fff}
+#v{height:62vh;min-height:380px;background:#fff;border:1px solid var(--line);border-radius:20px;position:relative;overflow:hidden;touch-action:none}
+#v .tg{position:absolute;top:10px;font-size:13px;font-weight:700;color:var(--s3);pointer-events:none}
+#ld{position:absolute;inset:0;display:grid;place-items:center;font-size:14px;color:var(--s3)}
+#rot{position:absolute;right:10px;bottom:10px;height:34px;padding:0 12px;border-radius:999px;border:1px solid var(--line);background:#fff;font:inherit;font-size:13px;font-weight:700;color:#5d5249;cursor:pointer}
+#rot.on{background:var(--br);border-color:var(--br);color:#fff}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px 14px;margin-top:10px}
+.card .t{font-size:14px;font-weight:800;margin-bottom:6px}
+.card .t small{font-weight:600;color:var(--s3);font-size:13px}
+.row{display:flex;flex-wrap:wrap;gap:6px}
+.chip{display:inline-flex;align-items:center;gap:5px;height:28px;padding:0 10px;border-radius:999px;font-size:13px;font-weight:700;color:#5d5249;background:#f6f1ea}
+.chip i{width:10px;height:10px;border-radius:3px}
+.chip.no{color:var(--s3);background:#fff;border:1px dashed #d8cfc4}
+#one{margin-top:10px;font-size:14px;font-weight:500;color:var(--s3);text-align:center;line-height:1.5}
+#one > b{font-weight:600;color:var(--s2)}   /* 11/27 대표 「강조가 너무 많아」 → 제작북 2-6 : 「운동 부족」 = 부가 · 부위 이름 = 서브 */
+/* 11/27 대표 「뒤로가기 버튼 잘 안 보일 수도 · 효과?」 → 브라운으로 채우고, 세부에 들어갈 때 세 번 물결 */
+#bk2{position:absolute;left:10px;top:10px;height:38px;padding:0 16px;border-radius:999px;border:0;background:var(--br);font:inherit;font-size:14px;font-weight:800;color:#fff;cursor:pointer;z-index:2;box-shadow:0 2px 8px rgba(111,74,47,.25)}
+#bk2.hint{animation:뒤로물결 1s ease-out 3}
+@keyframes 뒤로물결{0%{box-shadow:0 0 0 0 rgba(111,74,47,.55)}100%{box-shadow:0 0 0 14px rgba(111,74,47,0)}}
+.zm{position:absolute;right:10px;bottom:10px;display:flex;flex-direction:column;gap:6px}
+.zm button{width:40px;height:40px;border-radius:12px;border:1px solid var(--line);background:#fff;font:inherit;font-size:22px;font-weight:700;color:#5d5249;cursor:pointer;line-height:1}
+#dim{position:fixed;inset:0;background:rgba(31,24,19,.45);z-index:20}
+#sheet{position:fixed;left:0;right:0;bottom:0;max-width:560px;margin:0 auto;background:#fff;border-radius:24px 24px 0 0;padding:10px 18px calc(18px + env(safe-area-inset-bottom,0px));z-index:21;transform:translateY(105%);transition:transform .25s ease}
+#sheet.on{transform:none}
+#sheet .grab{width:40px;height:5px;border-radius:9px;background:#e6ddd2;margin:0 auto 12px}
+#sheet .st{font-size:16px;font-weight:800;margin-bottom:12px}
+#sheet .st small{font-size:13px;color:var(--s3);font-weight:600}
+#sheet .st .h1{font-size:16px;font-weight:700;display:flex;align-items:center;gap:6px}
+#sheet .st .h1 b{color:var(--tx);display:inline-block}
+#sheet .st .h1 .u{font-size:13px;font-weight:500;color:var(--s3);margin-left:-4px}
+#sheet .st .h1 b.pop{animation:숫자 .5s .15s cubic-bezier(.3,1.6,.5,1) both}
+@keyframes 숫자{0%{transform:scale(.6)}100%{transform:scale(1)}}
+#sheet .st{position:relative}
+#sheet .st .lg{margin-left:auto;display:flex;align-items:center;gap:5px;font:inherit;font-size:13px;font-weight:500;color:var(--s3);background:none;border:0;padding:4px 0 4px 6px;cursor:pointer}
+#sheet .st .lg .inf{width:18px;height:18px;border-radius:50%;border:1px solid #c9bfb3;background:#fff;display:grid;place-items:center;font-size:12px;font-weight:800;color:#5d5249}   /* 기준 말풍선 여는 단추 (테 + 바탕) */
+#sheet .tip{position:absolute;left:0;right:0;top:34px;z-index:3;background:#f6f1ea;border:1px solid #e6ddd2;border-radius:12px;padding:10px 12px;box-shadow:0 6px 18px rgba(31,24,19,.12)}
+#sheet .tip[hidden]{display:none}
+/* 11/27 대표 「말풍선이 위로 뜨거나 주변이 어두워져야」 → 열리면 창 나머지를 어둡게 · 말풍선은 흰 바탕 + 그림자 + 톡 떠오름 */
+#sheet.tipon::after{content:'';position:absolute;inset:0;border-radius:inherit;background:rgba(31,24,19,.42);z-index:2}
+#sheet.tipon .st .lg{position:relative;z-index:3;background:#fff;border-radius:999px;padding:4px 6px 4px 8px}
+#sheet .tip{background:#fff;border-color:#fff;box-shadow:0 12px 32px rgba(31,24,19,.28);animation:풍선 .22s ease-out both}
+@keyframes 풍선{0%{opacity:0;transform:translateY(6px) scale(.97)}100%{opacity:1;transform:none}}
+#sheet .tip::before{content:'';position:absolute;right:6px;top:-6px;width:10px;height:10px;background:#fff;border-left:1px solid #e6ddd2;border-top:1px solid #e6ddd2;transform:rotate(45deg)}
+#sheet .tip .t1{font-size:14px;font-weight:700;color:var(--tx)}
+#sheet .tip{word-break:keep-all}
+#sheet .tip .t2{font-size:13px;font-weight:500;color:var(--s2);margin-top:4px;line-height:1.45}
+#sheet .tip .t0{font-size:11px;font-weight:500;color:var(--s3);opacity:.85;margin-bottom:8px}   /* 11/27 대표 「다 잘 보여서 기준이 아쉬움 · 권고 기준은 더 작게 옅게」 → 출처 줄 11px (범례와 같은 예외) */
+#sheet .tip .t3{font-size:13px;font-weight:500;color:var(--s3);margin-top:2px}
+#sheet .st .lg i{width:16px;height:16px;border-radius:5px;border:1.5px dashed #c9bfb3;background:#fff}
+#sheet .grid9{position:relative;border-radius:12px;overflow:hidden}
+#sheet .grid9.pop{animation:튐 .45s .12s cubic-bezier(.3,1.5,.5,1) both}
+@keyframes 튐{0%{transform:scale(.9);opacity:.4}100%{transform:scale(1);opacity:1}}
+#sheet .grid9::after{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(105deg,transparent 38%,rgba(255,255,255,.6) 50%,transparent 62%) no-repeat;background-size:250% 100%;background-position:160% 0;opacity:0}
+#sheet .grid9.pop::after{animation:광택 .8s .45s ease-out both}
+@keyframes 광택{0%{background-position:160% 0;opacity:1}100%{background-position:-60% 0;opacity:1}}
+@media (prefers-reduced-motion:reduce){#sheet .grid9.pop,#sheet .grid9.pop::after,#sheet .st .h1 b.pop{animation:none}}
+#sheet .st .h2{font-size:13px;font-weight:500;color:var(--s3);margin-top:4px;line-height:1.5}
+#sheet .grid{display:block}
+#sheet .grid9{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+#sheet .ms2{display:flex;gap:4px;margin-bottom:10px}
+#sheet .ms2 button{height:28px;padding:0 10px;border-radius:999px;border:1px dashed #c9bfb3;background:#fff;font:inherit;font-size:12px;font-weight:700;color:var(--s3);cursor:pointer}
+#sheet .ms2 button.on{border-style:solid;border-color:var(--br);color:var(--br)}
+#sheet .lbl{font-size:13px;font-weight:800;color:var(--s3);margin:4px 0 6px}
+#sheet .big{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+#sheet .big .tile{height:64px;flex-direction:column;display:flex;align-items:center;justify-content:center;gap:2px;color:#5d5249;border-color:var(--br)}
+#sheet .big .tile small{font-size:12px;font-weight:700;color:var(--br)}
+#sheet .none{grid-column:1/-1;font-size:14px;color:var(--s3);padding:10px 0}
+#sheet .sm{display:flex;flex-wrap:wrap;gap:6px}
+#sheet .chip2{height:32px;padding:0 12px;border-radius:999px;display:flex;align-items:center;font-size:13px;font-weight:800;color:#1f1813;cursor:pointer}
+#sheet .lst{display:flex;flex-direction:column;gap:6px}
+#sheet .ln{display:flex;align-items:center;gap:10px;height:44px;padding:0 12px;border-radius:12px;border:1px solid var(--line);cursor:pointer}
+#sheet .ln i{width:14px;height:14px;border-radius:4px}
+#sheet .ln.no i{border:1.5px dashed #c9bfb3}
+#sheet .ln b{font-size:15px;flex:1}
+#sheet .ln.no b{color:var(--s2)}
+#sheet .ln .pts{display:flex;gap:3px}
+#sheet .ln .pt{width:9px;height:9px;border-radius:50%}
+#sheet .ln .pt.no{border:1.5px solid #c9bfb3}
+#sheet .ln .gt{color:var(--s3);font-weight:800}
+#sheet .tile{height:56px;border-radius:12px;display:grid;place-items:center;font-size:15px;font-weight:700;color:#1f1813}
+#sheet .tile.no{background:#fff;border:1.5px dashed #d2c8bc;color:var(--s3)}
+#sheet .close{margin-top:14px;width:100%;height:52px;border-radius:12px;border:0;background:var(--br);color:#fbf8f4;font:inherit;font-size:16px;font-weight:800;cursor:pointer}
+#sheet .tile{cursor:pointer}
+#one .back{margin:0 8px 0 0;border-color:var(--line);color:#5d5249}
+#one .hd{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:6px}
+#one .hd b{font-size:16px;font-weight:800;color:var(--tx)}
+#one .hd .cnt{font-size:13px;color:var(--s3);font-weight:500}
+#one .ms{display:flex;justify-content:center;gap:4px;margin:0 0 8px}
+#one .ms button{height:28px;padding:0 10px;border-radius:999px;border:1px dashed #c9bfb3;background:#fff;font:inherit;font-size:12px;font-weight:700;color:var(--s3);cursor:pointer}
+#one .ms button.on{border-style:solid;border-color:var(--br);color:var(--br)}
+#one .sl{display:flex;gap:6px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:4px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+#one .sl::-webkit-scrollbar{display:none}
+#one .sl .rw{flex:none;scroll-snap-align:start;width:auto;padding:0 12px}
+#one .one1{display:flex;align-items:center;gap:8px;height:52px;border-radius:16px;background:#fff;border:1px solid var(--line);padding:0 6px;touch-action:pan-y}
+#one .one1 button.ar{width:40px;height:40px;border:0;border-radius:12px;background:#f6f1ea;font:inherit;font-size:20px;font-weight:800;color:var(--br);cursor:pointer}
+#one .one1 .mid{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;min-width:0}
+#one .one1 .mid i{width:14px;height:14px;border-radius:4px}
+#one .one1 .mid b{font-size:15px;font-weight:600;color:var(--tx)}
+#one .one1 .mid .st{font-size:13px;font-weight:500;color:var(--s3)!important}
+#one .dots{display:flex;justify-content:center;gap:5px;margin-top:6px}
+#one .dots span{width:6px;height:6px;border-radius:50%;background:#d8cfc4}
+#one .dots span.on{background:var(--br)}
+#one .rws{display:grid;grid-template-columns:1fr 1fr;gap:6px;width:100%}   /* 위 3D 칸과 같은 폭 (11/27 「좌우 여백이 남는 이유」) */
+#one .rw{display:flex;align-items:center;gap:7px;min-width:0;height:42px;padding:0 10px;border-radius:12px;background:#fff;border:1px solid var(--line);text-align:left;cursor:pointer}
+#one .rw i{width:12px;height:12px;border-radius:3px;flex:none}
+#one .rw .nm{flex:1;min-width:0;font-size:14px;font-weight:600;color:var(--tx);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#one .rw .st{font-size:13px;font-weight:500;color:var(--s3)!important;white-space:nowrap}
+#one i.q0{background:#fff!important;border:1.5px dashed #c9bfb3}   /* 안 했어요 = 점선 네모 · 조금 = 옅은 색 · 충분 = 색 (11/27) */
+#lg3{position:absolute;right:18px;top:16px;display:flex;flex-direction:column;gap:0;font-size:11px;line-height:1.4;letter-spacing:-.2px;font-weight:500;color:var(--s3);pointer-events:none;z-index:1}   /* 범례 (11/27 대표 「너무 커 더 줄여 · 강조는 모델과 자세히로」 → 13px 규칙 예외 · 범례만 11px) */
+/* 11/27 대표 「자세히 버튼도 광택 계속」 → 브라운 채움 + 광택이 2.6초마다 지나감 */
+#one #mb{position:relative;overflow:hidden;background:var(--br);color:#fff;border-color:var(--br)}
+#one #mb::after{content:'';position:absolute;inset:0;background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.55) 50%,transparent 70%) no-repeat;background-size:250% 100%;background-position:160% 0;animation:G광택 2.4s linear infinite;pointer-events:none}
+@keyframes G광택{0%{background-position:160% 0}71%,100%{background-position:-60% 0}}   /* v2 4장 A : 2.4초 한 바퀴 = 1.7초 지나감 + 0.7초 쉼 */
+@media (prefers-reduced-motion:reduce){#one #mb::after{animation:none}}
+#lg3[hidden]{display:none}
+#lg3 div{display:flex;align-items:center;gap:4px}
+#lg3 i{width:8px;height:8px;border-radius:2px;flex:none}
+#one .rw.no .nm{color:var(--s2)}
+#one .kan{display:inline-flex;align-items:center;gap:4px;margin:3px 3px 0;height:28px;padding:0 10px;border-radius:999px;font-size:13px;font-weight:800}
+#one .kan.no{background:#fff;border:1px dashed #d2c8bc;color:var(--s3)}
+#one button{margin-left:6px;height:30px;padding:0 12px;border-radius:999px;border:1px solid var(--br);background:#fff;color:var(--br);font:inherit;font-size:13px;font-weight:800;cursor:pointer;vertical-align:1px}
+</style></head><body>
+<div id="wrap">
+  <h1>3D 근육 시험 <small style="font-size:13px;color:#837666;font-weight:500">워너비 남성 · 근육 21칸</small></h1>
+  <p class="s">몸을 누르면 근육별로</p>
+  <div class="an"><button data-p="오늘">오늘</button><button class="on" data-p="주">이번 주</button><button data-p="달">이번 달</button></div>
+  <div id="v"><div id="ld">몸 불러오는 중…</div><div class="zm"><button id="zin" aria-label="확대">＋</button><button id="zout" aria-label="축소">−</button></div><button id="bk2" hidden>‹ 뒤로</button><div id="lg3"></div></div>
+  <div id="one"></div>
+</div>
+<div id="dim" hidden></div>
+<div id="sheet" aria-hidden="true"><div class="grab"></div><div class="st" id="stT"></div><div class="grid" id="grid"></div><button class="close" id="shut">닫기</button></div>
+<script>
+/* 11/27 「또 멈췄어」 : 앱이 고친 파일을 미리보기(data: · file:) 탭으로 열면 인터넷 · 3D 파일이 막혀 「불러오는 중」에서 멈춤 → 3D 부품보다 먼저 안내 */
+(() => { if(!/^https?:$/.test(location.protocol)){ const 안내 = document.getElementById('ld'); if(안내) 안내.innerHTML = '이 탭은 미리보기라 3D 를 못 불러와요<br><b>첫 번째 탭(localhost:8791)</b>에서 보세요'; } })();
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/DRACOLoader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script>
+// 11/27 대표 확정 : 그림 하나 = 뜻 하나 「충분히 했다 / 안 했다」 · 색 = 앱 2D 몸 그림 부위 색(몸2색) · 근육 면 통째로
+// 11/27 대표 「조사해서 기준」 → ACSM 2026 지침 : 근육 키우기 = 부위마다 주 약 10세트 → 부위 합 기준 : 오늘 1 · 이번 주 10 · 이번 달 40(10 × 4주)
+// 세부 칸 = 부위 기준 ÷ 그 부위 칸 수 (올림) — 칸마다 10세트를 요구하면 아무도 못 채움 · 오늘은 칸도 1
+const 기준 = { 오늘: 1, 주: 10, 달: 40 }, 기간이름 = { 오늘: '오늘', 주: '이번 주', 달: '이번 달' };
+const 몸색 = '#c9c4be';
+const 부위 = { 가슴: ['chest_up', 'chest'], 어깨: ['delt_f', 'delt_s', 'delt_r'], 등: ['trap', 'midback', 'lats', 'lowback'], 팔: ['biceps', 'triceps', 'forearm'],
+  복근: ['abs', 'oblique'], 엉덩이: ['glute', 'glute_med'], '앞 허벅지': ['quad', 'adductor'], '뒤 허벅지': ['ham'], 종아리: ['calf', 'shin'] };
+const 몸2색 = { 가슴: '#d98c7a', 어깨: '#e0b070', 등: '#7fa8c9', 팔: '#b39ad6', 복근: '#e2c96a', 엉덩이: '#e07a8a', '앞 허벅지': '#7fc9a0', '뒤 허벅지': '#c9a0e8', 종아리: '#8fd0d6' };
+const 칸부위 = {}; Object.entries(부위).forEach(([b, ks]) => ks.forEach(k => 칸부위[k] = b));
+const 이름 = { chest_up: '윗가슴', chest: '가슴', delt_f: '앞어깨', delt_s: '옆어깨', delt_r: '뒤어깨', biceps: '이두', triceps: '삼두', forearm: '전완', abs: '복근', oblique: '옆구리',
+  trap: '승모', midback: '회전근개', lats: '광배', lowback: '허리(기립근)', glute: '엉덩이', glute_med: '엉덩이 옆', quad: '대퇴사두', ham: '햄스트링', adductor: '허벅지 안쪽', calf: '종아리', shin: '정강이' };
+const 세트 = {   // 예시 기록 (칸마다 세트 수 · 실제 앱은 기록에서 계산)
+  오늘: { quad: 8, glute: 6, ham: 4, adductor: 3 },
+  주: { chest: 6, chest_up: 4, delt_f: 4, delt_s: 3, delt_r: 4, lats: 8, midback: 4, trap: 3, biceps: 6, triceps: 6, abs: 3, glute: 8, glute_med: 3, quad: 9, adductor: 3, ham: 6 },   // 부위 합 : 6곳 10세트 이상 · 복근 · 뒤 허벅지 조금 · 종아리 0
+  달: { chest: 24, chest_up: 16, delt_f: 16, delt_s: 10, delt_r: 14, lats: 30, midback: 16, trap: 12, lowback: 6, biceps: 22, triceps: 20, forearm: 4, glute: 30, glute_med: 10, quad: 32, adductor: 10, ham: 22,
+        abs: 12, oblique: 4, calf: 6 } };   // 부위 합 : 6곳 40세트 이상 · 복근 · 뒤 허벅지 · 종아리 조금
+let 기간 = '주';
+const el = document.getElementById('v'), W = () => el.clientWidth, H = () => el.clientHeight;
+const scene = new THREE.Scene(); scene.background = new THREE.Color('#ffffff');
+const rd = new THREE.WebGLRenderer({ antialias: true }); rd.setPixelRatio(Math.min(2, devicePixelRatio)); rd.setSize(W(), H());
+rd.outputEncoding = THREE.sRGBEncoding; el.insertBefore(rd.domElement, el.firstChild);
+scene.add(new THREE.HemisphereLight(0xffffff, 0x77716a, .5));
+const d1 = new THREE.DirectionalLight(0xffffff, .8); d1.position.set(2.5, 4, 5); scene.add(d1);
+const d2 = new THREE.DirectionalLight(0xffffff, .55); d2.position.set(-2.5, 3.5, -5); scene.add(d2);
+const d3 = new THREE.DirectionalLight(0xffffff, .2); d3.position.set(-4, 1, 1); scene.add(d3);
+// 11/27 대표 「멈춘 것 말고 늘 도는 것 하나 · 움직여 볼 수 있게」 → 한 화면 · 늘 천천히 돎 · 손가락으로 돌리면 그쪽으로 돌다가 다시 천천히
+const 캠 = new THREE.PerspectiveCamera(26, 1, .05, 50);
+// 11/27 대표 「확대 · 축소 · 확대한 채 위아래 · 범위 고정 · PC 마우스로도 · 폰 · 태블릿 · 아이폰 모두」
+//   돌리기 = 한 손가락 / 마우스 왼쪽 끌기 좌우 · 위아래 이동 = 같은 끌기의 위아래(확대했을 때만)
+//   확대 · 축소 = 두 손가락 벌리기 / 마우스 휠 / 화면 ＋ − 단추(모든 기기) · 다 줄이면 몸이 다시 가운데로
+const ctl = new THREE.OrbitControls(캠, rd.domElement); ctl.enableDamping = true; ctl.enableZoom = true; ctl.enablePan = false;
+ctl.autoRotate = true; ctl.autoRotateSpeed = 2.2; ctl.minPolarAngle = ctl.maxPolarAngle = Math.PI * .49;   // 위아래 꺾기 없음 (세로 끌기는 이동에 씀)
+const 범위 = { 가깝게: .85, 멀리: 2.45, 위아래: .42 };   // 키 배수 (가장 가까이 · 가장 멀리 · 가운데에서 위아래로 옮길 수 있는 만큼)
+function 위아래(dy){ const t = ctl.target, y = THREE.MathUtils.clamp(t.y + dy, -키 * 범위.위아래, 키 * 범위.위아래), d = y - t.y; t.y = y; 캠.position.y += d; }
+function 확대됨(){ return 캠.position.distanceTo(ctl.target) < 키 * 범위.멀리 * .97; }
+function 거리(f){ const t = ctl.target, v = 캠.position.clone().sub(t), L = THREE.MathUtils.clamp(v.length() * f, 키 * 범위.가깝게, 키 * 범위.멀리); 캠.position.copy(t).add(v.setLength(L)); }
+const 누름 = new Map(); let 앞y = null;
+rd.domElement.addEventListener('pointerdown', e => { 누름.set(e.pointerId, e.clientY); 앞y = 누름.size === 1 ? e.clientY : null; });
+rd.domElement.addEventListener('pointermove', e => {
+  if(!누름.has(e.pointerId)) return; if(누름.size !== 1 || 앞y === null){ 앞y = null; return; }
+  const dy = e.clientY - 앞y; 앞y = e.clientY; if(!확대됨()) return;
+  const 높이 = 2 * 캠.position.distanceTo(ctl.target) * Math.tan(THREE.MathUtils.degToRad(캠.fov / 2));
+  위아래(dy * 높이 / H()); });
+['pointerup', 'pointercancel', 'pointerleave'].forEach(k => rd.domElement.addEventListener(k, e => { 누름.delete(e.pointerId); if(!누름.size) 앞y = null; }));
+// 11/27 대표 「부위를 크게 나누고 누르고 들어가면 세부로」 → 몸을 톡 누르면(끌지 않고) 그 부위 세부로
+let 톡 = null;
+rd.domElement.addEventListener('pointerdown', e => { 톡 = 누름.size === 1 ? { x: e.clientX, y: e.clientY, t: performance.now() } : null; });
+rd.domElement.addEventListener('pointerup', e => {
+  if(!톡 || Math.hypot(e.clientX - 톡.x, e.clientY - 톡.y) > 6 || performance.now() - 톡.t > 400) return;
+  const r = rd.domElement.getBoundingClientRect(), p = new THREE.Vector2((e.clientX - r.left) / r.width * 2 - 1, -(e.clientY - r.top) / r.height * 2 + 1);
+  const rc = new THREE.Raycaster(); rc.setFromCamera(p, 캠); const hit = rc.intersectObject(판, true)[0];
+  const n = hit && hit.object.material.name, b = n && 칸부위[n]; if(!b) return;
+  // 세부에서 그 부위 칸을 누르면 그 칸 강조 · 11/27 대표 「광배를 눌렀는데 허리(기립근)로 고정」 → 한 칸씩 방식이면 아래 줄도 누른 칸으로 넘김
+  if(상세 === b){ if(세부방식 === '한칸') 한칸보기(부위[b].indexOf(n)); else 칸보기(n); } else 들어가기(b); });
+const 판 = new THREE.Group(); scene.add(판); const 재료 = {}; let 키 = 1.9, 폭 = 1.25;
+const ld = new THREE.GLTFLoader(); const dr = new THREE.DRACOLoader(); dr.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.5.6/'); ld.setDRACOLoader(dr);
+// 몸 파일 : 기본 = 색 지도 판(11/27 · GPT 근육 색 지도를 비춰 근육 모양대로) · ?판=재단 / ?판=지금 이면 그전 판
+const 판이름 = new URLSearchParams(location.search).get('판');
+// 11/27 여성 : ?몸=여 → 색 지도 칸 + 경계 곡선 (대표 「좌측(손보기 전)이 그냥 좋겠다 · 더 늘리니까 이상」 → 확정) · ?몸=여&판=비율 → 골반 +9% · 어깨 −8% 시험본
+const 몸이름 = new URLSearchParams(location.search).get('몸');
+if(몸이름 === '여') document.addEventListener('DOMContentLoaded', () => { const s = document.querySelector('h1 small'); if(s) s.textContent = '워너비 여성 · 근육 21칸'; document.title = '3D 근육 시험 — 워너비 여성 21칸'; });
+const 몸파일 = 몸이름 === '여' ? (판이름 === '비율' ? '3d/여_칸_비율.glb' : /^어깨등[AB]$/.test(판이름 || '') ? `3d/여_칸_어깨등_${판이름.slice(3)}.glb` : /^하체C[12]$/.test(판이름 || '') ? `3d/여_칸_하체_${판이름.slice(2)}.glb` : /^부드럽(0|25|50)$/.test(판이름 || '') ? `3d/여_칸_마무리_${판이름.slice(3)}.glb` : 판이름 === '옛' ? '3d/여_칸_어깨등_B.glb' : 판이름 === '마감전' ? '3d/여2_칸_최종.glb' : /^여3(A|B|B2|B3|B4|B5)$/.test(판이름 || '') ? `3d/여3c_칸_등풀기${판이름.slice(2)}.glb` : 판이름 === '여3' ? '3d/여3c_칸_해부매끈.glb' : /^끈없음/.test(판이름 || '') ? `3d/여2_칸_마감${판이름.slice(3) || '8'}.glb` : 판이름 === '마감5' ? '3d/여2_칸_마감5.glb' : '3d/여3c_칸_등풀기B5.glb')   /* 11/28 대표 「B로」 = 끈 없는 새 그림(여3c) · 칸 좌우 맞춤 · 해부학 규칙 · 등 힘 빼기 B · ?판=마감5 = 앞 판 */   /* 11/27 새 회색 그림(하체 매끈 · 둔부 둥글게) → 매쉬 → 가슴 · 어깨 · 팔 맞춤 → 21칸 · ?판=옛 = 앞 몸(어깨등 B) */ : 판이름 === '다리' ? '3d/남_칸_다리.glb' : /^선명(0\.6|1\.2|1\.8)$/.test(판이름 || '') ? `3d/남_칸_선명_${판이름.slice(2)}.glb` : 판이름 === '지금' ? '3d/남_칸.glb' : 판이름 === '재단' ? '3d/남_칸_재단.glb' : 판이름 === '색지도' ? '3d/남_칸_색지도.glb' : 판이름 === '승모전' ? '3d/남_칸_매끈.glb' : '3d/남_칸_해부매끈.glb';   // 11/27 승모 다이아몬드 · 기본 = 색 지도 + 경계 곡선(11/27) · 여 부드럽N = 회색 빈곳 메움 + 근육 선 흐리기 N번
+const 부위상자 = {};
+// 파일로 직접 열면(file://) 3D 파일을 못 불러옴 → 로컬 서버 주소로 바로 넘김 (11/27 「불러오는 중에서 안 넘어감」)
+if(location.protocol === 'file:') location.replace('http://localhost:8791/작업판_해부/3D시험.html');   // 파일 주소면 서버 주소로 (data: 미리보기는 맨 위 안내 문구)
+ld.load(몸파일, g => {
+  g.scene.traverse(o => { if(!o.isMesh) return; const k = o.material.name;
+    o.material = 재료[k] || (재료[k] = new THREE.MeshStandardMaterial({ name: k, color: 몸색, roughness: .55, metalness: 0 })); });
+  판.add(g.scene);
+  const b = new THREE.Box3().setFromObject(판), c = b.getCenter(new THREE.Vector3()), s = b.getSize(new THREE.Vector3()); 판.position.sub(c); 키 = s.y; 폭 = s.x;
+  판.updateMatrixWorld(true);
+  g.scene.traverse(o => { if(!o.isMesh) return; const bb = 칸부위[o.material.name]; if(!bb) return; (부위상자[bb] = 부위상자[bb] || new THREE.Box3()).expandByObject(o); });
+  캠.position.set(0, 키 * .04, 키 * 범위.멀리); ctl.target.set(0, 0, 0); ctl.minDistance = 키 * 범위.가깝게; ctl.maxDistance = 키 * 범위.멀리; ctl.update();
+  document.getElementById('ld').remove(); 칠하기();
+}, x => { if(x.total) document.getElementById('ld').textContent = '몸 불러오는 중… ' + Math.round(x.loaded / x.total * 100) + '%'; },
+  e => { document.getElementById('ld').textContent = '불러오기 실패 : ' + e; });
+function 그리기(){ 캠.aspect = W() / H(); 캠.updateProjectionMatrix(); rd.render(scene, 캠); }
+// 11/27 대표 「접기 펴기 말고 하단 팝업 · 더 간단하게」 → 아래 창 = 부위 9칸(색 칸 = 충분 · 점선 칸 = 부족) 뿐
+// 부위 판정 : 그 부위 칸의 절반 이상이 기준을 넘으면 충분
+function 부위판정(v, 선){ const r = {}; Object.entries(부위).forEach(([b, ks]) => { r[b] = ks.reduce((s, k) => s + (v[k] || 0), 0) >= 선; }); return r; }   // 부위 = 칸 세트 합
+const 칸선 = k => 기간 === '오늘' ? 1 : Math.ceil(기준[기간] / 부위[칸부위[k]].length);
+// 큰 화면 = 부위 단위로 통째 색(부위 판정) · 세부(부위를 누름) = 그 부위의 칸마다(한 칸 = 진하게 · 모자란 칸 = 옅게) · 나머지 부위는 옅은 회색
+let 창방식 = '타일';   // 자세히 팝업 시안
+let 상세 = null, 강조 = null;   // 강조 = 세부에서 누른 칸 (11/27 대표 「이두 · 삼두 누르면 밝아져서 볼 수 있게」)
+const 섞 = (a, b, t) => new THREE.Color(a).lerp(new THREE.Color(b), t);
+function 칠하기(){
+  const v = 세트[기간], 선 = 기준[기간], p = 부위판정(v, 선);
+  Object.entries(재료).forEach(([n, m]) => { const b = 칸부위[n]; let c;
+    if(!b) c = new THREE.Color(몸색);
+    else if(!상세) c = new THREE.Color(p[b] ? 몸2색[b] : 몸색);
+    else if(b !== 상세) c = new THREE.Color('#dedad5');
+    else if(강조 && n !== 강조) c = 섞(몸2색[b], '#ffffff', .78);            // 누른 칸 말고 같은 부위 칸은 아주 옅게
+    else c = (v[n] || 0) >= 칸선(n) || n === 강조 ? new THREE.Color(몸2색[b]) : (v[n] || 0) > 0 ? 섞(몸2색[b], '#ffffff', .62) : new THREE.Color(몸색);   // 11/27 세 단계 : 충분 진하게 · 조금 옅게 · 안 함 회색
+    m.color.copy(c).convertSRGBToLinear(); m.emissive.set(0x000000); });
+  const 됨 = Object.keys(p).filter(b => p[b]), 부족 = Object.keys(p).filter(b => !p[b]);
+  if(상세){
+    const ks = 부위[상세];
+    // 11/27 대표 「더 보기 편하게 · 더 쉽게」 → 칸마다 한 줄 : 채운 칸 = ✓ 충분 · 모자란 칸 = 「n세트 더」(얼마나 더 하면 채워지는지)
+    const 됨수 = ks.filter(k => (v[k] || 0) >= 칸선(k)).length, c = 몸2색[상세];
+    const 선택 = k => k === 강조 ? ` on" style="border-color:${c};box-shadow:0 0 0 2px ${c} inset` : '';
+    // 11/27 대표 「칸 크기 · 모바일 한 화면에」 → 두 칸씩(2×2 · 부위당 최대 4칸) · 상태는 짧게 「✓」 / 「+n세트」
+    // 11/27 대표 「+1세트 = 바로 이해되게」 → 주 · 달 : ✓ 충분 / n세트 더 필요 · 오늘 : ✓ 했어요 / 안 했어요
+    // 11/27 대표 「갑자기 1세트 더는 이상 · 안 했어요 / 조금 / 충분해요 · 기준은 아래 줄에 옅게」 → 세 단계 (오늘은 두 단계)
+    const 단계 = k => { const n = v[k] || 0; return n >= 칸선(k) ? 2 : n > 0 ? 1 : 0; };
+    const 상태말 = k => 기간 === '오늘' ? (단계(k) ? '했어요' : '안 했어요') : ['안 했어요', '조금 했어요', '충분해요'][단계(k)];
+    const 옅은 = '#' + 섞(c, '#ffffff', .6).getHexString();
+    const 네모 = k => ['<i class="q0"></i>', `<i style="background:${옅은}"></i>`, `<i style="background:${c}"></i>`][단계(k)];
+    const 칩 = k => `<div class="rw${단계(k) < 2 ? ' no' : ''}${선택(k)}" data-k="${k}">${네모(k)}<span class="nm">${이름[k]}</span><span class="st">${상태말(k)}</span></div>`;
+    // 11/27 대표 「보여 주고 고르라고」 → 세부 보여 주는 방식 시안 셋 (위 단추로 바꿔 봄)
+    const 시안칸 = `<div class="ms">${[['타일', '타일'], ['슬라이드', '가로 슬라이드'], ['한칸', '한 칸씩']].map(([m, t]) => `<button data-m="${m}" class="${세부방식 === m ? 'on' : ''}">${t}</button>`).join('')}</div>`;
+    let 본문;
+    if(세부방식 === '슬라이드') 본문 = `<div class="sl">${ks.map(칩).join('')}</div>`;
+    else if(세부방식 === '한칸'){
+      const k = ks[한칸번호 % ks.length], ok = (v[k] || 0) >= 칸선(k);
+      본문 = `<div class="one1" id="o1"><button class="ar" data-d="-1">‹</button><div class="mid">${네모(k)}<b>${이름[k]}</b><span class="st">${상태말(k)}</span></div><button class="ar" data-d="1">›</button></div>`
+        + `<div class="dots">${ks.map((_, i) => `<span class="${i === 한칸번호 % ks.length ? 'on' : ''}"></span>`).join('')}</div>`;
+    } else 본문 = `<div class="rws">${ks.map(칩).join('')}</div>`;
+    document.getElementById('one').innerHTML = (new URLSearchParams(location.search).get('시안') ? 시안칸 : '') + `<div class="hd"><b>${상세}</b><span class="cnt">${됨수}/${ks.length}</span></div>` + 본문;   // 11/27 대표 「전체 말고 뒤로가기 버튼으로」 → 3D 칸 왼쪽 위 「‹ 뒤로」
+    document.querySelectorAll('#one .ms button').forEach(b => b.onclick = () => { 세부방식 = b.dataset.m; 강조 = null; 한칸번호 = 0; if(세부방식 === '한칸') 한칸보기(0); else 칠하기(); });
+    document.querySelectorAll('#one .rw').forEach(r => r.onclick = () => 칸보기(r.dataset.k));
+    document.querySelectorAll('#one .one1 .ar').forEach(b => b.onclick = () => 한칸보기(한칸번호 + +b.dataset.d));
+    const o1 = document.getElementById('o1');
+    if(o1){ let sx = null; o1.onpointerdown = e => sx = e.clientX; o1.onpointerup = e => { if(sx !== null && Math.abs(e.clientX - sx) > 40) 한칸보기(한칸번호 + (e.clientX < sx ? 1 : -1)); sx = null; }; }
+  }
+  document.getElementById('bk2').hidden = !상세; document.getElementById('lg3').hidden = !!상세;
+  if(!상세){
+    const 줄 = 기간 === '오늘' ? `오늘 <b>${됨.join(' · ') || '아직 없음'}</b>` : (부족.length ? `운동 부족 <b>${부족.slice(0, 2).join(' · ')}</b>${부족.length > 2 ? ' 외 ' + (부족.length - 2) : ''}` : '<b>다 채웠어요</b>');
+    // 11/27 대표 「얼마나 해야 되는지는 운동 부족 줄 바로 아래 제일 옅게 · 오늘 / 이번 주 / 이번 달 기준」
+    // 11/27 대표 「기준 글 빼고 · 충분 / 부족 두 줄 · 색 채운 네모 · 모델 오른쪽 위에 작게」
+    document.getElementById('one').innerHTML = 줄 + '<button id="mb">자세히</button>';
+    // 11/27 대표 「색을 무지개로」 → 부위 색 9개를 색상 차례로 늘어놓은 무지개 네모
+    const 무지개 = Object.values(몸2색).map(x => { const h = {}; new THREE.Color(x).getHSL(h); return [h.h, x]; }).sort((a, b) => a[0] - b[0]).map(a => a[1]), 회 = '#' + new THREE.Color(몸색).getHexString();
+    const 충 = `<i style="background:conic-gradient(${무지개.join(',')},${무지개[0]})"></i>`, 부 = `<i style="background:${회}"></i>`;
+    document.getElementById('lg3').innerHTML = 기간 === '오늘'
+      ? `<div>${충}했어요</div><div>${부}안 했어요</div>`
+      : `<div>${충}${선}세트 이상</div><div>${부}${선}세트 미만</div>`;
+    document.getElementById('mb').onclick = 열기;
+  }
+  // 11/27 대표 「자세히 탭도 다른 시안?」 → 셋 바꿔 보기 : 타일(9칸) · 부족 먼저 · 줄 목록(칸 점)
+  const 창시안 = `<div class="ms2">${[['타일', '9칸 타일'], ['부족', '부족 먼저'], ['줄', '줄 목록']].map(([m, t]) => `<button data-m="${m}" class="${창방식 === m ? 'on' : ''}">${t}</button>`).join('')}</div>`;
+  // 11/27 대표 「타일이 제일 낫다 · 『이번 주 7/9 부위 · 누르면 세부』 처음 보는 사람이 이해 안 됨」 → 풀어 쓴 두 줄
+  // 11/27 대표 「말이 너무 길어 · 쉽게 대신 간결하게」
+  // 11/27 대표 「이번 주 운동 부위 7곳 / 타일을 눌러 자세히 · 점선 → 실제 점선 네모 = 운동 부족」
+  const 머리 = `${기간이름[기간]} 운동 부위 <b data-n="${됨.length}">${됨.length}</b><span class="u">곳</span>`;
+  // 11/27 대표 「점선 운동 부족 거기에 · 종목의 직접 부위로 센다는 걸 아주 쉽게 · 유치하지 않게 · 엄청 간결 · 초보가 아~ 하게」 → 누르면 말풍선 세 줄
+  const 표 = `<button class="lg" id="lgb" type="button"><i></i>${기간 === '오늘' ? '안 한 곳' : '운동 부족'}<span class="inf">?</span></button>`;
+  const 풍선 = `<div class="tip" id="tip" hidden>`
+    // 11/27 대표 「너무 AI 용어 · 뭘 채워 · 벤치프레스는 가슴이 뭔데 · 다시 작성」 → 사람 말로
+    // 11/27 대표 「권고 기준은 가장 윗줄 · 조금 띄우고 나머지 설명 · 가슴에만 쌓여요 아래 더 옅게 주동근 간결하게」
+    + `<div class="t0">※ 미국스포츠의학회(ACSM) 2026년 권고 기준</div>`
+    + `<div class="t1">${기간 === '오늘' ? '오늘 운동한 부위는 색이 칠해져요' : `한 부위를 ${기간 === '주' ? '일주일에' : '한 달에'} ${선}세트 하면 색이 칠해져요`}</div>`
+    // 11/27 대표 「칠해져요 · 쌓여요 · 세어요 너무 지루해」 → 가운데 줄 = 숫자 예시 · 끝맺음 섞기
+    + `<div class="t2">예) 벤치프레스 4세트 → 가슴 4세트</div>`
+    + `<div class="t3">주로 쓰는 근육(주동근)만 계산해요</div></div>`;
+  document.getElementById('stT').innerHTML = (new URLSearchParams(location.search).get('시안') ? 창시안 : '') + `<div class="h1">${머리}${표}</div><div class="h2">타일을 눌러 자세히 보세요</div>${풍선}`;
+  document.getElementById('lgb').onclick = e => { e.stopPropagation(); const t = document.getElementById('tip'); t.hidden = !t.hidden; document.getElementById('sheet').classList.toggle('tipon', !t.hidden); };
+  const 칸점 = b => 부위[b].map(k => `<span class="pt${(v[k] || 0) >= 칸선(k) ? '' : ' no'}" style="${(v[k] || 0) >= 칸선(k) ? 'background:' + 몸2색[b] : ''}"></span>`).join('');
+  let g;
+  if(창방식 === '부족') g = `<div class="lbl">부족 ${부족.length}</div><div class="big">${부족.map(b => `<div class="tile no" data-b="${b}">${b}<small>${부위[b].filter(k => (v[k] || 0) < 칸선(k)).length}칸 모자람</small></div>`).join('') || '<div class="none">없어요 · 다 채웠어요</div>'}</div>`
+    + `<div class="lbl">충분 ${됨.length}</div><div class="sm">${됨.map(b => `<div class="chip2" data-b="${b}" style="background:${몸2색[b]}">${b}</div>`).join('')}</div>`;
+  else if(창방식 === '줄') g = `<div class="lst">${Object.keys(부위).map(b => `<div class="ln${p[b] ? '' : ' no'}" data-b="${b}"><i style="${p[b] ? 'background:' + 몸2색[b] : ''}"></i><b>${b}</b><span class="pts">${칸점(b)}</span><span class="gt">›</span></div>`).join('')}</div>`;
+  else g = `<div class="grid9">${Object.keys(부위).map(b => p[b] ? `<div class="tile" data-b="${b}" style="background:${몸2색[b]}">${b}</div>` : `<div class="tile no" data-b="${b}">${b}</div>`).join('')}</div>`;
+  document.getElementById('grid').innerHTML = g;
+  document.querySelectorAll('#grid [data-b]').forEach(t => t.onclick = () => { 닫기(); 들어가기(t.dataset.b, '창'); });
+  document.querySelectorAll('#stT .ms2 button').forEach(x => x.onclick = () => { 창방식 = x.dataset.m; 칠하기(); });
+}
+// 부위로 들어가기 : 그 부위가 잘 보이는 쪽으로 돌고 가까이 · 돌기 멈춤 / 나가기 : 다시 멀리 · 돌기
+const 보는쪽 = { 가슴: 0, 복근: 0, '앞 허벅지': 0, 어깨: 50, 팔: 65, 등: 180, 엉덩이: 180, '뒤 허벅지': 180, 종아리: 180 };
+let 이동 = null;
+function 날기(target, pos){ 이동 = { t0: performance.now(), a: { p: 캠.position.clone(), t: ctl.target.clone() }, b: { p: pos, t: target } }; }
+function 높이(vh){ el.style.height = vh; el.style.minHeight = vh ? '220px' : ''; requestAnimationFrame(() => rd.setSize(W(), H())); }
+// 11/27 대표 「뒤로가기하면 팝업이 떠야지」 = 직전 화면으로 : 팝업에서 들어왔으면 ‹ 전체 · 폰 뒤로가기 → 팝업 다시 · 몸을 눌러 들어왔으면 → 몸 전체
+let 출처 = null;
+addEventListener('popstate', () => { if(상세) 나가기(true); });
+function 들어가기(b, 어디 = '몸'){
+  if(!상세) history.pushState({ 세부: b }, ''); else history.replaceState({ 세부: b }, '');
+  출처 = 어디; 상세 = b; 강조 = null; 한칸번호 = 0; ctl.autoRotate = false;
+  const bk = document.getElementById('bk2'); bk.classList.remove('hint'); void bk.offsetWidth; bk.classList.add('hint');   // 뒤로 버튼 물결 (들어갈 때마다)
+  칠하기(); 높이('46vh');   // 세부 = 3D 를 줄여 칸 줄까지 한 화면에
+  const bx = 부위상자[b], c = bx ? bx.getCenter(new THREE.Vector3()) : new THREE.Vector3(), sz = bx ? bx.getSize(new THREE.Vector3()) : new THREE.Vector3(.5, .5, .5);
+  const 한쪽 = { 팔: [.36, .95], 어깨: [.2, .85] }[b];   // 양쪽에 있는 부위는 오른쪽 하나로 (가운데 x · 거리 = 키 배수)
+  const d = 한쪽 ? 키 * 한쪽[1] : THREE.MathUtils.clamp(Math.max(sz.y, sz.x * .7) * 2.6, 키 * 범위.가깝게, 키 * 1.6), a = THREE.MathUtils.degToRad(보는쪽[b] || 0);
+  const t = new THREE.Vector3(한쪽 ? 한쪽[0] : 0, THREE.MathUtils.clamp(c.y, -키 * 범위.위아래, 키 * 범위.위아래), 0);
+  날기(t, t.clone().add(new THREE.Vector3(Math.sin(a) * d, 0, Math.cos(a) * d)));
+  if(세부방식 === '한칸') setTimeout(() => { if(상세 === b) 한칸보기(0); }, 650);   // 한 칸씩 = 들어가자마자 첫 칸이 빛남
+}
+// 칸 하나 보기 : 그 칸만 진하게 + 숨 쉬듯 빛남 · 그 칸이 보이는 쪽으로 돎 · 한 번 더 누르면 풀림
+const 칸쪽 = { chest_up: 0, chest: 0, delt_f: 20, delt_s: 70, delt_r: 140, biceps: 25, triceps: 160, forearm: 60, abs: 0, oblique: 45, trap: 180, midback: 180, lats: 160, lowback: 180,
+  glute: 180, glute_med: 100, quad: 10, adductor: -25, ham: 180, calf: 180, shin: 20 };
+let 세부방식 = new URLSearchParams(location.search).get('방식') || '한칸', 한칸번호 = 0;   // 11/27 대표 확정 = C 한 칸씩 (좌우로 밀어 넘김) · ?방식=타일 / 슬라이드 로 옛 시안
+function 한칸보기(i){ const ks = 부위[상세]; 한칸번호 = (i + ks.length) % ks.length; 강조 = null; 칸보기(ks[한칸번호]); }   // 넘길 때마다 그 칸 빛남 + 그쪽으로 돎
+function 칸보기(k){
+  강조 = 강조 === k ? null : k; 칠하기(); if(!강조) return;
+  const a = THREE.MathUtils.degToRad(칸쪽[k] ?? 0), d = 캠.position.distanceTo(ctl.target), t = ctl.target.clone();
+  날기(t, t.clone().add(new THREE.Vector3(Math.sin(a) * d, 캠.position.y - t.y, Math.cos(a) * d)));
+}
+function 나가기(뒤로 = false){
+  if(!뒤로 && history.state && history.state.세부){ history.back(); return; }   // ‹ 전체 = 폰 뒤로가기와 같은 길
+  상세 = null; 강조 = null; ctl.autoRotate = true; 칠하기(); 높이('');
+  if(출처 === '창') 열기(); 출처 = null;
+  const v = 캠.position.clone().sub(ctl.target); v.y = 0; v.setLength(키 * 범위.멀리); 날기(new THREE.Vector3(), v);
+}
+function 열기(){
+  document.getElementById('dim').hidden = false; document.getElementById('sheet').classList.add('on');
+  // 11/27 대표 「처음 열 때 타일 전체를 하나로 · 한 번 튀어오르고 광택 · 글자도 효과」
+  const g = document.querySelector('#grid .grid9'), n = document.querySelector('#stT .h1 b');
+  if(g){ g.classList.remove('pop'); void g.offsetWidth; g.classList.add('pop'); }
+  if(n){ const 끝 = +n.dataset.n, t0 = performance.now(); n.classList.remove('pop'); void n.offsetWidth; n.classList.add('pop');
+    const 셈 = now => { const r = Math.min(1, (now - t0 - 150) / 450); n.textContent = Math.max(0, Math.round(끝 * r)); if(r < 1) requestAnimationFrame(셈); };
+    requestAnimationFrame(셈); }
+}
+function 닫기(){ const tp = document.getElementById('tip'); if(tp) tp.hidden = true; document.getElementById('sheet').classList.remove('tipon'); document.getElementById('dim').hidden = true; document.getElementById('sheet').classList.remove('on'); }
+document.getElementById('sheet').addEventListener('click', e => { const t = document.getElementById('tip'), s = document.getElementById('sheet');
+  if(s.classList.contains('tipon') && !(t && t.contains(e.target))){ e.stopPropagation(); e.preventDefault(); }   // 어두울 때 누르면 닫기만 (뒤 타일이 눌리지 않게)
+  if(t) t.hidden = true; s.classList.remove('tipon'); }, true);   // 말풍선 밖을 누르면 닫힘
+document.getElementById('dim').onclick = 닫기; document.getElementById('shut').onclick = 닫기;
+document.getElementById('bk2').onclick = () => 나가기();
+document.querySelectorAll('.an button').forEach(b => b.onclick = () => { 기간 = b.dataset.p; document.querySelectorAll('.an button').forEach(x => x.classList.toggle('on', x === b)); 칠하기(); });
+addEventListener('resize', () => rd.setSize(W(), H()));
+document.getElementById('zin').onclick = () => 거리(.75); document.getElementById('zout').onclick = () => 거리(1 / .75);
+(function loop(){ requestAnimationFrame(loop);
+  if(이동){ const k = Math.min(1, (performance.now() - 이동.t0) / 600), e = 1 - Math.pow(1 - k, 3);
+    캠.position.lerpVectors(이동.a.p, 이동.b.p, e); ctl.target.lerpVectors(이동.a.t, 이동.b.t, e); if(k >= 1) 이동 = null; }
+  else if(!상세 && !확대됨() && Math.abs(ctl.target.y) > 1e-4) 위아래(-ctl.target.y * .12);   // 다 줄이면 천천히 가운데로
+  if(강조 && 재료[강조]){ const s = .5 + .5 * Math.sin(performance.now() / 260); 재료[강조].emissive.copy(new THREE.Color(몸2색[칸부위[강조]]).convertSRGBToLinear()).multiplyScalar(.18 + .32 * s); }
+  ctl.update(); 그리기(); })();
+</script>
+<script>/* 11/28 시안 링크 ?뒤=1 → 처음부터 등이 보이게 (돌기 멈춤) */ if (new URLSearchParams(location.search).has('뒤')) setTimeout(() => { ctl.autoRotate = false; 캠.position.set(0, .5, -2.56); ctl.target.set(0, .5, 0); ctl.update(); }, 1800);</script>
+</body></html>
+
+
+
